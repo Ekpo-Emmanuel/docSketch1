@@ -3,7 +3,8 @@
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import Link from "@/node_modules/next/link";
-import { buttonVariants } from "@/components/ui/button"
+import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
+
 
 
 
@@ -48,12 +49,16 @@ export default function Header() {
           </Link>
     
           <div className="inline-flex items-center gap-2 list-none lg:ml-auto">
-            <Link href='/login' className="dark:text-white hover:bg-gray-50 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700">
+            <LoginLink 
+              postLoginRedirectURL="/dashboard"
+              className="dark:text-white hover:bg-gray-50 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700">
               Log in
-            </Link>
-            <Link href="/signup">
+            </LoginLink>
+            <RegisterLink
+              postLoginRedirectURL="/dashboard"
+            >
               <Button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">Get Started</Button>
-            </Link>
+            </RegisterLink>
           </div>
         </nav>
       </div>
