@@ -6,32 +6,25 @@ import React, {useEffect, useState} from 'react';
 import { Button } from '@/components/ui/button';
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
+
 import { useRouter } from 'next/navigation';
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
 
 
 export default function DashboardPage() {
-    const {user, isLoading, isAuthenticated} = useKindeBrowserClient();
-    const userEmail = String(user?.email);
-    const lastName = String(user?.family_name);
-    const firstName = user?.given_name;
-    const picture = user?.picture;
+    const { user, isLoading, isAuthenticated } = useKindeBrowserClient();
+    const { email, given_name: firstName, family_name: lastName, picture } = user || {};
     const router = useRouter();
+    const userEmail = String(email);
 
     const createUser = useMutation(api.user.createUser);
-
-    const getUser = useQuery(api.user.getUser, {email: userEmail});
+    const getUser = useQuery(api.user.getUser, { email: userEmail });
+    
 
     useEffect(() => {
         const checkAuthentication = async () => {
-            if (!isAuthenticated) {
-              await router.push("/api/auth/login?post_login_redirect_url=/dashboard");
-            } else {
-              await router.push("/dashboard");
-            }
+            if (!isAuthenticated) { await router.push("/api/auth/login?post_login_redirect_url=/dashboard"); } else { await router.push("/dashboard"); }
           };
-          
-          
 
           if (!isLoading) {
             checkAuthentication();
@@ -41,23 +34,15 @@ export default function DashboardPage() {
                     email: userEmail, 
                     image: picture
                 }).then((res) => {
-                    console.log(res)
+                    console.log(res);
                 });
             }
           }
 
-    }, [
-        createUser, 
-        firstName, 
-        lastName, 
-        userEmail, 
-        picture, 
-        isLoading, 
-        isAuthenticated,
-        router
-    ]);
+    }, [createUser, firstName, lastName, userEmail, picture, isLoading, isAuthenticated, router, getUser ]);
 
     if (isLoading) return <LoadingAnimation />; 
+
 
     return isAuthenticated ? (
         <>
