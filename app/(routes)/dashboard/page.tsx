@@ -1,52 +1,77 @@
 'use client';
 
-import { useEffect } from 'react';
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import React from 'react';
-import UnauthorizedRedirect from '@/app/_components/UnauthorizedRedirect';
-import LoadingAnimation from '@/app/_components/LoadingAnimation';
-import { useRouter } from 'next/navigation';
+import React, {useEffect, useState} from 'react';
 import { Button } from '@/components/ui/button';
+import { api } from "@/convex/_generated/api";
+import { useQuery, useMutation } from "convex/react";
+import { useRouter } from 'next/navigation';
+import LoadingAnimation from '@/app/_components/LoadingAnimation';
+
 
 export default function DashboardPage() {
-  const { isAuthenticated, isLoading } = useKindeBrowserClient();
-  const router = useRouter();
+    const {user, isLoading, isAuthenticated} = useKindeBrowserClient();
+    const userEmail = String(user?.email);
+    const lastName = String(user?.family_name);
+    const firstName = user?.given_name;
+    const picture = user?.picture;
+    const router = useRouter();
 
-  useEffect(() => {
-    const checkAuthentication = async () => {
-      if (!isAuthenticated) {
-        await router.push("/api/auth/login?post_login_redirect_url=/dashboard");
-      } else {
-        await router.push("/dashboard");
-      }
-    };
+    const createUser = useMutation(api.user.createUser);
 
-    if (!isLoading) {
-      checkAuthentication();
-    }
-  }, [isAuthenticated, isLoading, router]);
-  
-  if (isLoading) return <LoadingAnimation />;
-  return isAuthenticated ? (
-    <>
-      <div>Dashboard</div>
-      <Button>
-        <LogoutLink>Logout</LogoutLink>
-      </Button>
-    </>
-  ) : (
-    // <UnauthorizedRedirect />
-    null
-  );
+    const getUser = useQuery(api.user.getUser, {email: userEmail});
 
-  
-  // return (
-  //   <>
-  //     <div>Dashboard</div>
-  //     <Button>
-  //       <LogoutLink>Logout</LogoutLink>
-  //     </Button>
-  //   </>
-  // );
+    useEffect(() => {
+        const checkAuthentication = async () => {
+            if (!isAuthenticated) {
+              await router.push("/api/auth/login?post_login_redirect_url=/dashboard");
+            } else {
+              await router.push("/dashboard");
+            }
+          };
+          
+          
+
+          if (!isLoading) {
+            checkAuthentication();
+            if (getUser && getUser.data === undefined) {
+                createUser({
+                    name: firstName + " " + lastName, 
+                    email: userEmail, 
+                    image: picture
+                }).then((res) => {
+                    console.log(res)
+                });
+            }
+          }
+
+    }, [
+        createUser, 
+        firstName, 
+        lastName, 
+        userEmail, 
+        picture, 
+        isLoading, 
+        isAuthenticated,
+        router
+    ]);
+
+    if (isLoading) return <LoadingAnimation />; 
+
+    return isAuthenticated ? (
+        <>
+          
+          <div>Dashboard</div>
+            <p>{firstName} {lastName}</p>
+            <p>{userEmail}</p>
+            <img src={picture} alt={firstName} />
+            <Button>
+                <LogoutLink>Logout</LogoutLink>
+            </Button>
+        </>
+      ) : (
+        // <UnauthorizedRedirect />
+        null
+      );
 }
