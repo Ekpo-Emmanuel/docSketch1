@@ -3,14 +3,14 @@
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import Link from "@/node_modules/next/link";
-import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
-
-
+import {RegisterLink, LoginLink, LogoutLink} from "@kinde-oss/kinde-auth-nextjs/components";
+import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 
 
 
 export default function Header() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
+  const {user} = useKindeBrowserClient();
 
   const toggleOpen = () => {
     setOpen(!open)
@@ -47,19 +47,36 @@ export default function Header() {
           <Link className="px-2 py-2 text-sm lg:px-6 md:px-3 hover:text-blue-600" href="#">
             Documentation
           </Link>
-    
-          <div className="inline-flex items-center gap-2 list-none lg:ml-auto">
-            <LoginLink 
-              postLoginRedirectURL="/dashboard"
-              className="dark:text-white hover:bg-gray-50 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700">
-              Log in
-            </LoginLink>
-            <RegisterLink
-              postLoginRedirectURL="/dashboard"
-            >
-              <Button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">Get Started</Button>
-            </RegisterLink>
-          </div>
+
+          {user ? 
+            (
+              <div className="inline-flex items-center gap-2 list-none lg:ml-auto">
+                 <LogoutLink 
+                  postLoginRedirectURL="/dashboard"
+                  className="dark:text-white hover:bg-gray-50 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700">
+                  Log out
+                </LogoutLink>
+                <Link
+                  href="/dashboard"
+                >
+                  <Button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">Go to Dashboard</Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="inline-flex items-center gap-2 list-none lg:ml-auto">
+                <LoginLink 
+                  postLoginRedirectURL="/dashboard"
+                  className="dark:text-white hover:bg-gray-50 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2 dark:hover:bg-gray-700">
+                  Log in
+                </LoginLink>
+                <RegisterLink
+                  postLoginRedirectURL="/dashboard"
+                >
+                  <Button className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300">Get Started</Button>
+                </RegisterLink>
+              </div>
+            )
+          }
         </nav>
       </div>
       </div>  

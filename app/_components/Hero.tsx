@@ -2,11 +2,13 @@ import { Button } from "@/components/ui/button";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import Link from "@/node_modules/next/link";
 import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
-
+import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 
 
 
 export default function Hero() {
+  const {user} = useKindeBrowserClient();
+
   return (
     <>
       <section className="items-center justify-center flex py-20">
@@ -25,9 +27,15 @@ export default function Hero() {
               </p>
             </div>
             <div className="flex flex-col justify-center max-w-sm gap-3 mx-auto mt-10 sm:flex-row">
-              <LoginLink className="ocus:outline-none inline-flex gap-2 items-center text-white justify-center rounded-md bg-blue-700 duration-200 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:w-auto px-6 py-3 text-center w-full">
-                Try Eraser <HiOutlineArrowNarrowRight />
-              </LoginLink>
+              {user ? (
+                <Link href={"/dashboard"} className="ocus:outline-none inline-flex gap-2 items-center text-white justify-center rounded-md bg-blue-700 duration-200 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:w-auto px-6 py-3 text-center w-full">
+                  Enter Dashboard <HiOutlineArrowNarrowRight />
+                </Link>
+              ) : (
+                <LoginLink className="ocus:outline-none inline-flex gap-2 items-center text-white justify-center rounded-md bg-blue-700 duration-200 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:w-auto px-6 py-3 text-center w-full">
+                  Try Eraser <HiOutlineArrowNarrowRight />
+                </LoginLink>
+              )}
             </div>
           </div>
         </div>

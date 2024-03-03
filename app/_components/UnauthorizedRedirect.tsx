@@ -9,7 +9,7 @@ export default function UnauthorizedRedirect() {
     <div className="px-4 py-16 mx-auto text-center lg:px-8  max-w-7xl sm:px-6 sm:py-24">
         <div className="justify-center w-full text-center lg:p-10 max-auto">
         <div className="justify-center w-full mx-auto">
-            <p className="text-5xl tracking-tight text-black  lg:text-9xl">Nice Try!</p>
+            <p className="text-5xl tracking-tight text-black  lg:text-8xl">Not Allowed!</p>
             <p className="max-w-xl mx-auto mt-4 text-md tracking-tight text-gray-800">
             You don't have access to this page
             </p>
