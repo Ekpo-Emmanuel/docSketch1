@@ -11,7 +11,7 @@ export default function Hero() {
 
   return (
     <>
-      <section className="items-center justify-center flex py-20">
+      <section className="items-center justify-center flex py-24 ">
         <div className="relative items-center w-full px-5 mx-auto lg:px-16 max-w-7xl md:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <div>
