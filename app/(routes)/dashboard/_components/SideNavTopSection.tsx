@@ -1,6 +1,6 @@
-import React, { useEffect }  from 'react'
+import React, { useEffect, useState }  from 'react'
 import Image from 'next/image'
-import { ChevronDown, Users, Settings, LogOut, Files  } from 'lucide-react';
+import { ChevronDown, Users, Settings, LogOut, Files, FolderPlus  } from 'lucide-react';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -22,37 +22,66 @@ import { api } from "@/convex/_generated/api";
 
 
 
+interface User {
+    email: string;
+    given_name: string;
+    family_name: string;
+    picture: string;
+  }
+  
+  interface Team {
+    createdBy: string;
+    teamName: string;
+    _id: string;
+  }
+  
+  interface MenuItem {
+    name: string;
+    icon: React.ElementType;
+    link: string;
+  }
+  
+  interface Props {
+    user: User;
+  }
+  
 
 
 export default function SideNavTopSection({user}: any) {
     const { email, given_name: firstName, family_name: lastName, picture } = user || {};
-    const userEmail = String(email);
-
-    const menu = [
-        { 
-            name: 'Join or Create Team',
-            icon: Users,
-            link: '/teams/create'
-        }, 
-        {
-            name: 'Settings',
-            icon: Settings,
-            link: '/'
-        },
-        {
-            name: 'Log out',
-            icon: LogOut,
-            link: '/'
-        }
-    ]
-
-    // useEffect(() => {
-    //     user && getTeamList()
-    // }, [user])
+    const userEmail = email ? String(email) : '';
+    const [teamList, setTeamList] = useState<Team[]>([]);
+    const [currentTeam, setCurrentTeam] = useState<string>('');
     
-    const getTeam = useQuery(api.teams.getTeam, {email: userEmail});
-    console.log(getTeam)
+    // const getTeam = useQuery(api.teams.getTeam, {email: userEmail});
+    const teamData = useQuery(api.teams.getTeam, { email: userEmail });
+    useEffect(() => {
+        if (teamData) {
+          setTeamList(teamData);
+          setCurrentTeam(teamData[0]?.teamName);
+        }
+      }, [teamData]);
 
+    const menu: MenuItem[] = [
+        { name: 'Join or Create Team', icon: Users, link: '/teams/create' },
+        { name: 'Settings', icon: Settings, link: '/' },
+        { name: 'Log out', icon: LogOut, link: '/' }
+    ];
+
+    const handleCurrentTeamChange = (teamName: string) => {
+        setCurrentTeam(teamName);
+    }
+
+    const capitalizeWords = (str: string | undefined) => {
+        return str && str.replace(/\w\S*/g, txt => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
+    }
+    
+    const cutWordLength = (str: string | undefined, limit: number) => {
+        if (str && str.length > limit) {
+            return str.slice(0, limit) + '...';
+        }
+        return str
+    }
     return (
     <div>
         <DropdownMenu>
@@ -65,7 +94,7 @@ export default function SideNavTopSection({user}: any) {
                             height={20}
                             alt='logo'
                             />
-                        Emmanuel's Team
+                            {capitalizeWords(cutWordLength(currentTeam, 10))}
                     </p>
                         <ChevronDown 
                             strokeWidth={2}
@@ -75,15 +104,15 @@ export default function SideNavTopSection({user}: any) {
             </DropdownMenuTrigger>
             <DropdownMenuContent className="w-56">
                 <DropdownMenuGroup>
-                    <DropdownMenuItem className='text-[13px] font-semibold py-[4px]'>
-                        Test Team
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className='text-[13px] font-semibold py-[4px]'>
-                        Emmanuel's Team
-                    </DropdownMenuItem>
-                    <DropdownMenuItem className='text-[13px] font-semibold py-[4px]'>
-                        Emmanuel's Team 1
-                    </DropdownMenuItem>
+                    {teamList.map((team: Team) => (
+                        <DropdownMenuItem  
+                            key={team._id} 
+                            className={`text-[13px] font-semibold py-[4px] ${currentTeam === team.teamName ? 'bg-blue-500 text-white' : ''}`}
+                            onClick={() => handleCurrentTeamChange(team.teamName)}
+                        >
+                            {capitalizeWords(team.teamName)}
+                        </DropdownMenuItem>
+                    ))}
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
@@ -125,6 +154,20 @@ export default function SideNavTopSection({user}: any) {
                 <Files size={16} />All Files
             </p>
             <p className='text-[11px]'>A</p>
+        </div>
+        <div className='flex items-center justify-between cursor-pointer py-2 px-4 mt-4 rounded-sm hover:bg-slate-100 '>
+            <p className='flex gap-2 align-center items-center text-[14px] font-semibold'>
+                Team Folders
+            </p>
+            <p className='text-[11px]'>
+                <FolderPlus size={16} strokeWidth={1} />
+            </p>
+        </div>
+        {/* folders */}
+        <div className='flex flex-col items-center justify-between cursor-pointer py-1rounded-sm'>
+             <div className='text-[14px] pl-4 w-full rounded-sm py-1 text-black hover:bg-slate-200'> Team Folder 1</div>                     
+             <div className='text-[14px] pl-4 w-full rounded-sm py-1 text-black hover:bg-slate-200'> Team Folder 1</div>                     
+             <div className='text-[14px] pl-4 w-full rounded-sm py-1 text-black hover:bg-slate-200'> Team Folder 1</div>                     
         </div>
     </div>
     

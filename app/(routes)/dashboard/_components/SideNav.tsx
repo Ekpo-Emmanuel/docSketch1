@@ -7,10 +7,9 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 export default function SideNav() {
   const { user}: any = useKindeBrowserClient();
   return (
-    <div className='h-screen fixed p-6 w-72 border-r bg-white'>
+    <div className='h-screen fixed p-6 w-72 border-r bg-white flex flex-col'>
         <SideNavTopSection user={user}/>
-        {/* <SideNavDownSection /> */}
-        
+        <SideNavDownSection />
     </div>
   )
 }
