@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import Link from "@/node_modules/next/link";
-import {RegisterLink, LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
+import {LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 
 
