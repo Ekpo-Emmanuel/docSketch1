@@ -5,6 +5,7 @@ import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import { useRouter } from 'next/navigation';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import SideNav from './_components/SideNav';
 
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
@@ -29,6 +30,14 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
     // }, [user, teamData, router]);
 
   return (
-    <div>{children}</div>
+<div className='grid grid-cols-1 sm:grid-cols-4'>
+  <div className='sm:col-span-2 md:col-span-1'>
+    <SideNav />
+  </div>
+  <div className='sm:col-span-3 md:col-span-3'>
+    {children}
+  </div>
+</div>
+
   )
 }

@@ -2,7 +2,7 @@
 
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import { Button } from '@/components/ui/button';
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
@@ -35,7 +35,7 @@ export default function DashboardPage() {
                   });
                   console.log("New user created:", newUser);
               } else {
-                  console.log("User already exists:", existingUser);
+                  // console.log("User already exists:", existingUser);
               }
           } catch (error) {
               console.error("Error checking or creating user:", error);
