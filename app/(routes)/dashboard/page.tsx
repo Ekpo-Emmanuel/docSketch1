@@ -18,6 +18,8 @@ export default function DashboardPage() {
 
     const createUser = useMutation(api.user.createUser);
     const getUser = useQuery(api.user.getUser, { email: userEmail });
+    const teamData = useQuery(api.teams.getTeam, { email: userEmail });
+
     useEffect(() => {
         const checkAuthentication = async () => {
           if (!isAuthenticated) { await router.push("/api/auth/login?post_login_redirect_url=/dashboard"); } else { await router.push("/dashboard"); }
@@ -40,14 +42,21 @@ export default function DashboardPage() {
           } catch (error) {
               console.error("Error checking or creating user:", error);
           }
-      };
+        };
+
+        const checkTeam = async () => {
+          if (!teamData) {
+            await router.push("/teams/create");
+          }
+        }
         
         if (!isLoading) {
           checkAuthentication();
           createUserIfNotExists();
+          checkTeam();
         }
 
-    }, [createUser, firstName, lastName, userEmail, picture, isLoading, isAuthenticated, router, getUser ]);
+    }, [createUser, firstName, lastName, userEmail, picture, isLoading, isAuthenticated, router, getUser, teamData ]);
 
     if (isLoading) return <LoadingAnimation />; 
 
