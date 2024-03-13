@@ -21,7 +21,7 @@ export default function SideNavDownSection() {
   ]
   
   return (
-    <div className="mt-auto flex flex-col gap-8">
+    <div className="mt-auto flex flex-col gap-4">
         <div>
          {menu.map((item, index) => (
             <Link 
@@ -30,8 +30,8 @@ export default function SideNavDownSection() {
               className="flex items-end justify-between px-4 py-2 rounded-sm w-full hover:bg-gray-100 focus:bg-black focus:text-white"
             >
                 <div className='flex items-center gap-3'>
-                  <item.icon size={14} strokeWidth={1.5} />
-                  <span className='text-[14px]'>{item.name}</span>
+                  <item.icon size={14} strokeWidth={1} />
+                  <span className='text-[13px] font-semibold'>{item.name}</span>
                 </div>
                 <span className='text-[11px] opacity-70'>{item.letter}</span>
             </Link>
@@ -39,8 +39,8 @@ export default function SideNavDownSection() {
         </div>
         <div>
           <button className="flex items-end justify-between bg-blue-500 px-4 py-3 rounded-sm w-full transition ease-in-out duration-300 hover:bg-blue-600">
-            <span className='text-white text-[14px]'>New File</span>
-            <span className='text-white text-[11px] opacity-70'>ALT N</span>
+            <span className='text-white text-[13px] font-semibold'>New File</span>
+            <span className='text-white text-[11px] opacity-70'>CTRL N</span>
           </button>
         </div>
         <div>

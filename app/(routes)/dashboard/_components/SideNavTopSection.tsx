@@ -155,19 +155,19 @@ export default function SideNavTopSection({user}: any) {
             </p>
             <p className='text-[11px]'>A</p>
         </div>
-        <div className='flex items-center justify-between cursor-pointer py-2 px-4 mt-4 rounded-sm hover:bg-slate-100 '>
-            <p className='flex gap-2 align-center items-center text-[14px] font-semibold'>
+        <div className='flex items-center justify-between py-2 px-4 mt-4 '>
+            <p className='flex gap-2 align-center items-center text-[11px] uppercase'>
                 Team Folders
             </p>
             <p className='text-[11px]'>
-                <FolderPlus size={16} strokeWidth={1} />
+                <FolderPlus size={14} strokeWidth={1} />
             </p>
         </div>
         {/* folders */}
-        <div className='flex flex-col items-center justify-between cursor-pointer py-1rounded-sm'>
-             <div className='text-[14px] pl-4 w-full rounded-sm py-1 text-black hover:bg-slate-200'> Team Folder 1</div>                     
-             <div className='text-[14px] pl-4 w-full rounded-sm py-1 text-black hover:bg-slate-200'> Team Folder 1</div>                     
-             <div className='text-[14px] pl-4 w-full rounded-sm py-1 text-black hover:bg-slate-200'> Team Folder 1</div>                     
+        <div className='flex flex-col items-center justify-between cursor-pointer py-1rounded-sm '>
+             <div className='text-[13px] pl-8 w-full font-semibold rounded-sm py-2 text-black hover:bg-slate-200'> Untitled Folder</div>                     
+             <div className='text-[13px] pl-8 w-full font-semibold rounded-sm py-2 text-black hover:bg-slate-200'> Untitled Folder</div>                     
+             <div className='text-[13px] pl-8 w-full font-semibold rounded-sm py-2 text-black hover:bg-slate-200'> Untitled Folder</div>                     
         </div>
     </div>
     
