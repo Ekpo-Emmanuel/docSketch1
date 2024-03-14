@@ -14,9 +14,9 @@ interface MenuItem {
 export default function SideNavDownSection() {
 
   const menu: MenuItem[] = [
+    { name: 'Getting Started', icon: Flag, letter: 'S', link: '#' },
     { name: 'Teams', icon: Layers, letter: 'T', link: '#' },
-    { name: 'Private Files', icon: Lock, letter: 'S', link: '#' },
-    { name: 'Plans', icon: Flag, letter: 'P', link: '#' },
+    { name: 'Private Files', icon: Lock, letter: 'P', link: '#' },
     { name: 'Archive', icon: Archive, letter: 'E', link: '#' },
   ]
   

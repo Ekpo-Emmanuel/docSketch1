@@ -63,14 +63,7 @@ export default function DashboardPage() {
 
     return isAuthenticated ? (
         <>
-          
           <div>Dashboard</div>
-            <p>{firstName} {lastName}</p>
-            <p>{userEmail}</p>
-            <img src={picture} alt={firstName} />
-            <Button>
-                <LogoutLink>Logout</LogoutLink>
-            </Button>
         </>
       ) : (
         // <UnauthorizedRedirect />

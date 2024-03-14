@@ -1,6 +1,8 @@
 import React, { useEffect, useState }  from 'react'
 import Image from 'next/image'
 import { ChevronDown, Users, Settings, LogOut, Files, FolderPlus  } from 'lucide-react';
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -69,7 +71,6 @@ export default function SideNavTopSection({user}: any) {
     const menu: MenuItem[] = [
         { name: 'Join or Create Team', icon: Users, link: '/teams/create' },
         { name: 'Settings', icon: Settings, link: '/' },
-        { name: 'Log out', icon: LogOut, link: '/' }
     ];
 
     const handleCurrentTeamChange = (teamName: string) => {
@@ -97,7 +98,7 @@ export default function SideNavTopSection({user}: any) {
                             width={20}
                             height={20}
                             alt='logo'
-                            />
+                        />
                             {capitalizeWords(cutWordLength(currentTeam, 10))}
                     </p>
                         <ChevronDown 
@@ -138,6 +139,12 @@ export default function SideNavTopSection({user}: any) {
                             </DropdownMenuItem>
                         </Link>
                     ))}
+                    <LogoutLink>
+                        <DropdownMenuItem className='text-[13px] font-semibold py-[4px] flex gap-2'>
+                            <LogOut size={16} strokeWidth={1}/>
+                            Logout
+                        </DropdownMenuItem>
+                    </LogoutLink>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
