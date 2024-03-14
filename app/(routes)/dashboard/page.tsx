@@ -44,16 +44,16 @@ export default function DashboardPage() {
           }
         };
 
-        const checkTeam = async () => {
+        const checkTeam = () => {
           if (!teamData) {
-            await router.push("/teams/create");
+              router.push("/teams/create");
           }
         }
         
         if (!isLoading) {
           checkAuthentication();
           createUserIfNotExists();
-          checkTeam();
+          // checkTeam();
         }
 
     }, [createUser, firstName, lastName, userEmail, picture, isLoading, isAuthenticated, router, getUser, teamData ]);

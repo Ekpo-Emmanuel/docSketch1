@@ -19,6 +19,8 @@ import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
+import { useRouter } from 'next/navigation';
+
 
 
 
@@ -52,6 +54,8 @@ export default function SideNavTopSection({user}: any) {
     const userEmail = email ? String(email) : '';
     const [teamList, setTeamList] = useState<Team[]>([]);
     const [currentTeam, setCurrentTeam] = useState<string>('');
+    const router = useRouter();
+
     
     // const getTeam = useQuery(api.teams.getTeam, {email: userEmail});
     const teamData = useQuery(api.teams.getTeam, { email: userEmail });
