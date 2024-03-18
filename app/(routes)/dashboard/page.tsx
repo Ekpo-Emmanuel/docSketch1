@@ -8,6 +8,7 @@ import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import { useRouter } from 'next/navigation';
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
+import GettingStarted from "./_components/GettingStarted";
 
 
 export default function DashboardPage() {
@@ -63,7 +64,7 @@ export default function DashboardPage() {
 
     return isAuthenticated ? (
         <>
-          <div>Dashboard</div>
+          <GettingStarted />
         </>
       ) : (
         // <UnauthorizedRedirect />

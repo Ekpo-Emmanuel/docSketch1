@@ -30,14 +30,21 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
     // }, [user, teamData, router]);
 
   return (
-<div className='grid grid-cols-1 sm:grid-cols-4'>
-  <div className='sm:col-span-2 md:col-span-1'>
-    <SideNav />
+  // <div className='grid grid-cols-12'>
+  //     <div className='col-span-3'>
+  //       <SideNav />
+  //     </div>
+  //     <div className='col-span-9'>
+  //       {children}
+  //     </div>
+  //   </div>
+  <div className=''>
+    <div className=''>
+      <SideNav />
+    </div>
+    <div className='ml-[270px]'>
+      {children}
+    </div>
   </div>
-  <div className='sm:col-span-3 md:col-span-3'>
-    {children}
-  </div>
-</div>
-
   )
 }
