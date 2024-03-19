@@ -27,7 +27,7 @@ export default function TopFileNav() {
         },
     ]
   return (
-    <header className="px-4 sm:px-6 lg:px-8">
+    <header className="">
             <div className="flex h-16 items-center justify-between">
                 <div className="hidden md:block">
                     <nav aria-label="Global">
@@ -47,30 +47,30 @@ export default function TopFileNav() {
                     </ul>
                     </nav>
                 </div>
-                <div className="inline-flex items-center gap-2 list-none">
-                    <div className="hidden mx-10 md:block lg:ml-auto">
+                <div className="inline-flex items-center gap-4 list-none">
+                    <div className="hidden md:block lg:ml-auto">
                         <div className="relative">
-                        <span className="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <svg className="w-5 h-5 text-gray-400" viewBox="0 0 24 24" fill="none">
-                            <path
-                                d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3">
+                                <svg className="w-4 h-4 text-gray-400" viewBox="0 0 24 24" fill="none">
+                                <path
+                                    d="M21 21L15 15M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                />
+                                </svg>
+                            </span>
+                            <input
+                                type="text"
+                                className="w-full py-2 pl-10 pr-4 text-black bg-white border border-gray-200 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-500 sm:text-sm rounded-xl placeholder:text-gray-400 placeholder:text-[12px] focus:border-blue-500 text-sm"
+                                placeholder="Search or CTRL K"
                             />
-                            </svg>
-                        </span>
-                        <input
-                            type="text"
-                            className="w-full py-2 pl-10 pr-4 text-black bg-white border border-gray-200 focus:outline-none focus:ring focus:ring-opacity-40 focus:ring-blue-500 sm:text-sm rounded-xl placeholder:text-gray-400 placeholder:text-sm focus:border-blue-500 text-sm"
-                            placeholder="Search"
-                        />
                         </div>
                     </div>
-                    <button className="block px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline">
+                    {/* <button className="block px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline">
                     Sign in
-                    </button>
+                    </button> */}
                     <button className="inline-flex items-center gap-2 justify-center px-4 py-2 text-[14px] text-white bg-blue-500 rounded-sm group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-gray-700 active:bg-gray-800 active:text-white focus-visible:outline-black">
                         <Send size={14} strokeWidth={2}/>Invite
                     </button>

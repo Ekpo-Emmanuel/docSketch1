@@ -1,9 +1,7 @@
 'use client';
 
-import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import React, {useEffect} from 'react';
-import { Button } from '@/components/ui/button';
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
 import { useRouter } from 'next/navigation';
