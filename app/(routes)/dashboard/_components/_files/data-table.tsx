@@ -21,6 +21,7 @@ import {
   } from "@/components/ui/table"
 
 import { Button } from '@/components/ui/button'
+import {ChevronsLeft, ChevronsRight} from 'lucide-react'
 
 
 
@@ -45,7 +46,7 @@ export function DataTable<TDAta, TValue>({
         getPaginationRowModel: getPaginationRowModel(),
         initialState: {
             pagination: {
-              pageIndex: 2, //custom initial page index
+              pageIndex: 0, //custom initial page index
               pageSize: 20, //custom default page size
             },
         },
@@ -64,7 +65,7 @@ export function DataTable<TDAta, TValue>({
                     onClick={() => table.firstPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    {'<<'}
+                    <ChevronsLeft size={14} strokeWidth={3} />
                 </Button>
                 <Button
                     variant="outline"
@@ -72,7 +73,7 @@ export function DataTable<TDAta, TValue>({
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                    Previous
+                    Prev
                 </Button>
                 <Button
                     variant="outline"
@@ -88,9 +89,10 @@ export function DataTable<TDAta, TValue>({
                     onClick={() => table.lastPage()}
                     disabled={!table.getCanNextPage()}
                 >
-                    {'>>'}
+                    <ChevronsRight size={14} strokeWidth={3} />
                 </Button>
                 <select
+                    className="block text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     value={table.getState().pagination.pageSize}
                     onChange={e => {
                         table.setPageSize(Number(e.target.value))

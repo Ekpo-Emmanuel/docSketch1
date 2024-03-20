@@ -51,8 +51,6 @@ export const columns: ColumnDef<Person>[] = [
     enableHiding: false,
   },
   {
-    // header: 'Name',
-    // header: () => <p className="text-[10px] text-black">NAME</p>,
     accessorKey: 'name',
     header: ({ column }) => {
       return (
