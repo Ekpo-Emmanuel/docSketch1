@@ -5,7 +5,7 @@ import { LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 
 export default function UnauthorizedRedirect() {
   return (
-    <main className="flex items-center justify-center h-screen ">
+    <main className="flex items-center justify-center h-screen fixed z-30">
     <div className="px-4 py-16 mx-auto text-center lg:px-8  max-w-7xl sm:px-6 sm:py-24">
         <div className="justify-center w-full text-center lg:p-10 max-auto">
         <div className="justify-center w-full mx-auto">

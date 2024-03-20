@@ -2,6 +2,7 @@ import React from 'react'
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import AllFiles from './AllFiles'
 import TopFileNav from './TopFileNav'
+import AllFiles2 from './_files/AllFiles2';
 
 
 export default function GettingStarted() {
@@ -10,7 +11,8 @@ export default function GettingStarted() {
   return (
     <div className='px-8'>
         <TopFileNav />
-        <AllFiles user={user} />
+        {/* <AllFiles user={user} /> */}
+        <AllFiles2 />
     </div>
   )
 }

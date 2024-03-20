@@ -18,7 +18,6 @@ import {
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 import Link from 'next/link'
-import { Button } from "@/components/ui/button"
 import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from 'next/navigation';

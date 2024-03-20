@@ -7,6 +7,7 @@ import { useQuery, useMutation } from "convex/react";
 import { useRouter } from 'next/navigation';
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
 import GettingStarted from "./_components/GettingStarted";
+import UnauthorizedRedirect from "@/app/_components/UnauthorizedRedirect";
 
 
 export default function DashboardPage() {
@@ -20,42 +21,50 @@ export default function DashboardPage() {
     const teamData = useQuery(api.teams.getTeam, { email: userEmail });
 
     useEffect(() => {
-        const checkAuthentication = async () => {
-          if (!isAuthenticated) { await router.push("/api/auth/login?post_login_redirect_url=/dashboard"); } else { await router.push("/dashboard"); }
-        };
-
-        const createUserIfNotExists = async () => {
-          try {
-              // Check if the user exists
-              const existingUser = await userEmail;
-              if (!existingUser) {
-                  const newUser = await createUser({
-                      name: firstName + " " + lastName, 
-                      email: userEmail, 
-                      image: picture
-                  });
-                  console.log("New user created:", newUser);
-              } else {
-                  // console.log("User already exists:", existingUser);
-              }
-          } catch (error) {
-              console.error("Error checking or creating user:", error);
-          }
-        };
-
-        const checkTeam = () => {
-          if (!teamData) {
-              router.push("/teams/create");
-          }
+      const checkAuthentication = async () => {
+        if (!isAuthenticated) {
+          await router.push("/api/auth/login?post_login_redirect_url=/dashboard");
+        } else {
+          await router.push("/dashboard");
         }
-        
-        if (!isLoading) {
-          checkAuthentication();
-          createUserIfNotExists();
-          // checkTeam();
+      };
+  
+      const createUserIfNotExists = async () => {
+        try {
+            // Check if the user exists
+            const existingUser = await userEmail;
+            if (!existingUser) {
+                const newUser = await createUser({
+                    name: firstName + " " + lastName, 
+                    email: userEmail, 
+                    image: picture
+                });
+                console.log("New user created:", newUser);
+            } else {
+                // console.log("User already exists:", existingUser);
+            }
+        } catch (error) {
+            console.error("Error checking or creating user:", error);
         }
-
-    }, [createUser, firstName, lastName, userEmail, picture, isLoading, isAuthenticated, router, getUser, teamData ]);
+      };
+  
+      const checkTeam = () => {
+        if (!teamData) {
+            router.push("/teams/create");
+        }
+      }
+      
+      const fetchData = async () => {
+        await checkAuthentication();
+        await createUserIfNotExists();
+        // checkTeam(); // You might want to enable this if needed
+      };
+  
+      if (!isLoading) {
+        fetchData();
+      }
+  
+  }, [createUser, firstName, lastName, userEmail, picture, isLoading, isAuthenticated, router, getUser, teamData ]);
 
     if (isLoading) return <LoadingAnimation />; 
 
