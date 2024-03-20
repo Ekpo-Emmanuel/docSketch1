@@ -25,11 +25,13 @@ import { Button } from "@/components/ui/button"
 
 export const columns: ColumnDef<Person>[] = [
   {
-    header: 'Name',
+    // header: 'Name',
+    header: () => <p className="sm:text-[14px] text-[12px]">Name</p>,
     accessorKey: 'name',
   },
   {
-    header: 'Created',
+    // header: 'Created',
+    header: () => <p className="sm:text-[14px] text-[12px]">Created</p>,
     accessorKey: 'created',
     cell: (row: { getValue: (arg: string) => string | number | Date }) => {
       const formattedDate = new Date(row.getValue('edited')).toLocaleString()
@@ -39,7 +41,8 @@ export const columns: ColumnDef<Person>[] = [
     }
   },
   {
-    header: 'Edited',
+    // header: 'Edited',
+    header: () => <p className="sm:text-[14px] text-[12px]">Edited</p>,
     accessorKey: 'edited',
     cell: (row: { getValue: (arg: string) => string | number | Date }) => {
       const formattedDate = new Date(row.getValue('edited')).toLocaleString()
@@ -54,7 +57,8 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     accessorKey: "action",
-    header: 'Action',
+    // header: 'Action',
+    header: () => <p className="sm:text-[14px] text-[12px]">Action</p>,
     cell: ({ row }) => {
       const person = row.original
       const personId = person.id
@@ -70,46 +74,46 @@ export const columns: ColumnDef<Person>[] = [
           <DropdownMenuContent>
               <DropdownMenuGroup>
                   <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                    <div className='flex items-center gap-2' onC4ick={() => navigator.clipboard.writeText(personId)}>
+                    <div className='flex items-center gap-2' onClick={() => navigator.clipboard.writeText(personId)}>
                       <Link strokeWidth={2} size={11} />
-                      <span className="text-[13px] font-semibold">Copy Link</span>
+                      <span className="text-[12px] font-semibold">Copy Link</span>
                     </div>
                       <p className="text-[11px] opacity-70">Alt ⇧ C</p>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                      <div className='flex items-center gap-4'>
+                      <div className='flex items-center gap-2'>
                         <Pen strokeWidth={2} size={11} />
-                          <span className="'text-[13px] font-semibold">Rename</span>
+                          <span className="'text-[12px] font-semibold">Rename</span>
                       </div>
                       <p className="text-[11px] opacity-70">Alt ⇧ R</p>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                      <div className='flex items-center gap-4'>
+                      <div className='flex items-center gap-2'>
                         <Send 
                           strokeWidth={2}
                           size={11}
                         />
-                          <span className="'text-[13px] font-semibold">Share</span>
+                          <span className="'text-[12px] font-semibold">Share</span>
                       </div>
                       <p className="text-[11px] opacity-70">Ctrl I</p>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                      <div className='flex items-center gap-4'>
+                      <div className='flex items-center gap-2'>
                         <Copy 
                           strokeWidth={2}
                           size={11}
                         />
-                          <span className="'text-[13px] font-semibold">Duplicate</span>
+                          <span className="'text-[12px] font-semibold">Duplicate</span>
                       </div>
                       <p className="text-[11px] opacity-70">Ctrl ⇧ D</p>
                   </DropdownMenuItem>
                   <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                      <div className='flex items-center gap-4'>
+                      <div className='flex items-center gap-2'>
                         <Trash2 
                           strokeWidth={2}
                           size={11}
                         />
-                          <span className="'text-[13px] font-semibold">Delete</span>
+                          <span className="'text-[12px] font-semibold">Delete</span>
                       </div>
                       <p className="text-[11px] opacity-70">Alt ⇧ W</p>
                   </DropdownMenuItem>

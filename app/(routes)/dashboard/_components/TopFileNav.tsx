@@ -27,8 +27,8 @@ export default function TopFileNav() {
         },
     ]
   return (
-    <header className="">
-            <div className="flex h-16 items-center justify-between">
+    <header>
+            <div className="flex items-center justify-between">
                 <div className="hidden md:block">
                     <nav aria-label="Global">
                     <ul className="flex items-center gap-2 text-sm">
@@ -68,12 +68,10 @@ export default function TopFileNav() {
                             />
                         </div>
                     </div>
-                    {/* <button className="block px-4 py-2 mt-2 text-sm text-gray-500 md:mt-0 hover:text-blue-600 focus:outline-none focus:shadow-outline">
-                    Sign in
-                    </button> */}
-                    <button className="inline-flex items-center gap-2 justify-center px-4 py-2 text-[14px] text-white bg-blue-500 rounded-sm group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-gray-700 active:bg-gray-800 active:text-white focus-visible:outline-black">
+                    <button className="inline-flex items-center gap-2 justify-center px-4 py-2 text-[14px] text-white bg-blue-500 rounded-sm group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-black active:bg-black active:text-white focus-visible:bg-black">
                         <Send size={14} strokeWidth={2}/>Invite
                     </button>
+
                 </div>
             </div>
     </header>

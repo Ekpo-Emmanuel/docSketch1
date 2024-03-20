@@ -9,9 +9,9 @@ export default function GettingStarted() {
   const {user}: any = useKindeBrowserClient();
 
   return (
-    <div className='px-8'>
+    <div>
         <TopFileNav />
-        {/* <AllFiles user={user} /> */}
+        <AllFiles user={user} />
         <AllFiles2 />
     </div>
   )
