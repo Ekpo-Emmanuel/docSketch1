@@ -2,8 +2,11 @@
 
 import { ColumnDef } from "@tanstack/react-table"
 import { Person } from "./data1"
-import { ChevronDown, Link, Pen, Copy, Send, Trash2  } from 'lucide-react';
+import {Link, Pen, Copy, Send, Trash2  } from 'lucide-react';
+import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { RxDotsHorizontal } from "react-icons/rx";
+import { Checkbox } from "@/components/ui/checkbox"
+
 
 import {
   DropdownMenu,
@@ -21,20 +24,54 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 import { Button } from "@/components/ui/button"
+import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
 
 export const columns: ColumnDef<Person>[] = [
   {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+    enableSorting: false,
+    enableHiding: false,
+  },
+  {
     // header: 'Name',
-    header: () => <p className="sm:text-[14px] text-[12px]">Name</p>,
+    // header: () => <p className="text-[10px] text-black">NAME</p>,
     accessorKey: 'name',
+    header: ({ column }) => {
+      return (
+        <p
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-[10px] text-black flex items-center gap-2 cursor-pointer hover:font-semibold" 
+        >
+          NAME
+          <ArrowUpDown size={11} strokeWidth={1} />
+        </p>
+      )
+    },
   },
   {
     // header: 'Created',
-    header: () => <p className="sm:text-[14px] text-[12px]">Created</p>,
+    header: () => <p className="text-[10px] text-black">CREATED</p>,
     accessorKey: 'created',
-    cell: (row: { getValue: (arg: string) => string | number | Date }) => {
-      const formattedDate = new Date(row.getValue('edited')).toLocaleString()
+    cell: (column: { getValue: (arg: string) => string | number | Date }) => {
+      const formattedDate = new Date(column.getValue('edited')).toLocaleString()
       return (
         <p className="text-[12px]">{formattedDate}</p>
       )
@@ -42,7 +79,7 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     // header: 'Edited',
-    header: () => <p className="sm:text-[14px] text-[12px]">Edited</p>,
+    header: () => <p className="text-[10px] text-black">EDITED</p>,
     accessorKey: 'edited',
     cell: (row: { getValue: (arg: string) => string | number | Date }) => {
       const formattedDate = new Date(row.getValue('edited')).toLocaleString()
@@ -52,13 +89,13 @@ export const columns: ColumnDef<Person>[] = [
     }
   },
   {
-    header: 'Author',
+    header: () => <p className="text-[10px] text-black">AUTHOR</p>,
     accessorKey: 'author',
   },
   {
     accessorKey: "action",
     // header: 'Action',
-    header: () => <p className="sm:text-[14px] text-[12px]">Action</p>,
+    header: () => <p className="text-[10px] text-black">ACTION</p>,
     cell: ({ row }) => {
       const person = row.original
       const personId = person.id
