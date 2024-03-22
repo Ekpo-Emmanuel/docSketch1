@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button"
 import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "react";
 
 
+
 export const columns: ColumnDef<Person>[] = [
   {
     id: "select",
@@ -66,24 +67,51 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     // header: 'Created',
-    header: () => <p className="text-[10px] text-black">CREATED</p>,
-    accessorKey: 'created',
-    cell: (column: { getValue: (arg: string) => string | number | Date }) => {
-      const formattedDate = new Date(column.getValue('edited')).toLocaleString()
+    header: ({ column }) => {
       return (
-        <p className="text-[12px]">{formattedDate}</p>
+        <p
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-[10px] text-black flex items-center gap-2 cursor-pointer hover:font-semibold" 
+        >
+          CREATED
+          <ArrowUpDown size={11} strokeWidth={1} />
+        </p>
       )
+    },
+    accessorKey: 'created',
+    cell: (row: { getValue: (arg: string) => string | number | Date }) => {
+      const date = new Date(row.getValue('edited'));
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'short' });
+      const year = date.getFullYear();
+      const formattedDate = `${day} ${month} ${year}`;
+      return (
+          <p className="text-[12px]">{formattedDate}</p>
+      );
     }
   },
   {
-    // header: 'Edited',
-    header: () => <p className="text-[10px] text-black">EDITED</p>,
+    header: ({ column }) => {
+      return (
+        <p
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          className="text-[10px] text-black flex items-center gap-2 cursor-pointer hover:font-semibold" 
+        >
+          EDITED
+          <ArrowUpDown size={11} strokeWidth={1} />
+        </p>
+      )
+    },
     accessorKey: 'edited',
     cell: (row: { getValue: (arg: string) => string | number | Date }) => {
-      const formattedDate = new Date(row.getValue('edited')).toLocaleString()
+      const date = new Date(row.getValue('edited'));
+      const day = date.getDate();
+      const month = date.toLocaleString('default', { month: 'short' });
+      const year = date.getFullYear();
+      const formattedDate = `${day} ${month} ${year}`;
       return (
-        <p className="text-[12px]">{formattedDate}</p>
-      )
+          <p className="text-[12px]">{formattedDate}</p>
+      );
     }
   },
   {
@@ -93,7 +121,7 @@ export const columns: ColumnDef<Person>[] = [
   {
     accessorKey: "action",
     // header: 'Action',
-    header: () => <p className="text-[10px] text-black">ACTION</p>,
+    header: () => <p className="text-[10px] text-black"><RxDotsHorizontal size={20} /></p>,
     cell: ({ row }) => {
       const person = row.original
       const personId = person.id

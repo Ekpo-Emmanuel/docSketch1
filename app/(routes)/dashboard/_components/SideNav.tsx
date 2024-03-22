@@ -8,7 +8,7 @@ export default function SideNav() {
   const { user}: any = useKindeBrowserClient();
   return (
     <div 
-      className="fixed top-0 left-0 z-40 p-4 w-64 h-screen border-r bg-white flex flex-col transition-transform -translate-x-full sm:translate-x-0"
+      className="fixed top-0 bg-white left-0 z-40 p-4 w-64 h-screen border-r flex flex-col transition-transform -translate-x-full sm:translate-x-0"
     >
         <SideNavTopSection user={user}/>
         <SideNavDownSection />
