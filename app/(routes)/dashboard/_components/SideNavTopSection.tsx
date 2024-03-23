@@ -87,7 +87,7 @@ export default function SideNavTopSection({user}: any) {
         return str
     }
     return (
-    <div>
+    <div className='mt-4'>
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
                 <div className='flex items-center justify-between cursor-pointer p-2 rounded-sm hover:bg-slate-100 focus:bg-slate-100'>
@@ -149,7 +149,13 @@ export default function SideNavTopSection({user}: any) {
                 {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
                 <DropdownMenuItem>
                     <div className='flex items-center gap-2'>
-                        <img src={picture} alt={firstName} width={30} height={30} className='rounded-full' />
+                        {picture ? (
+                            <img src={picture} alt={firstName} width={30} height={30} className='rounded-full' />
+                            ) : (
+                            <div className='rounded-full h-[34px] w-[34px] bg-black' ></div>
+
+                        )}
+
                         <div className='flex flex-col line-h--10'>
                             <p className='text-[14px] font-semibold'>{firstName} {lastName}</p>
                             <p className='text-[11px] '>{userEmail}</p>

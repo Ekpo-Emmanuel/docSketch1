@@ -43,7 +43,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
       <SideNav />
     </div>
     <div className='sm:ml-64'>
-      <div className='p-4'>
+      <div className='p-4 bg-[#F9F9F9]'>
         {children}
       </div>
     </div>

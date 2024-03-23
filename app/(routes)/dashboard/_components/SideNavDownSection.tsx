@@ -21,7 +21,7 @@ export default function SideNavDownSection() {
   ]
   
   return (
-    <div className="mt-auto flex flex-col gap-4">
+    <div className="mt-auto flex flex-col gap-4 mb-4">
         <div>
          {menu.map((item, index) => (
             <Link 
