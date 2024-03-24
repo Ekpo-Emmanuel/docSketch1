@@ -14,7 +14,7 @@ import { toast  } from "sonner"
 
 export default function page() {
     const [teamName, setTeamName] = useState('');    
-    const { isLoading, isAuthenticated, user } = useKindeBrowserClient();
+    const { user } = useKindeBrowserClient();
     const createTeam = useMutation(api.teams.createTeam); 
     const router = useRouter();
 
@@ -40,10 +40,7 @@ export default function page() {
       })
     }
 
-    if (isLoading) return <LoadingAnimation />;
-
-
-    return isAuthenticated ? (
+    return (
       <section className="items-center justify-center flex w-full h-screen">
         <div className="relative items-center w-full px-5 mx-auto lg:px-16 max-w-7xl md:px-12">
           <div className="max-w-3xl mx-auto text-center">
@@ -91,5 +88,5 @@ export default function page() {
           </div>
         </div>
       </section>
-    ) : (<UnauthorizedRedirect />);
+    ) ;
 }

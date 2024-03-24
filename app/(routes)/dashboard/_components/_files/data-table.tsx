@@ -58,30 +58,30 @@ export function DataTable<TDAta, TValue>({
 
     return (
         <div className="">
-            <div className="flex items-center justify-end space-x-2 mb-6">
+            <div className="flex items-center justify-end space-x-1 mb-6">
                 <button
-                    className={`flex items-center justify-center px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-lg ${!table.getCanPreviousPage() ? 'bg-slate-50' : 'hover:bg-gray-100'}`}
+                    className={`flex items-center justify-center hover:bg-gray-200 px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-sm ${!table.getCanPreviousPage() ? 'hover:bg-slate-50 bg-slate-50 text-slate-500 hover:bg-transparent' : 'hover:bg-gray-100'}`}
                     onClick={() => table.firstPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
                     <ChevronFirst  size={14} strokeWidth={2} />
                 </button>
                 <button 
-                    className={`flex items-center justify-center px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-lg ${!table.getCanPreviousPage() ? 'bg-slate-50' : 'hover:bg-gray-100'}`}
+                    className={`flex items-center justify-center hover:bg-gray-200 px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-sm ${!table.getCanPreviousPage() ? 'hover:bg-slate-50 bg-slate-50 text-slate-500 hover:bg-transparent' : 'hover:bg-gray-100'}`}
                     onClick={() => table.previousPage()}
                     disabled={!table.getCanPreviousPage()}
                 >
-                        Previous
+                        Prev
                 </button>
                 <button 
-                    className={`flex items-center justify-center px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-lg ${!table.getCanNextPage() ? 'bg-slate-50' : 'hover:bg-gray-100'}`}
+                    className={`flex items-center justify-center hover:bg-gray-200 px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-sm ${!table.getCanNextPage() ? 'hover:bg-slate-50 bg-slate-50 text-slate-500 hover:bg-transparent' : 'hover:bg-gray-100'}`}
                     onClick={() => table.nextPage()}
                     disabled={!table.getCanNextPage()}
                 >
                     Next
                 </button>
                 <button
-                    className={`flex items-center justify-center px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-lg ${!table.getCanNextPage() ? 'bg-slate-50' : 'hover:bg-gray-100'}`}
+                    className={`flex items-center justify-center hover:bg-gray-200 px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-sm ${!table.getCanNextPage() ? 'hover:bg-slate-50 bg-slate-50 text-slate-500 hover:bg-transparent' : 'hover:bg-gray-100'}`}
                     onClick={() => table.lastPage()}
                     disabled={!table.getCanNextPage()}
                 >

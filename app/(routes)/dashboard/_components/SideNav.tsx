@@ -2,14 +2,20 @@ import React, { useState, useRef, useEffect } from 'react';
 import SideNavTopSection from './SideNavTopSection';
 import SideNavDownSection from './SideNavDownSection';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import { useMutation } from "convex/react";
+import { api } from '@/convex/_generated/api';
+import { toast  } from "sonner"
+
 
 export default function SideNav() {
+  type NewType = Team;
+
   const { user }: any = useKindeBrowserClient();
   const [isOpen, setIsOpen] = useState(false);
   const sideNavRef = useRef(null);
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: { target: any; }) => {
       if (sideNavRef.current && !sideNavRef.current.contains(event.target)) {
         setIsOpen(false);
       }
@@ -25,6 +31,29 @@ export default function SideNav() {
   const toggleSideNav = () => {
     setIsOpen(!isOpen);
   };
+
+  const createFile = useMutation(api.files.createFile);
+  const [activeTeam, setActiveTeam] = useState<NewType>();
+  const onFileCreate = (fileName: string) => {
+    createFile({
+        name: fileName,
+        teamId: activeTeam?._id,
+        createdBy: user?.email
+    })
+    .then((res: any) => {
+      toast.message('File Created Successfully', {
+        description: 'by ' + user?.email,
+      })
+    })
+    .catch((err:any) => {
+      toast.error('Error creating File')
+      console.log(err)
+    })
+  }
+
+
+
+
 
   return (
     <>
@@ -55,12 +84,15 @@ export default function SideNav() {
       />
       <div
         ref={sideNavRef}
-        className={`fixed top-0 bg-white left-0 z-40 p-4 w-64 h-screen border-r flex flex-col transition-transform ${
+        className={`fixed top-0 bg-[#F9F9F9] left-0 z-40 p-2 w-64 h-screen flex flex-col transition-transform ${
           isOpen ? '' : '-translate-x-full sm:translate-x-0'
         }`}
       >
-        <SideNavTopSection user={user} />
-        <SideNavDownSection />
+        <SideNavTopSection 
+          user={user} 
+          setactiveTeamInfo={(activeTeam: NewType) => setActiveTeam(activeTeam)}
+        />
+        <SideNavDownSection onFileCreate={onFileCreate} />
       </div>
     </>
   );

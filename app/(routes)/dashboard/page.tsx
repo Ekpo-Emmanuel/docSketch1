@@ -12,15 +12,11 @@ import UnauthorizedRedirect from "@/app/_components/UnauthorizedRedirect";
 
 export default function DashboardPage() {
     const { user, isLoading, isAuthenticated, } = useKindeBrowserClient();
-
+    
 
     if (isLoading) return <LoadingAnimation />; 
 
       return isAuthenticated ? (
         <GettingStarted />
-      ) : (
-        <div>
-          You dont have acces
-        </div>
-      );
+      ) : <UnauthorizedRedirect />;
   }
