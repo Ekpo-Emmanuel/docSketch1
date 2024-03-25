@@ -52,25 +52,29 @@ interface Props {
 
 
 export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
+    const convex = useConvex();
     const { email, given_name: firstName, family_name: lastName, picture } = user || {};
     const userEmail = email ? String(email) : '';
     const [teamList, setTeamList] = useState<Team[]>();
-    const [activeTeam, setactiveTeam] = useState<Team[]>([]);
-    const convex = useConvex();
+    const [activeTeam, setactiveTeam] = useState<Team>([]);
 
 
     useEffect(() => {
         user && getTeamList();
+    }, [user])
 
-    }, [user, activeTeam])
     useEffect(() => {
         activeTeam && setactiveTeamInfo(activeTeam);
     }, [activeTeam])
+
     const getTeamList = async () => {
         const teamData = await convex.query(api.teams.getTeam, { email: userEmail });
         setTeamList(teamData);
-        setactiveTeam(teamData[0]);
+        setactiveTeam(teamData[teamData.length - 1]);
+    }
 
+    const onMenuClick = (item: any) => {
+        setactiveTeam(item);
     }
 
     const menu: MenuItem[] = [
@@ -78,34 +82,26 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
         { name: 'Settings', icon: Settings, link: '/' },
     ];
 
-    // const handleactiveTeamChange = (teamName: string) => {
-    //     setactiveTeam(teamName);
-    // }
-
-
-    const capitalizeWords = (str: any | undefined) => {
-        return str && str.replace(/\w\S*/g, (txt: string) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
-    }
-
     const cutWordLength = (str: string | undefined, limit: number) => {
         if (str && str.length > limit) {
             return str.slice(0, limit) + '...';
         }
         return str
     }
+
     return (
         <div className=''>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <div className='flex items-center justify-between cursor-pointer p-2 rounded-sm hover:bg-slate-100 focus:bg-slate-100'>
-                        <div className='text-md font-semibold flex items-center gap-2'>
+                        <div className='text-md font-semibold flex items-center gap-2 capitalize'>
                             <img
                                 src='https://flowbite.com/docs/images/logo.svg'
                                 width={20}
                                 height={20}
                                 alt='logo'
                             />
-                            {capitalizeWords(cutWordLength(activeTeam?.teamName, 15))}
+                            {cutWordLength(activeTeam?.teamName, 15)}
                         </div>
                         <ChevronDown
                             strokeWidth={2}
@@ -115,15 +111,15 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuGroup>
-                        {teamList?.map((team: Team, index) => (
-                            <DropdownMenuItem
-                                key={index}
-                                className={`text-[13px] font-semibold py-[4px] ${activeTeam?._id == team._id ? 'bg-blue-500 text-white hover:bg-blue-500' : ''}`}
-                                onClick={() => setactiveTeam(team)}
-                            >
-                                {capitalizeWords(team.teamName)}
-                            </DropdownMenuItem>
-                        ))}
+                    {teamList?.slice().reverse().map((team: Team, index): React.JSX.Element => (
+                        <DropdownMenuItem
+                            key={index}
+                            className={`text-[13px] font-semibold py-[4px] ${activeTeam?._id === team._id ? 'bg-blue-500 text-white hover:bg-blue-500' : ''}`}
+                            onClick={() => setactiveTeam(team)}
+                        >
+                            {team.teamName}
+                        </DropdownMenuItem>
+                    ))}
                     </DropdownMenuGroup>
                     <DropdownMenuSeparator />
                     <DropdownMenuGroup>

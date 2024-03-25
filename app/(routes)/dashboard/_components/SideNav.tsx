@@ -2,10 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import SideNavTopSection from './SideNavTopSection';
 import SideNavDownSection from './SideNavDownSection';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { useMutation } from "convex/react";
+import { useMutation, useConvex } from "convex/react";
 import { api } from '@/convex/_generated/api';
 import { toast  } from "sonner"
-
 
 export default function SideNav() {
   type NewType = Team;
@@ -13,6 +12,17 @@ export default function SideNav() {
   const { user }: any = useKindeBrowserClient();
   const [isOpen, setIsOpen] = useState(false);
   const sideNavRef = useRef(null);
+  const createFile = useMutation(api.files.createFile);
+  const [activeTeam, setActiveTeam] = useState<NewType>();
+  const convex = useConvex();
+
+  const toggleSideNav = () => {
+    setIsOpen(!isOpen);
+  };
+  
+  useEffect(() => {
+    activeTeam && getFiles();
+  }, [activeTeam])
 
   useEffect(() => {
     const handleClickOutside = (event: { target: any; }) => {
@@ -28,17 +38,14 @@ export default function SideNav() {
     };
   }, []);
 
-  const toggleSideNav = () => {
-    setIsOpen(!isOpen);
-  };
-
-  const createFile = useMutation(api.files.createFile);
-  const [activeTeam, setActiveTeam] = useState<NewType>();
   const onFileCreate = (fileName: string) => {
     createFile({
         name: fileName,
         teamId: activeTeam?._id,
-        createdBy: user?.email
+        createdBy: user?.email,
+        archieve: false,
+        document: '',
+        whiteboard: ''
     })
     .then((res: any) => {
       toast.message('File Created Successfully', {
@@ -51,7 +58,11 @@ export default function SideNav() {
     })
   }
 
+  const getFiles = async () => {
+    const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
 
+    console.log(result);
+  }
 
 
 
