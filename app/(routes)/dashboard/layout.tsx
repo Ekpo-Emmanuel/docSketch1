@@ -6,39 +6,18 @@ import { useQuery, useMutation } from "convex/react";
 import { useRouter } from 'next/navigation';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import SideNav from './_components/SideNav';
+import LoadingAnimation from '@/app/_components/LoadingAnimation';
 
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
     const router = useRouter();
-    const { user }: any = useKindeBrowserClient();
-    // const teamData = useQuery(api.teams.getTeam, { email: user?.email });
+    const { user, isLoading, isAuthenticated, } = useKindeBrowserClient();
 
 
-    // useEffect(() => {
-    //     const checkTeam = async () => {
-    //         if (!teamData || !teamData.length) {
-    //             router.push('/teams/create');
-    //         }
-    //     };
+    if (isLoading) return <LoadingAnimation />; 
 
-    //     if (teamData === undefined) {
-    //         // Handle loading state
-    //         console.log("Loading team data...");
-    //     } else {
-    //         user && checkTeam();
-    //     }
-    // }, [user, teamData, router]);
-
-  return (
-  // <div className='grid grid-cols-12'>
-  //     <div className='col-span-3'>
-  //       <SideNav />
-  //     </div>
-  //     <div className='col-span-9'>
-  //       {children}
-  //     </div>
-  //   </div>
-  <div className=''>
+  return isAuthenticated ? (
+  <>
     <div className='bg-[#F9F9F9]'>
       <SideNav />
     </div>
@@ -47,6 +26,6 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
         {children}
       </div>
     </div>
-  </div>
-  )
+  </>
+  ) : null;
 }

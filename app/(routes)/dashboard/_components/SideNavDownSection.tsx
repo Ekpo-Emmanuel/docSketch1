@@ -14,7 +14,10 @@ DialogClose,
 import { Button } from '@/components/ui/button';
 
 
-
+interface SideNavDownSectionProps {
+  onFileCreate: (fileName: string) => void;
+  totalFiles: number;
+}
 
 interface MenuItem {
   name: string
@@ -23,7 +26,7 @@ interface MenuItem {
   link: string
 }
 
-export default function SideNavDownSection({onFileCreate}: any) {
+export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDownSectionProps) {
   const [fileInput, setFileInput] = useState<any>('');
   const menu: MenuItem[] = [
     { name: 'Getting Started', icon: Flag, letter: 'S', link: '#' },
@@ -34,6 +37,9 @@ export default function SideNavDownSection({onFileCreate}: any) {
   const handleInputChange = (event: { target: { value: any; }; }) => {
     setFileInput(event.target.value);
   };
+
+  const maxFiles = 5; 
+  const progressPercentage = (totalFiles / maxFiles) * 100;
 
 
   return (
@@ -97,10 +103,10 @@ export default function SideNavDownSection({onFileCreate}: any) {
       
         <div className='flex flex-col'>
           <div className='w-full h-2 bg-gray-300 rounded-full'>
-            <div className='w-1/3 h-full bg-black rounded-full'></div>
+            <div className='h-2 bg-black rounded-full' style={{width: `${progressPercentage}%`}}></div>
           </div>
           <p className='text-[12px] mt-2'>
-            <span className='font-bold'>1</span> out of <span className='font-bold'>5</span> files used.
+            <span className='font-bold'>{totalFiles}</span> out of <span className='font-bold'>{maxFiles}</span> files used.
           </p>
           <p className='text-[12px]'>
             <Link href='/plans' className='underline'>Upgrade</Link> for unlimited access.

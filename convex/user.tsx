@@ -5,7 +5,7 @@ import { query, mutation } from "./_generated/server";
 export const getUser = query({
     args: { email:v.string() }, 
 
-    handler: async (ctx, args) => {
+    handler: async (ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { email: any; }) => {
         const user = await ctx.db
         .query('users')
         .filter((q) => q.eq(q.field('email'), args.email))
@@ -22,7 +22,7 @@ export const createUser = mutation({
         email: v.string(),
         image: v.string()
     },
-    handler: async (ctx, args) => {
+    handler: async (ctx: { db: { insert: (arg0: string, arg1: { text: any; }) => any; }; }, args: any) => {
       return await ctx.db.insert("users", { text: args });
     },
   });

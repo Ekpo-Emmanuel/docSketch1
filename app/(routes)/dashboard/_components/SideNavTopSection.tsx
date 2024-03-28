@@ -22,6 +22,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from 'next/navigation';
 import {useConvex} from 'convex/react'
+import LoadingAnimation from '@/app/_components/LoadingAnimation';
 
 
 
@@ -58,19 +59,22 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
     const [teamList, setTeamList] = useState<Team[]>();
     const [activeTeam, setactiveTeam] = useState<Team>([]);
 
-
     useEffect(() => {
-        user && getTeamList();
-    }, [user])
+        if (userEmail) {
+            getTeamList();
+        }
+    }, [userEmail])
 
     useEffect(() => {
         activeTeam && setactiveTeamInfo(activeTeam);
     }, [activeTeam])
 
     const getTeamList = async () => {
+        // setIsLoading(true);
         const teamData = await convex.query(api.teams.getTeam, { email: userEmail });
         setTeamList(teamData);
         setactiveTeam(teamData[teamData.length - 1]);
+        // setIsLoading(false)
     }
 
     const onMenuClick = (item: any) => {
@@ -88,6 +92,8 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
         }
         return str
     }
+
+    // if (isLoading) return <LoadingAnimation />; 
 
     return (
         <div className=''>
@@ -196,3 +202,15 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
 
     )
 }
+
+
+// export async function getStaticProps(context: { props: { user: { email: string; }; }; }) {
+//     const convex = useConvex();
+//     const email = context.props.user.email || ''; // Retrieve email dynamically from props
+//     const teamData = await convex.query(api.teams.getTeam, { email });
+//     return {
+//         props: {
+//             teamList: teamData || [],
+//         },
+//     };
+// }

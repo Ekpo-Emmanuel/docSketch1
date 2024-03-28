@@ -21,17 +21,15 @@ export default function page() {
     const createNewTeam = () => {
       createTeam({
           teamName: teamName,
-          createdBy: user.email
+          createdBy: user?.email
       })
       .then((res: any) => {
         if (res) {
           console.log('New Team created,' + res)
           toast.message('Successfully Created New Team', {
-            description: 'Created by ' + user.email,
+            description: 'Created by ' + user?.email,
           })
-          setTimeout(() => {
-            router.push('/dashboard')
-          }, 2000);
+          router.push('/dashboard')
         }
       })
       .catch((err:any) => {
