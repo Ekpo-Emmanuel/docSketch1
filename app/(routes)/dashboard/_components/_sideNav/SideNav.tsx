@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import SideNavTopSection from './SideNavTopSection';
 import SideNavDownSection from './SideNavDownSection';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
-import { useMutation, useConvex } from "convex/react";
+import { useMutation, useConvex, useQuery } from "convex/react";
 import { api } from '@/convex/_generated/api';
 import { toast  } from "sonner"
 import { Menu } from 'lucide-react';
@@ -67,20 +67,21 @@ export default function SideNav() {
     })
   }
 
+  const tasks = useQuery(api.files.getFiles);
   const getFiles = async () => {
     // try {
-    //   setIsLoadingFiles(true);
+    //   // setIsLoadingFiles(true);
     //   const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
-    //   // console.log(result);
+    //   console.log(result);
     // } catch (error) {
     //   console.error('Error fetching files:', error);
     // } finally {
     //   setIsLoadingFiles(false);
     // }
 
-    const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
-    console.log(result);
-    setTotalFiles(result.length);
+    // const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
+    // console.log(tasks); 
+    setTotalFiles(tasks?.length);
   }
 
 

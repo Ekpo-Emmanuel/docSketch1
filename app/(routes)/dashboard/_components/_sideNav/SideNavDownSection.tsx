@@ -12,6 +12,7 @@ import {
 DialogClose,
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 
 interface SideNavDownSectionProps {
@@ -28,17 +29,20 @@ interface MenuItem {
 
 export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDownSectionProps) {
   const [fileInput, setFileInput] = useState<any>('');
+  const router = useRouter();
+  
   const menu: MenuItem[] = [
     { name: 'Getting Started', icon: Flag, letter: 'S', link: '#' },
-    { name: 'Teams', icon: Layers, letter: 'T', link: '#' },
+    { name: 'Teams', icon: Layers, letter: 'T', link: '/teams' },
     { name: 'Private Files', icon: Lock, letter: 'P', link: '#' },
     { name: 'Archive', icon: Archive, letter: 'E', link: '#' },
   ]
   const handleInputChange = (event: { target: { value: any; }; }) => {
     setFileInput(event.target.value);
+    
   };
 
-  const maxFiles = 5; 
+  const maxFiles = 30; 
   const progressPercentage = (totalFiles / maxFiles) * 100;
 
 
@@ -46,17 +50,17 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
     <div className="mt-auto flex flex-col gap-4 ">
         <div>
          {menu.map((item, index) => (
-            <Link 
-              href='#' 
+            <div 
               key={index} 
-              className="flex items-end justify-between px-4 py-2 rounded-sm w-full hover:bg-gray-200 focus:bg-black focus:text-white"
+              className="flex items-end justify-between px-4 py-2 rounded-sm w-full cursor-pointer hover:bg-black hover:text-white"
+              onClick={() => router.push(item.link)}
             >
                 <div className='flex items-center gap-3'>
                   <item.icon size={14} strokeWidth={2} />
                   <span className='text-[13px] font-semibold'>{item.name}</span>
                 </div>
                 <span className='text-[11px] opacity-70'>{item.letter}</span>
-            </Link>
+            </div>
          ))}
         </div>
         <Dialog>
@@ -106,7 +110,7 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
             <div className='h-2 bg-black rounded-full' style={{width: `${progressPercentage}%`}}></div>
           </div>
           <p className='text-[12px] mt-2'>
-            <span className='font-bold'>{totalFiles}</span> out of <span className='font-bold'>{maxFiles}</span> files used.
+            <span className='font-bold'>{totalFiles || 0}</span> out of <span className='font-bold'>{maxFiles}</span> files used.
           </p>
           <p className='text-[12px]'>
             <Link href='/plans' className='underline'>Upgrade</Link> for unlimited access.

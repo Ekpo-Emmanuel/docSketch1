@@ -20,11 +20,10 @@ export const createFile = mutation({
 
 
 export const getFiles = query({
-    args: { teamId: v.string() },
+    args: {},
     handler: async (ctx: { db: { query: (arg0: string) => any; }; }, args: any) => {
         const result = await ctx.db.
           query("files")
-          .filter((q: { eq: (arg0: any, arg1: any) => any; field: (arg0: string) => any; }) => q.eq(q.field("teamId"), args.teamId))
           .collect();
 
         return result;

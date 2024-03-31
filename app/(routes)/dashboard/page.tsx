@@ -23,7 +23,8 @@ export default function DashboardPage() {
 
 
     useEffect(() => {
-      user && getAllUsers()
+      user && checkTeams();
+      user && getAllUsers();
     }, [user])
 
 
@@ -47,6 +48,18 @@ export default function DashboardPage() {
           console.error('Error fetching Users:', error);
       }
     };
+
+    const checkTeams = async () => {
+      try {
+        const result = await convex.query(api.teams.getTeam, { email: userEmail });
+        if (!result || result?.length === 0) {
+          router.push("/teams/create");
+          // console.log("User has no teams");
+        }
+      } catch (error) {
+        console.error('Error fetching Teams:', error);
+      }
+    }
 
     if (isLoading) return <LoadingAnimation />; 
 
