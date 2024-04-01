@@ -63,7 +63,7 @@ export default function TeamContainer() {
         </Link>
         {isLoading && <LoadingAnimation />}
         <div className="mt-8 flex gap-4 cursor-pointer">
-          {teamsData.map((team, index)  => (
+          {teamsData.sort((a, b) => b._creationTime - a._creationTime).map((team, index)  => (
               <div key={index} className="w-full p-2 flex items-center border-b-2 border-gray-200 hover:bg-gray-100">
                   <div className="w-full flex items-center gap-4">
                       <div className="bg-black w-10 h-10 rounded-md flex items-center justify-center text-white"> {firstLetter(team.teamName)} </div>

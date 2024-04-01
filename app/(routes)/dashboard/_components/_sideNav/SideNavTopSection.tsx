@@ -18,10 +18,9 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import Link from 'next/link'
-import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { useRouter } from 'next/navigation';
-import {useConvex} from 'convex/react'
+import {useConvex, useQuery } from 'convex/react'
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
 
 
@@ -58,24 +57,28 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
     const userEmail = email ? String(email) : '';
     const [teamList, setTeamList] = useState<Team[]>();
     const [activeTeam, setactiveTeam] = useState<Team>([]);
+    const teams = useQuery(api.teams.getTeam);
+
+
 
     useEffect(() => {
-        if (userEmail) {
-            getTeamList();
+        if (user && teams) {
+          setTeamList(teams);
+          setactiveTeam(teams[teams.length - 1]);
         }
-    }, [userEmail])
+      }, [user, teams]);
 
     useEffect(() => {
         activeTeam && setactiveTeamInfo(activeTeam);
     }, [activeTeam])
 
-    const getTeamList = async () => {
-        // setIsLoading(true);
-        const teamData = await convex.query(api.teams.getTeam);
-        setTeamList(teamData);
-        setactiveTeam(teamData[teamData.length - 1]);
-        // setIsLoading(false)
-    }
+  
+
+    // const getTeamList = async () => {
+    //     const teamData = await convex.query(api.teams.getTeam);
+    //     setTeamList(teamData);
+    //     setactiveTeam(teamData[teamData.length - 1]);
+    // }
 
     const onMenuClick = (item: any) => {
         setactiveTeam(item);

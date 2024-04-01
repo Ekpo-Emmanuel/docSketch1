@@ -21,8 +21,8 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
     <div className=''>
       <SideNav />
     </div>
-    <div className='sm:ml-64'>
-      <div className='p-4'>
+    <div className='sm:ml-60' >
+      <div className='p-3'>
         {children}
       </div>
     </div>
