@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: Readonly<{ children: React
 
   return isAuthenticated ? (
   <>
-    <div className='bg-[#F9F9F9]'>
+    <div className=''>
       <SideNav />
     </div>
     <div className='sm:ml-64'>

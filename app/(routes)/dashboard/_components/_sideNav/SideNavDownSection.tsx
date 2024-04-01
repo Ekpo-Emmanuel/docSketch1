@@ -55,8 +55,8 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
               className="flex items-end justify-between px-4 py-2 rounded-sm w-full cursor-pointer hover:bg-black hover:text-white"
               onClick={() => router.push(item.link)}
             >
-                <div className='flex items-center gap-3'>
-                  <item.icon size={14} strokeWidth={2} />
+                <div className='flex items-center gap-2'>
+                  <item.icon size={14} strokeWidth={1.5} />
                   <span className='text-[13px] font-semibold'>{item.name}</span>
                 </div>
                 <span className='text-[11px] opacity-70'>{item.letter}</span>
@@ -65,7 +65,7 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
         </div>
         <Dialog>
           <DialogTrigger asChild>
-            <button className="flex items-end justify-between bg-black px-4 py-2 rounded-sm w-full transition ease-in-out duration-300 focus:ring-2 focus:ring-offset-2 focus:ring-black">
+            <button className="flex items-end justify-between bg-black px-4 py-2 rounded-sm w-full transition ease-in-out duration-300 ">
               <span className='text-white text-[13px] font-semibold'>New File</span>
               <span className='text-white text-[11px] opacity-70'>CTRL N</span>
             </button>

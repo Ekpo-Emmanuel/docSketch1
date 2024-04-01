@@ -71,7 +71,7 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
 
     const getTeamList = async () => {
         // setIsLoading(true);
-        const teamData = await convex.query(api.teams.getTeam, { email: userEmail });
+        const teamData = await convex.query(api.teams.getTeam);
         setTeamList(teamData);
         setactiveTeam(teamData[teamData.length - 1]);
         // setIsLoading(false)

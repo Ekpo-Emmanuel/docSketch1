@@ -1,17 +1,29 @@
 import {v} from "convex/values";
 import { query, mutation } from "./_generated/server";
 
+// export const getTeam = query ({
+//     args: {email:v.string()},
+
+//     handler: async(ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { email: any; }) => {
+//         const result = await ctx.db.
+//         query('teams')
+//         .filter((q) => q.eq(q.field('createdBy'), args.email))
+//         .collect()
+
+//         return result
+//     }
+// })
+
 export const getTeam = query ({
-    args: {email:v.string()},
+  args: {},
 
-    handler: async(ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { email: any; }) => {
-        const result = await ctx.db.
-        query('teams')
-        .filter((q) => q.eq(q.field('createdBy'), args.email))
-        .collect()
+    handler: async (ctx: { db: { query: (arg0: string) => any; }; }, args: any) => {
+      const result = await ctx.db.
+      query('teams')
+      .collect()
 
-        return result
-    }
+      return result
+  }
 })
 
 

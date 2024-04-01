@@ -17,8 +17,8 @@ export default function DashboardPage() {
     const userEmail = String(email);
 
     const createUser = useMutation(api.user.createUser);
-    const getUser = useQuery(api.user.getUser, { email: userEmail });
-    const teamData = useQuery(api.teams.getTeam, { email: userEmail });
+    // const getUser = useQuery(api.user.getUser, { email: userEmail });
+    // const teamData = useQuery(api.teams.getTeam, { email: userEmail });
     const convex = useConvex();
 
 
@@ -51,7 +51,7 @@ export default function DashboardPage() {
 
     const checkTeams = async () => {
       try {
-        const result = await convex.query(api.teams.getTeam, { email: userEmail });
+        const result = await convex.query(api.teams.getTeam);
         if (!result || result?.length === 0) {
           router.push("/teams/create");
           // console.log("User has no teams");
