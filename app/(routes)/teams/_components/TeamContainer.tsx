@@ -55,6 +55,12 @@ export default function TeamContainer() {
     return teamName.split('')[0].toUpperCase();
   }
   
+  const delTeam = api.teams.deleteTeam;
+  function deleteTeam(id: string) {
+    // api.teams.deleteTeam(id);
+    // console.log(id)
+    console.log('deleted')
+  }
 
   return (
     <div className="mt-4">
@@ -62,9 +68,9 @@ export default function TeamContainer() {
             <FiPlus strokeWidth={3} /> Create New Team 
         </Link>
         {isLoading && <LoadingAnimation />}
-        <div className="mt-8 flex gap-4 cursor-pointer">
+        <div className="mt-8 lg:flex lg:gap-4 cursor-pointer sm:flex-col">
           {teamsData.sort((a, b) => b._creationTime - a._creationTime).map((team, index)  => (
-              <div key={index} className="w-full p-2 flex items-center border-b-2 border-gray-200 hover:bg-gray-100">
+              <div key={team._id} className="w-full p-2 flex items-center border-b-2 border-gray-200 hover:bg-gray-100">
                   <div className="w-full flex items-center gap-4">
                       <div className="bg-black w-10 h-10 rounded-md flex items-center justify-center text-white"> {firstLetter(team.teamName)} </div>
                       <div className="details flex flex-col gap-1">
@@ -80,9 +86,9 @@ export default function TeamContainer() {
                           </div>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent className="w-56">
-                            <DropdownMenuItem className='text-[13px] py-[4px]'>Rename</DropdownMenuItem>
-                            <DropdownMenuItem className='text-[13px] py-[4px]'>Edit Members</DropdownMenuItem>
-                            <DropdownMenuItem className='text-[13px] py-[4px]'>Delete</DropdownMenuItem>
+                            <DropdownMenuItem className='text-[13px] py-[4px] font-semibold cursor-pointer'>Rename</DropdownMenuItem>
+                            <DropdownMenuItem className='text-[13px] py-[4px] font-semibold cursor-pointer'>Members</DropdownMenuItem>
+                            <DropdownMenuItem className='text-[13px] py-[4px] font-semibold text-red-500 cursor-pointer' onClick={deleteTeam(team._id)}>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

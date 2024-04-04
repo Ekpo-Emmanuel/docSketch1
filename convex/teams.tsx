@@ -43,13 +43,22 @@ export const getTeamByName = query({
 
 
 export const createTeam = mutation({
-    args: { 
-        teamName: v.string(),
-        createdBy: v.string()
-     },
-    handler: async (ctx: { db: { insert: (arg0: string, arg1: any) => any; }; }, args: any) => {
-      const result = await ctx.db.insert("teams", args);
-
-      return result
+  args: { 
+      teamName: v.string(),
+      createdBy: v.string()
     },
-  });
+  handler: async (ctx: { db: { insert: (arg0: string, arg1: any) => any; }; }, args: any) => {
+    const result = await ctx.db.insert("teams", args);
+
+    return result
+  },
+});
+
+export const deleteTeam = mutation({
+  args: {
+    teamId: v.id("_id"),
+  },
+  handler: async (ctx, args) => {
+    return await ctx.storage.delete(args.teamId);
+  },
+});
