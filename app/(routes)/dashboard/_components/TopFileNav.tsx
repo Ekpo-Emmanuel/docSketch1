@@ -1,6 +1,8 @@
 import React from 'react'
 import Link from 'next/link'
 import { Send } from 'lucide-react';
+import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
+import Image from 'next/image'
 
 
 export default function TopFileNav() {
@@ -26,6 +28,8 @@ export default function TopFileNav() {
             link: '/all'
         },
     ]
+    const { user } = useKindeBrowserClient();
+
   return (
     <header>
         <div className="flex items-center justify-between">
@@ -47,7 +51,7 @@ export default function TopFileNav() {
                 </ul>
                 </nav>
             </div>
-            <div className="inline-flex items-center gap-4 list-none">
+            <div className="inline-flex items-center gap-2 list-none">
                 <div className="hidden md:block lg:ml-auto">
                     <div className="relative">
                         <span className="absolute inset-y-0 left-0 flex items-center pl-3">
@@ -68,7 +72,16 @@ export default function TopFileNav() {
                         />
                     </div>
                 </div>
-                <button className="inline-flex items-center gap-2 justify-center px-4 py-2 text-[14px] text-white bg-blue-500 rounded-sm group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-black active:bg-black active:text-white focus-visible:bg-black">
+                <div>
+                    <img
+                        src={user?.picture || ''}
+                        width={35}
+                        height={35}
+                        alt="profile"
+                        className="rounded-full"
+                    />
+                </div>
+                <button className="inline-flex items-center gap-2 justify-center px-4 py-2 text-[14px] text-white bg-blue-500 rounded-full group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-black active:bg-black active:text-white focus-visible:bg-black">
                     <Send size={14} strokeWidth={2}/>Invite
                 </button>
 

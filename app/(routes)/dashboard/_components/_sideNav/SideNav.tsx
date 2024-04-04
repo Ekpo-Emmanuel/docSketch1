@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import SideNavTopSection from './SideNavTopSection';
 import SideNavDownSection from './SideNavDownSection';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
@@ -8,6 +8,7 @@ import { useMutation, useConvex, useQuery } from "convex/react";
 import { api } from '@/convex/_generated/api';
 import { toast  } from "sonner"
 import { Menu } from 'lucide-react';
+import { FileListContext } from '@/app/_context/FIleListContent';
 
 
 
@@ -23,6 +24,7 @@ export default function SideNav() {
   const [IsLoadingFiles, setIsLoadingFiles] = useState(false);
   const convex = useConvex();
   const [totalFiles, setTotalFiles] = useState<Number>();
+  const {fileList_, setFileList_}: any = useContext(FileListContext);
 
   const toggleSideNav = () => {
     setIsOpen(!isOpen);
@@ -81,6 +83,7 @@ export default function SideNav() {
 
     // const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
     // console.log(tasks); 
+    setFileList_(tasks);
     setTotalFiles(tasks?.length);
   }
 
