@@ -127,12 +127,12 @@ export function DataTable<TDAta, TValue>({
                 {table.getRowModel().rows?.length ? (
                 table.getRowModel().rows.map((row: { id: React.Key | null | undefined; getIsSelected: () => any; getVisibleCells: () => any[] }) => (
                     <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
                     >
                     {row.getVisibleCells().map((cell: { id: React.Key | null | undefined; column: { columnDef: { cell: any } }; getContext: () => any }) => (
                         <TableCell key={cell.id}>
-                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                           <p className='text-[12px]'>{flexRender(cell.column.columnDef.cell, cell.getContext())}</p> 
                         </TableCell>
                     ))}
                     </TableRow>

@@ -21,9 +21,10 @@ export default function SideNav() {
   const sideNavRef = useRef(null);
   const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<NewType>();
+  const teamId = activeTeam?._id;
   const [IsLoadingFiles, setIsLoadingFiles] = useState(false);
   const convex = useConvex();
-  const [totalFiles, setTotalFiles] = useState<Number>();
+  const tasks = useQuery(api.files.getFiles);
   const {fileList_, setFileList_}: any = useContext(FileListContext);
 
   const toggleSideNav = () => {
@@ -46,7 +47,7 @@ export default function SideNav() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, []);
+  }, [activeTeam, teamId]);
 
   const onFileCreate = (fileName: string) => {
     createFile({
@@ -69,10 +70,8 @@ export default function SideNav() {
     })
   }
 
-  const tasks = useQuery(api.files.getFiles);
   const getFiles = async () => {
-    const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: activeTeam?._id });
-    const updatedFileList = [...fileList_, ...newFiles];
+    const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: teamId });
     setFileList_(newFiles);
   }
 

@@ -2,7 +2,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import DataTable from './data-table'
 import { columns } from './columns'
-import { fakeData } from './data1'
 import { FileListContext } from '@/app/_context/FIleListContent'
 
 
@@ -17,6 +16,7 @@ const AllFiles2 = (props: Props) => {
     useEffect(() => {
         setData(fileList_);
     }, [fileList_]);
+
 
     return (
         <div className="py-10">

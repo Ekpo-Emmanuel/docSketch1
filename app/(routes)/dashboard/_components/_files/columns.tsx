@@ -6,6 +6,7 @@ import {Link, Pen, Copy, Send, Trash2  } from 'lucide-react';
 import { ArrowUpDown, MoreHorizontal } from "lucide-react"
 import { RxDotsHorizontal } from "react-icons/rx";
 import { Checkbox } from "@/components/ui/checkbox"
+import moment from 'moment';
 
 
 import {
@@ -29,28 +30,28 @@ import { ReactElement, JSXElementConstructor, ReactNode, ReactPortal } from "rea
 
 
 export const columns: ColumnDef<Person>[] = [
-  {
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && "indeterminate")
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
+  // {
+  //   id: "select",
+  //   header: ({ table }) => (
+  //     <Checkbox
+  //       checked={
+  //         table.getIsAllPageRowsSelected() ||
+  //         (table.getIsSomePageRowsSelected() && "indeterminate")
+  //       }
+  //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+  //       aria-label="Select all"
+  //     />
+  //   ),
+  //   cell: ({ row }) => (
+  //     <Checkbox
+  //       checked={row.getIsSelected()}
+  //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+  //       aria-label="Select row"
+  //     />
+  //   ),
+  //   enableSorting: false,
+  //   enableHiding: false,
+  // },
   {
     accessorKey: 'name',
     header: ({ column }) => {
@@ -80,14 +81,11 @@ export const columns: ColumnDef<Person>[] = [
     },
     accessorKey: 'created',
     cell: (row: { getValue: (arg: string) => string | number | Date }) => {
-      const date = new Date(row.getValue('edited'));
-      const day = date.getDate();
-      const month = date.toLocaleString('default', { month: 'short' });
-      const year = date.getFullYear();
-      const formattedDate = `${day} ${month} ${year}`;
-      return (
-          <p className="text-[12px]">{formattedDate}</p>
-      );
+      const date = new Date(row.getValue('_creationTime'));
+      console.log(date) 
+      // return (
+      //     <p className="text-[12px]">{moment(date).format('MMMM Do YYYY, h:mm:ss a')}</p>
+      // );
     }
   },
   {
@@ -103,16 +101,16 @@ export const columns: ColumnDef<Person>[] = [
       )
     },
     accessorKey: 'edited',
-    cell: (row: { getValue: (arg: string) => string | number | Date }) => {
-      const date = new Date(row.getValue('edited'));
-      const day = date.getDate();
-      const month = date.toLocaleString('default', { month: 'short' });
-      const year = date.getFullYear();
-      const formattedDate = `${day} ${month} ${year}`;
-      return (
-          <p className="text-[12px]">{formattedDate}</p>
-      );
-    }
+    // cell: (row: { getValue: (arg: string) => string | number | Date }) => {
+    //   const date = new Date(row.getValue('edited'));
+    //   const day = date.getDate();
+    //   const month = date.toLocaleString('default', { month: 'short' });
+    //   const year = date.getFullYear();
+    //   const formattedDate = `${day} ${month} ${year}`;
+    //   return (
+    //       <p className="text-[12px]">{formattedDate}</p>
+    //   );
+    // }
   },
   {
     header: () => <p className="text-[10px] text-black">AUTHOR</p>,

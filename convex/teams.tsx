@@ -28,7 +28,7 @@ export const getTeam = query ({
 
 
 export const getTeamByName = query({
-  args: { teamName: v.string() },
+  args: { teamName: v.optional(v.string()) },
 
   handler: async (ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { teamName: any; }) => {
     const result = await ctx.db.
