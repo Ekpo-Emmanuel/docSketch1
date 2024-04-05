@@ -2,9 +2,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import DataTable, { TableColumn } from 'react-data-table-component';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { FileListContext } from '@/app/_context/FIleListContent';
-import { ArrowUpDown, MoreHorizontal } from "lucide-react"
-import {Link, Pen, Copy, Send, Trash2  } from 'lucide-react';
+import { Pen, Copy, Send, Trash2  } from 'lucide-react';
 import { RxDotsHorizontal } from "react-icons/rx";
+import {useRouter} from "next/navigation";
 
 import moment from 'moment'
 import {
@@ -12,13 +12,6 @@ import {
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
-    DropdownMenuLabel,
-    DropdownMenuPortal,
-    DropdownMenuSeparator,
-    DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
 
@@ -47,127 +40,109 @@ const customStyles = {
 };
 
 
-const columns: TableColumn<DataRow>[] = [
-    {
-        name: 'NAME',
-        selector: (row: { name: any; }) => {return <p className="text-[14px] capitalize">{row.name}</p>},
-        sortable: true,
-    },
-    {
-        name: 'CREATED',
-        selector: (row: { _creationTime: any; }) => {
-            return (
-                <p className="text-[12px]">{moment(row._creationTime).format('DD MMM YY')}</p>
-            )
-        },
-        sortable: true,
-        hide: 'md',
-    },
-    {
-        name: 'EDITED',
-        selector: (row: { _creationTime: any; }) => {
-            const time = moment(row._creationTime).fromNow();
-            return (
-                <p className="text-[12px] ">{time}</p>
-            )
-        },
-        sortable: true,
-        hide: 'md',
-    },
-    // {
-    //     name: 'COMMENTS',
-    //     selector: (row: { comments: any; }) => row.comments,
-    // },
-    {
-        name: 'AUTHOR',
-        selector: (row: { createdBy: any; })  => {
-            const {user}: any = useKindeBrowserClient();
-            return  (
-                <img src={user?.picture} className="rounded-full" width={35} height={35} alt={'author'} />
-            )
-        },
-        hide: 'sm',
-    },
-    // {
-    //     name: 'PICTURE',
-    //     cell: (row: { picture: any; }) => {
-    //         return <img src={row.picture} alt={row.picture} style={{ width: '50px', height: '50px' }} />;
-    //     }
-    // }
-    {
-        name: <RxDotsHorizontal size={20} />,
-        selector: (row: { name: any; }) => {
-                return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <div className='cursor-pointer rounded-sm'>
-                            <RxDotsHorizontal size={20} />
-                        </div>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
-                        <DropdownMenuGroup>
-                            {/* <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                                <div className='flex items-center gap-2' onClick={() => navigator.clipboard.writeText(personId)}>
-                                <Link strokeWidth={2} size={11} />
-                                <span className="text-[12px] font-semibold">Copy Link</span>
-                                </div>
-                                <p className="text-[11px] opacity-70">Alt ⇧ C</p>
-                            </DropdownMenuItem> */}
-                            <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                                <div className='flex items-center gap-2'>
-                                    <Pen strokeWidth={2} size={11} />
-                                    <span className="'text-[12px] font-semibold">Rename</span>
-                                </div>
-                                <p className="text-[11px] opacity-70">Alt ⇧ R</p>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                                <div className='flex items-center gap-2'>
-                                    <Send 
-                                    strokeWidth={2}
-                                    size={11}
-                                    />
-                                    <span className="'text-[12px] font-semibold">Share</span>
-                                </div>
-                                <p className="text-[11px] opacity-70">Ctrl I</p>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                                <div className='flex items-center gap-2'>
-                                    <Copy 
-                                        strokeWidth={2}
-                                        size={11}
-                                    />
-                                    <span className="'text-[12px] font-semibold">Duplicate</span>
-                                </div>
-                                <p className="text-[11px] opacity-70">Ctrl ⇧ D</p>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
-                                <div className='flex items-center gap-2'>
-                                    <Trash2 
-                                    strokeWidth={2}
-                                    size={11}
-                                    />
-                                    <span className="'text-[12px] font-semibold">Delete</span>
-                                </div>
-                                <p className="text-[11px] opacity-70">Alt ⇧ W</p>
-                            </DropdownMenuItem>
-                        </DropdownMenuGroup>
-                    </DropdownMenuContent>
-                </DropdownMenu>
-            )
-        },
-        right: true,
-
-    }
-];
-
 const AllFiles: React.FC<{ user: any }> = ({ user }) => {
-    const { user: user_ } = useKindeBrowserClient();
-    const { email, given_name: firstName, family_name: lastName, picture } = user || {};
-    const userEmail = email ? String(email) : '';
     const { fileList_, setFileList_ }: any = useContext(FileListContext);
     const [data, setData] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggledClearRows, setToggleClearRows] = useState(false);
+    const router = useRouter();
+
+    const columns: TableColumn<DataRow>[] = [
+        {
+            name: 'NAME',
+            selector: (row: { name: any, _id: any }) => {return <p className="text-[14px] capitalize" onClick={() => router.push(`/workspace/${row._id}`)}>{row.name}</p>},
+            sortable: true,
+        },
+        {
+            name: 'CREATED',
+            selector: (row: { _creationTime: any, _id: any; }) => {
+                return (
+                    <p className="text-[12px]" onClick={() => router.push(`/workspace/${row._id}`)}>{moment(row._creationTime).format('DD MMM YY')}</p>
+                )
+            },
+            sortable: true,
+            hide: 'md',
+        },
+        {
+            name: 'EDITED',
+            selector: (row: { _creationTime: any, _id: any; }) => {
+                const time = moment(row._creationTime).fromNow();
+                return (
+                    <p className="text-[12px] " onClick={() => router.push(`/workspace/${row._id}`)}>{time}</p>
+                )
+            },
+            sortable: true,
+            hide: 'md',
+        },
+        {
+            name: 'AUTHOR',
+            selector: (row: { createdBy: any, _id: any; })  => {
+                const {user}: any = useKindeBrowserClient();
+                return  (
+                    <img src={user?.picture} className="rounded-full" width={35} height={35} alt={'author'} onClick={() => router.push(`/workspace/${row._id}`)}/>
+                )
+            },
+            hide: 'sm',
+        },
+        {
+            name: <RxDotsHorizontal size={20} />,
+            selector: (row: { name: any; }) => {
+                    return (
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <div className='cursor-pointer rounded-sm'>
+                                <RxDotsHorizontal size={20} />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Pen strokeWidth={2} size={11} />
+                                        <span className="'text-[12px] font-semibold">Rename</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Alt ⇧ R</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Send 
+                                        strokeWidth={2}
+                                        size={11}
+                                        />
+                                        <span className="'text-[12px] font-semibold">Share</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Ctrl I</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Copy 
+                                            strokeWidth={2}
+                                            size={11}
+                                        />
+                                        <span className="'text-[12px] font-semibold">Duplicate</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Ctrl ⇧ D</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Trash2 
+                                        strokeWidth={2}
+                                        size={11}
+                                        />
+                                        <span className="'text-[12px] font-semibold">Delete</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Alt ⇧ W</p>
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                )
+            },
+            right: true,
+    
+        }
+    ];
+    
 
     useEffect(() => {
         setData(fileList_);
@@ -192,6 +167,11 @@ const AllFiles: React.FC<{ user: any }> = ({ user }) => {
     };
 
     const handleSort = (column: { selector: any; }, sortDirection: any) => console.log(column.selector, sortDirection);
+
+    const handleFileClick = (filename: string) => {
+        const router = useRouter();
+        router.push(`/file/view/${filename}`, undefined, { shallow: true }); // Open in a new tab
+    };
 
     return (
         <div className=''>
@@ -223,7 +203,6 @@ const AllFiles: React.FC<{ user: any }> = ({ user }) => {
                 data={data}
                 responsive={true}
                 selectableRows
-                // onSelectedRowsChange={handleChange}
                 customStyles={customStyles}
                 pagination
                 fixedHeader
