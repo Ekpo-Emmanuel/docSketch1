@@ -71,20 +71,9 @@ export default function SideNav() {
 
   const tasks = useQuery(api.files.getFiles);
   const getFiles = async () => {
-    // try {
-    //   // setIsLoadingFiles(true);
-    //   const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
-    //   console.log(result);
-    // } catch (error) {
-    //   console.error('Error fetching files:', error);
-    // } finally {
-    //   setIsLoadingFiles(false);
-    // }
-
-    // const result = await convex.query(api.files.getFiles, { teamId: activeTeam?._id });
-    // console.log(tasks); 
-    setFileList_(tasks);
-    setTotalFiles(tasks?.length);
+    const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: activeTeam?._id });
+    const updatedFileList = [...fileList_, ...newFiles];
+    setFileList_(newFiles);
   }
 
 

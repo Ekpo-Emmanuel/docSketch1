@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
     ColumnDef,
     flexRender,
@@ -22,6 +22,7 @@ import {
 
 import { Button } from '@/components/ui/button'
 import {ChevronsLeft, ChevronsRight, ChevronLast, ChevronFirst} from 'lucide-react'
+import { FileListContext } from '@/app/_context/FIleListContent'
 
 
 
@@ -37,7 +38,6 @@ export function DataTable<TDAta, TValue>({
     data,
 }: DataTableProps<TDAta, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([])
-
     const table = useReactTable({
         data,
         columns,
@@ -58,7 +58,7 @@ export function DataTable<TDAta, TValue>({
 
     return (
         <div className="">
-            <div className="flex items-center justify-end space-x-1 mb-6">
+            {/* <div className="flex items-center justify-end space-x-1 mb-6">
                 <button
                     className={`flex items-center justify-center hover:bg-gray-200 px-2 h-8 text-[12px] font-medium text-black bg-gray-100 rounded-sm ${!table.getCanPreviousPage() ? 'hover:bg-slate-50 bg-slate-50 text-slate-500 hover:bg-transparent' : 'hover:bg-gray-100'}`}
                     onClick={() => table.firstPage()}
@@ -103,7 +103,7 @@ export function DataTable<TDAta, TValue>({
                 <div className="flex">
 
                 </div>
-            </div>
+            </div> */}
             <Table>
             <TableHeader>
                 {table.getHeaderGroups().map((headerGroup: { id: React.Key | null | undefined; headers: any[] }) => (
