@@ -3,13 +3,15 @@ import { HiOutlineArrowNarrowRight } from "react-icons/hi";
 import Link from "@/node_modules/next/link";
 import {LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
+import LoadingAnimation from "./LoadingAnimation";
 
 
 
 export default function Hero() {
-  const {user} = useKindeBrowserClient();
+  const {user, isLoading} = useKindeBrowserClient();
 
-  return (
+
+  return !isLoading ? (
     <>
       <section className="items-center justify-center flex py-24 ">
         <div className="relative items-center w-full px-5 mx-auto lg:px-16 max-w-7xl md:px-12">
@@ -41,5 +43,5 @@ export default function Hero() {
         </div>
       </section>
     </>
-  )
+  ): <LoadingAnimation />
 }

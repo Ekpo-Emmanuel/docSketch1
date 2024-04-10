@@ -32,8 +32,8 @@ interface MenuItem {
 
 export default function WorkSpaceHeader() {
     const menu: MenuItem[] = [
-        { name: 'Join or Create Team', icon: Users, link: '/teams/create' },
-        { name: 'Settings', icon: Settings, link: '/' },
+        { name: 'Dashboard', icon: Users, link: '/teams/create' },
+        { name: 'Export', icon: Settings, link: '/' },
     ];
   return (
     <div className='p-2'>
@@ -48,10 +48,10 @@ export default function WorkSpaceHeader() {
                 <DropdownMenuContent className="w-56">
                     <DropdownMenuGroup>
                         <DropdownMenuSub>
-                            <DropdownMenuSubTrigger className='text-[13px] font-semibold py-[4px]'>Invite users</DropdownMenuSubTrigger>
+                            <DropdownMenuSubTrigger className='text-[13px] font-semibold py-[4px]'>Helop</DropdownMenuSubTrigger>
                             <DropdownMenuPortal>
                                 <DropdownMenuSubContent>
-                                    <DropdownMenuItem className='text-[13px] py-[4px]'>Email</DropdownMenuItem>
+                                    <DropdownMenuItem className='text-[13px] py-[4px]'>Send </DropdownMenuItem>
                                     <DropdownMenuItem className='text-[13px] py-[4px]'>Message</DropdownMenuItem>
                                     <DropdownMenuSeparator />
                                     <DropdownMenuItem className='text-[13px] py-[4px]'>More...</DropdownMenuItem>

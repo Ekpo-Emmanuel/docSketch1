@@ -2,7 +2,8 @@
 
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
-import Features from "../_components/Features";
+// import Features from "../_components/Features";
+import Features from "../_components/_features/Features";
 import Header from "../_components/Header";
 import Hero from "../_components/Hero";
 import LoadingAnimation from "../_components/LoadingAnimation";

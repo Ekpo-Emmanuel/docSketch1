@@ -1,8 +1,15 @@
 import React from 'react'
 
 export default function Features() {
+  const features = [
+    {
+      title: 'AI Powered Text Editor',
+      description: 'Level up your writing: AI helps with clarity, style, and grammar.',
+    }
+  ]
   return (
   <div className="relative items-center w-full px-5 py-12 mx-auto md:px-12 lg:px-20 max-w-7xl">
+    <span>Document & Collaboration Features:</span>
     <div className="grid grid-cols-2 gap-6 py-12 md:grid-cols-2 lg:grid-cols-4">
       <figure>
         {/* <img
@@ -13,11 +20,10 @@ export default function Features() {
           height={873}
         /> */}
         <p className="mt-5 text-lg font-medium leading-6 text-black">
-          G-Radient is back in town
+          AI Powered text Editor
         </p>
         <p className="mt-3 text-base text-gray-500">
-          Your design portfolio website shouldn’t just be a portfolio, it should
-          also be a sales tool.
+        Level up your writing: AI helps with clarity, style, and grammar.
         </p>
         <div className="flex gap-3 mt-10 justify-left">
           <a

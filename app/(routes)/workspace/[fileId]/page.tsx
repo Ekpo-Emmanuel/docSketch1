@@ -12,17 +12,17 @@ export default function Workspace() {
     <div className='px-2'>
       <WorkSpaceHeader />
 
-      {/* <div className='grid grid-cols-1 lg:grid-cols-2 mt-3 m-2 rounded-sm'>
-        <div className=' h-screen rounded-sm p-2 border b-1'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 mt-3 m-2 rounded-sm'>
+        <div className=' h-screen rounded-sm p-2 border b-1 pl-10'>
           <Editor />
         </div>
 
         <div className=' h-screen rounded-sm p-2 bg-blue-500'>
           Canvas
         </div>
-      </div> */}
+      </div>
 
-      <ResizablePanelGroup
+      {/* <ResizablePanelGroup
         direction="horizontal"
         className="h-screen rounded-lg border "
       >
@@ -37,7 +37,7 @@ export default function Workspace() {
             <span className="font-semibold">Content</span>
           </div>
         </ResizablePanel>
-      </ResizablePanelGroup>
+      </ResizablePanelGroup> */}
     </div>
   )
 }
