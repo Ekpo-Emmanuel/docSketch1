@@ -13,17 +13,19 @@ import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuPortal,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuSub,
-  DropdownMenuSubContent,
-  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+DialogClose,
+} from "@/components/ui/dialog"
 import React, { useState, useEffect } from "react";
 
 
@@ -88,7 +90,7 @@ export default function TeamContainer() {
                         <DropdownMenuContent className="w-56">
                             <DropdownMenuItem className='text-[13px] py-[4px] font-semibold cursor-pointer'>Rename</DropdownMenuItem>
                             <DropdownMenuItem className='text-[13px] py-[4px] font-semibold cursor-pointer'>Members</DropdownMenuItem>
-                            <DropdownMenuItem className='text-[13px] py-[4px] font-semibold text-red-500 cursor-pointer' onClick={deleteTeam(team._id)}>Delete</DropdownMenuItem>
+                                <DropdownMenuItem className='text-[13px] py-[4px] font-semibold text-red-500 cursor-pointer'>Delete</DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu>
                   </div>
