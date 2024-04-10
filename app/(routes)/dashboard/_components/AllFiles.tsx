@@ -5,6 +5,7 @@ import { FileListContext } from '@/app/_context/FIleListContent';
 import { Pen, Copy, Send, Trash2  } from 'lucide-react';
 import { RxDotsHorizontal } from "react-icons/rx";
 import {useRouter} from "next/navigation";
+import Link from "next/link";
 
 import moment from 'moment'
 import {
@@ -40,8 +41,9 @@ const customStyles = {
 };
 
 
-const AllFiles: React.FC<{ user: any }> = ({ user }) => {
+const AllFiles: React.FC<{ user: any }> = () => {
     const { fileList_, setFileList_ }: any = useContext(FileListContext);
+    const {user}: any = useKindeBrowserClient();
     const [data, setData] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggledClearRows, setToggleClearRows] = useState(false);
@@ -50,14 +52,14 @@ const AllFiles: React.FC<{ user: any }> = ({ user }) => {
     const columns: TableColumn<DataRow>[] = [
         {
             name: 'NAME',
-            selector: (row: { name: any, _id: any }) => {return <p className="text-[14px] capitalize" onClick={() => router.push(`/workspace/${row._id}`)}>{row.name}</p>},
+            selector: (row: { name: any, _id: any }) => {return <Link href={`/workspace/${row._id}`} className="text-[14px] capitalize" >{row.name}</Link>},
             sortable: true,
         },
         {
             name: 'CREATED',
             selector: (row: { _creationTime: any, _id: any; }) => {
                 return (
-                    <p className="text-[12px]" onClick={() => router.push(`/workspace/${row._id}`)}>{moment(row._creationTime).format('DD MMM YY')}</p>
+                    <Link href={`/workspace/${row._id}`} className="text-[12px]">{moment(row._creationTime).format('DD MMM YY')}</Link>
                 )
             },
             sortable: true,
@@ -68,7 +70,7 @@ const AllFiles: React.FC<{ user: any }> = ({ user }) => {
             selector: (row: { _creationTime: any, _id: any; }) => {
                 const time = moment(row._creationTime).fromNow();
                 return (
-                    <p className="text-[12px] " onClick={() => router.push(`/workspace/${row._id}`)}>{time}</p>
+                    <Link href={`/workspace/${row._id}`} className="text-[12px]">{time}</Link>
                 )
             },
             sortable: true,
@@ -122,6 +124,13 @@ const AllFiles: React.FC<{ user: any }> = ({ user }) => {
                                         <span className="'text-[12px] font-semibold">Duplicate</span>
                                     </div>
                                     <p className="text-[11px] opacity-70">Ctrl ⇧ D</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Pen strokeWidth={2} size={11} />
+                                        <span className="'text-[12px] font-semibold">Manage Team</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Alt ⇧ T</p>
                                 </DropdownMenuItem>
                                 <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
                                     <div className='flex items-center gap-2'>

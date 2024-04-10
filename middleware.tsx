@@ -7,5 +7,7 @@ export const config = {
         "/dashboard",
         "/teams",
         "/teams/create",
+        "/workspace",
+        "/workspace/:path*",
     ]
 };

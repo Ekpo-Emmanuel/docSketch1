@@ -91,7 +91,7 @@ export default function SideNav() {
       ></div>
       <div
         ref={sideNavRef}
-        className={`fixed top-0 bg-[#F9F9F9] left-0 z-40 p-2 py-4 w-60 h-screen flex flex-col transition-transform ${
+        className={`fixed top-0 bg-[#F9F9F9 left-0 z-40 p-2 py-4 w-60 h-screen flex flex-col transition-transform ${
           isOpen ? '' : '-translate-x-full sm:translate-x-0'
         }`}
       >

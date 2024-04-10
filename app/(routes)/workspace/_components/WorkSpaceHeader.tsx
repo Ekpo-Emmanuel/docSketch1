@@ -40,7 +40,7 @@ export default function WorkSpaceHeader() {
         <div className='flex gap-2 items-center justify-between'>
             <div className='flex gap-2 '>
                 <img src="https://flowbite.com/docs/images/logo.svg" className=" h-5" alt="Flowbite Logo" />
-                <h2>File Name</h2>
+                <h2 className='font-bold'>File Name</h2>
                 <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                     <span className='cursor-pointer hover:bg-slate-300 mt-auto' > <TbDots  /> </span>
