@@ -42,40 +42,40 @@ export default function WorkSpaceHeader() {
                 <img src="https://flowbite.com/docs/images/logo.svg" className=" h-5" alt="Flowbite Logo" />
                 <h2 className='font-bold'>File Name</h2>
                 <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                    <span className='cursor-pointer hover:bg-slate-300 mt-auto' > <TbDots  /> </span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56">
-                    <DropdownMenuGroup>
-                        <DropdownMenuSub>
-                            <DropdownMenuSubTrigger className='text-[13px] font-semibold py-[4px]'>Helop</DropdownMenuSubTrigger>
-                            <DropdownMenuPortal>
-                                <DropdownMenuSubContent>
-                                    <DropdownMenuItem className='text-[13px] py-[4px]'>Send </DropdownMenuItem>
-                                    <DropdownMenuItem className='text-[13px] py-[4px]'>Message</DropdownMenuItem>
-                                    <DropdownMenuSeparator />
-                                    <DropdownMenuItem className='text-[13px] py-[4px]'>More...</DropdownMenuItem>
-                                </DropdownMenuSubContent>
-                            </DropdownMenuPortal>
-                        </DropdownMenuSub>
-                        {menu.map((item, index) => (
-                            <Link href={item.link} key={index}>
+                    <DropdownMenuTrigger asChild>
+                        <span className='cursor-pointer hover:bg-slate-300 mt-auto mb-auto' > <TbDots  /> </span>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56">
+                        <DropdownMenuGroup>
+                            <DropdownMenuSub>
+                                <DropdownMenuSubTrigger className='text-[13px] font-semibold py-[4px]'>Helop</DropdownMenuSubTrigger>
+                                <DropdownMenuPortal>
+                                    <DropdownMenuSubContent>
+                                        <DropdownMenuItem className='text-[13px] py-[4px]'>Send </DropdownMenuItem>
+                                        <DropdownMenuItem className='text-[13px] py-[4px]'>Message</DropdownMenuItem>
+                                        <DropdownMenuSeparator />
+                                        <DropdownMenuItem className='text-[13px] py-[4px]'>More...</DropdownMenuItem>
+                                    </DropdownMenuSubContent>
+                                </DropdownMenuPortal>
+                            </DropdownMenuSub>
+                            {menu.map((item, index) => (
+                                <Link href={item.link} key={index}>
+                                    <DropdownMenuItem className='text-[13px] font-semibold py-[4px] flex gap-2'>
+                                        <item.icon size={16} strokeWidth={2} /> {item.name}
+                                    </DropdownMenuItem>
+                                </Link>
+                            ))}
+                            <LogoutLink>
                                 <DropdownMenuItem className='text-[13px] font-semibold py-[4px] flex gap-2'>
-                                    <item.icon size={16} strokeWidth={2} /> {item.name}
+                                    <LogOut size={16} strokeWidth={1} />
+                                    Logout
                                 </DropdownMenuItem>
-                            </Link>
-                        ))}
-                        <LogoutLink>
-                            <DropdownMenuItem className='text-[13px] font-semibold py-[4px] flex gap-2'>
-                                <LogOut size={16} strokeWidth={1} />
-                                Logout
-                            </DropdownMenuItem>
-                        </LogoutLink>
-                    </DropdownMenuGroup>
-                    <DropdownMenuSeparator />
-                    {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
-                </DropdownMenuContent>
-            </DropdownMenu>
+                            </LogoutLink>
+                        </DropdownMenuGroup>
+                        <DropdownMenuSeparator />
+                        {/* <DropdownMenuItem disabled>API</DropdownMenuItem> */}
+                    </DropdownMenuContent>
+                </DropdownMenu>
             </div>
             <div className='flex items-center gap-2'>
                 <button className='bg-black text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm font-semibold'>Save <IoSaveSharp  /></button>

@@ -13,7 +13,7 @@ export default function Workspace() {
       <WorkSpaceHeader />
 
       <div className='grid grid-cols-1 lg:grid-cols-2 mt-3 m-2 rounded-sm'>
-        <div className=' h-screen rounded-sm p-2 border b-1 pl-10'>
+        <div className=' h-screen rounded-sm p-2 border b-1'>
           <Editor />
         </div>
 

@@ -74,12 +74,12 @@ export const Editor = () => {
                 },
                 image: {
                     class: ImageTool,
-                    config: {
-                      endpoints: {
-                        byFile: 'http://localhost:3000/workspace/jd74jdgppbtcaadqczsz3dfmjh6pm008', // Your backend file uploader endpoint
-                        byUrl: 'http://localhost:3000/workspace/jd74jdgppbtcaadqczsz3dfmjh6pm008', // Your endpoint that provides uploading by Url
-                      }
-                    }
+                    // config: {
+                    //   endpoints: {
+                    //     byFile: 'http://localhost:3000/workspace/jd7ftd7rf7bcfqa0n2ez0c9ry96pz2bb', // Your backend file uploader endpoint
+                    //     byUrl: 'http://localhost:3000/workspace/jd74jdgppbtcaadqczsz3dfmjh6pm008', // Your endpoint that provides uploading by Url
+                    //   }
+                    // }
                 },
             },
             holder: 'editorjs',
@@ -90,8 +90,8 @@ export const Editor = () => {
     }
   return (
     <div>
-        {/* <div id='editorjs' className='m-4 sm:m-10'></div> */}
-        <div id='editorjs' className='m-8'></div>
+        <div id='editorjs' className='sm:m-8'></div>
+        {/* <div id='editorjs' className='m-8 '></div> */}
     </div>
   )
 }
