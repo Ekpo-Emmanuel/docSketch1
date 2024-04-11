@@ -30,7 +30,7 @@ interface MenuItem {
 }
 
 
-export default function WorkSpaceHeader() {
+export default function WorkSpaceHeader({onSave}: any) {
     const menu: MenuItem[] = [
         { name: 'Dashboard', icon: Users, link: '/teams/create' },
         { name: 'Export', icon: Settings, link: '/' },
@@ -78,8 +78,8 @@ export default function WorkSpaceHeader() {
                 </DropdownMenu>
             </div>
             <div className='flex items-center gap-2'>
-                <button className='bg-black text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm font-semibold'>Save <IoSaveSharp  /></button>
-                <button className='bg-blue-500 text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm hover:bg-black font-semibold'>Share <IoMdShare  /> </button>
+                <button className='bg-black text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm font-semibold' onClick={() => onSave()}><IoSaveSharp /> Save</button>
+                <button className='bg-blue-500 text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm hover:bg-black font-semibold'> <IoMdShare  />Share </button>
             </div>
         </div>
     </div>

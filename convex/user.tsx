@@ -22,7 +22,7 @@ export const createUser = mutation({
         email: v.string(),
         image: v.string()
     },
-    handler: async (ctx: { db: { insert: (arg0: string, arg1: { text: any; }) => any; }; }, args: any) => {
+    handler: async (ctx: any, args: any) => {
       return await ctx.db.insert("users", { text: args });
     },
   });

@@ -44,3 +44,17 @@ export const getFilesByTeamId = query({
       return result;
   }
 })
+
+
+export const updateDocument = mutation({
+  args: {
+    _id: v.id("files"),
+    document: v.string()
+  },
+
+  handler: async(ctx: any, args: any) => {
+    const result = await ctx.db.patch("files", {args});
+
+    return result;
+  }
+})

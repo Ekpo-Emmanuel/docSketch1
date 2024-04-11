@@ -18,6 +18,10 @@ import ImageTool from '@editorjs/image';
 // @ts-ignore
 import Embed from '@editorjs/embed';
 
+import { api } from "@/convex/_generated/api";
+import { useMutation } from "convex/react";
+import { toast } from "sonner"
+
 const rawDocument = {
     "time": 1550476186479,
     "blocks" : [
@@ -40,15 +44,39 @@ const rawDocument = {
     "version" : "2.8.1"
 }
 
-export const Editor = () => {
+export const Editor = ({onSaveTrigger, fileId}: any) => {
     const [document, setDocument] = React.useState(rawDocument);
     const ref = React.useRef<EditorJS>()
+    const updateDocumentMutation = useMutation(api.files.updateDocument);
+
     useEffect(() => {
         initializeEditor()
-    })
+    }, [])
+
+    useEffect(() => {
+        console.log('trigger value:', onSaveTrigger);
+        onSaveTrigger && onSaveDocument();
+    }, [onSaveTrigger])
+
+    const onSaveDocument = async () => {
+        try {
+            if (ref.current) {
+                const outputData = await ref.current.save();
+
+                await updateDocumentMutation.mutate({
+                    _id: fileId,
+                    document: JSON.stringify(outputData)
+                });
+                toast("Document saved successfully");
+                console.log('file saved');
+            }
+        } catch (error) {
+            toast("Document failed to save");
+            console.log('Saving failed: ', error);
+        }
+    }
 
     const initializeEditor = () => {
-
         const editor = new EditorJS({
             tools: {
                 header: {
