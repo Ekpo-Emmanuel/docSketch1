@@ -60,7 +60,7 @@ export default function SideNav() {
     })
     .then((res: any) => {
       getFiles();
-      toast.message('File Created Successfully', {
+      toast.success('File Created Successfully', {
         description: 'by ' + user?.email,
       })
     })

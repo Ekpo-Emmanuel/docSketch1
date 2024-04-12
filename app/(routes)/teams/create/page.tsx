@@ -26,14 +26,14 @@ export default function page() {
       .then((res: any) => {
         if (res) {
           console.log('New Team created,' + res)
-          toast.message('Successfully Created New Team', {
+          toast.success('Successfully Created New Team', {
             description: 'Created by ' + user?.email,
           })
           router.push('/dashboard')
         }
       })
       .catch((err:any) => {
-        toast.error('Error creating Team. Contact Devleoper')
+        toast.error('Error creating Team. Try again later')
         console.log(err)
       })
     }
