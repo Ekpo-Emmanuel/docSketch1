@@ -14,7 +14,7 @@ export default function page() {
       {/* <SideNav /> */}
       <div className='sm:ml-64'>
         <div className='p-4'>
-          <TeamBody />
+          {/* <TeamBody /> */}
         </div>
       </div>
     </>
