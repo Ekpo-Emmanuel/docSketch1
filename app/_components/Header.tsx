@@ -5,8 +5,8 @@ import { useState } from "react"
 import Link from "@/node_modules/next/link";
 import {RegisterLink, LoginLink, LogoutLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
-
-
+import logo from '../../public/images/logo.svg';
+import Image from 'next/image';
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -18,18 +18,15 @@ export default function Header() {
   return (
     <>
       <div className="w-full mx-auto bg-white 2xl:max-w-7xl">
-      <div className="relative flex flex-col w-full p-5 mx-auto bg-white md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
+      <div className="relative flex flex-col w-full p-3 mx-auto bg-white md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
         <div className="flex flex-row items-center justify-between lg:justify-start">
           <Link href="/" className="flex items-center">
-            <img
-              src="https://flowbite.com/docs/images/logo.svg"
-              className="mr-3 h-6 sm:h-9"
-              
-              alt="Flowbite Logo"
+            <Image
+              src={logo}
+              alt="Logo"
+              width={80}
+              height={80}
             />
-            <span className="self-center text-xl font-semibold whitespace-nowrap dark:text-white">
-              Eraser.io
-            </span>
           </Link>
           <button onClick={toggleOpen} className="inline-flex items-center justify-center p-2  hover:text-black focus:outline-none focus:text-black md:hidden">
           <svg className="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -39,7 +36,7 @@ export default function Header() {
         </button>
         </div>
         <nav className={`flex-col items-center flex-grow ${open ? 'flex' : 'hidden'} ${!open ? 'hidden' : ''} md:pb-0 md:flex md:justify-end md:flex-row`}>
-          <Link className="px-2 py-2 text-sm lg:px-6 md:px-3 hover:text-blue-600 lg:ml-auto" href="#">
+          {/* <Link className="px-2 py-2 text-sm lg:px-6 md:px-3 hover:text-blue-600 lg:ml-auto" href="#">
             About
           </Link>
           <Link className="px-2 py-2 text-sm lg:px-6 md:px-3 hover:text-blue-600" href="#">
@@ -47,7 +44,7 @@ export default function Header() {
           </Link>
           <Link className="px-2 py-2 text-sm lg:px-6 md:px-3 hover:text-blue-600" href="#">
             Documentation
-          </Link>
+          </Link> */}
 
           {user ? 
             (

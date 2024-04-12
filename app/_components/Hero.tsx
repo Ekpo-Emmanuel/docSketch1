@@ -4,44 +4,64 @@ import Link from "@/node_modules/next/link";
 import {LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import LoadingAnimation from "./LoadingAnimation";
+import localFont from '@next/font/local';
+import { BsStars } from "react-icons/bs";
 
-
+const myFont1 = localFont({
+  src: [
+    {
+      path: '../../public/fonts/akira/Akira Expanded Demo.otf',
+      weight: '400',
+      style: 'normal',
+    },
+  ],
+  variable: '--my-font',
+});
 
 export default function Hero() {
   const {user, isLoading} = useKindeBrowserClient();
 
 
   return !isLoading ? (
-    <>
-      <section className="items-center justify-center flex py-24 ">
-        <div className="relative items-center w-full px-5 mx-auto lg:px-16 max-w-7xl md:px-12">
-          <div className="max-w-3xl mx-auto text-center">
-            <div>
-              <span className="w-auto px-6 py-2 rounded-full text-sm bg-black/5">
-                <span className="text-sm font-medium">See what's new | <span className="text-sm font-medium text-blue-600">AI Diagram</span></span>
+    <div className="">
+      <section>
+        <div className="h-full px-8 py-24 mx-auto lg:py-32 md:px-12 lg:px-32 max-w-7xl">
+          <div className="text-center">
+                  <span className="text-sm font-medium flex gap-2 items-center justify-center bg-[#f2f2f2] text-base text-gray-500 w-fit m-auto px-6 py-1 rounded-full ">See what's new  <span className="text-sm font-medium text-blue-600 flex"> <BsStars /> AI Diagram</span></span>
+              <p className="text-4xl mt-4 font-bold leading-relaxed tracking-tighter text-gray-800 lg:text-7xl">
+              Documents and Diagrams
+              <span className="text-blue-500 lg:block">for students and teams</span>
+            </p>
+            <p className="mt-4 text-base text-gray-500">
+            All-in-one markdown editor, collaborative canvas,
+              <span className="lg:block">
+                {" "}
+                and diagram-as-code builder
               </span>
-              <p className="mt-8 text-3xl font-extrabold tracking-tight  lg:text-6xl">
-                Documents & diagrams
-                <span className="md:block"> for students and teams</span>
-              </p>
-              <p className="max-w-xl mx-auto mt-8 text-base text:md lg:text-xl text-gray-500">
-                All-in-one markdown editor, collaborative canvas, and diagram-as-code builder
-              </p>
-            </div>
-            <div className="flex flex-col justify-center max-w-sm gap-3 mx-auto mt-10 sm:flex-row">
+            </p>
+            <div className="flex flex-col items-center justify-center gap-3 mt-10 md:flex-row">
               {user ? (
-                <Link href={"/dashboard"} className="ocus:outline-none inline-flex gap-2 items-center text-white justify-center rounded-md bg-blue-700 duration-200 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:w-auto px-6 py-3 text-center w-full">
-                  Enter Dashboard <HiOutlineArrowNarrowRight />
+                  <Link
+                  className="flex items-center justify-center w-full h-10 px-4 py-2 text-sm font-semibold text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600 md:w-auto"
+                  href="/dashboard"
+                >
+                  Enter Dashboard →
                 </Link>
-              ) : (
-                <LoginLink className="ocus:outline-none inline-flex gap-2 items-center text-white justify-center rounded-md bg-blue-700 duration-200 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 lg:w-auto px-6 py-3 text-center w-full">
-                  Try Eraser <HiOutlineArrowNarrowRight />
-                </LoginLink>
+                ) : (
+                  <LoginLink className="flex items-center justify-center w-full h-10 px-4 py-2 text-sm font-semibold text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600 md:w-auto">
+                    Try docSketch Now →
+                  </LoginLink>
               )}
+              <a
+                className="flex items-center justify-center w-full h-10 px-4 py-2 text-sm text-blue-500 transition-all bg-white border border-gray-300 rounded-lg md:w-auto md:font-semibold hover:text-blue-400"
+                href="#_"
+              >
+                Learn more
+              </a>
             </div>
           </div>
         </div>
       </section>
-    </>
+    </div>
   ): <LoadingAnimation />
 }

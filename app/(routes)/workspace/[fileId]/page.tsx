@@ -15,6 +15,7 @@ export default function Workspace({...props}: any) {
   const isSmallScreen = useMediaQuery({ query: '(max-width: 768px)' }); 
   const direction = isSmallScreen ? 'vertical' : props.direction || 'horizontal'; 
   const contentMinSize = isSmallScreen ? 20 : 50;
+  const canvasMinSize = isSmallScreen ? 20 : 50;
 
 
   return (
@@ -41,7 +42,7 @@ export default function Workspace({...props}: any) {
         </div>
       </ResizablePanel>
       <ResizableHandle withHandle />
-      <ResizablePanel defaultSize={contentMinSize} minSize={contentMinSize}>
+      <ResizablePanel defaultSize={canvasMinSize} minSize={canvasMinSize}>
         <div className="flex h-full">
           <span className="font-semibold">Content</span>
         </div>

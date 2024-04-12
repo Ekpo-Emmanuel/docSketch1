@@ -3,27 +3,24 @@ import { Inter, Roboto, Rubik } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { Toaster } from "@/components/ui/sonner"
+import localFont from '@next/font/local';
 
 const inter = Inter({ 
   subsets: ["latin"] 
 });
 
-const rubik = Rubik({
-  weight: '400',
-  subsets: ['latin'],
-  display: 'swap',
-})
 
 export const metadata: Metadata = {
   title: "Eraser.io",
   description: "Documents & diagrams for students and teams",
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+const myFont = localFont({ src: '../public/fonts/nexa/Nexa-Heavy.ttf' })
+
+
+
+
+export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
   return (
     <html lang="en">
       <body className={inter.className}>

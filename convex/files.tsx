@@ -32,7 +32,7 @@ export const getFiles = query({
 
 export const getFilesByTeamId = query({
   args: {
-    teamId: v.string(),
+    teamId: v.optional(v.string()),
   },
   handler: async (ctx: any, args: any) => {
       const result = await ctx.db.

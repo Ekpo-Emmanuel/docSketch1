@@ -5,6 +5,7 @@ export default function middleware(req: any) {
 export const config = {
     matcher: [
         "/dashboard",
+        "/dashboard/:path*",
         "/teams",
         "/teams/create",
         "/workspace",
