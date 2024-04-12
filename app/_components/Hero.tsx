@@ -173,7 +173,7 @@ export default function Hero() {
                       />
                     </div>
                   </div>
-                  <div className="flex flex-row items-center justify-between rounded-lg border p-2 shadow-sm">
+                  {/* <div className="flex flex-row items-center justify-between rounded-lg border p-2 shadow-sm">
                   <div className="space-y-0.5">
                     <p className="text-sm">Test the beta</p>
                   </div>
@@ -183,7 +183,7 @@ export default function Hero() {
                       // onCheckedChange={field.onChange}
                     />
                   </div>
-                </div>
+                </div> */}
                   <DialogFooter className="sm:justify-start">
                     <DialogClose asChild>
                     <button onClick={handleSubmit} className="flex items-center justify-center w-full h-10 px-4 py-2 text-sm font-semibold text-white transition-all bg-black rounded-lg hover:bg-blue-600 md:w-auto">

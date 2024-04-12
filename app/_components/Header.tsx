@@ -7,6 +7,21 @@ import {RegisterLink, LoginLink, LogoutLink} from "@kinde-oss/kinde-auth-nextjs/
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import logo from '../../public/images/logo.svg';
 import Image from 'next/image';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { useMutation, useConvex, useQuery } from "convex/react";
+import { api } from '@/convex/_generated/api';
+import { toast  } from "sonner"
+import { Switch } from "@/components/ui/switch"
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -14,6 +29,56 @@ export default function Header() {
 
   const toggleOpen = () => {
     setOpen(!open)
+  }
+  
+  const addUserToWaitlist = useMutation(api.waitlist.addUserToWaitlist);
+
+  const [formData, setFormData] = useState({
+    firstname: '',
+    lastname: '',
+    email: ''
+  })
+
+  const handleChange = (e: any) => {
+    const { id, value } = e.target;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [id]: value,
+    }));
+  }
+
+  const handleSubmit = () => {
+    if(formData.email === '' || formData.firstname === '' || formData.lastname === '') {
+      toast.error('Please Enter all fields')
+      return
+    } 
+    else {
+      addUserToWaitlist({
+        firstName: formData.firstname,
+        lastName: formData.lastname,
+        email: formData.email
+      })
+      .then((res: any) => {
+        toast.success('Successfully added to waitlist', {
+          description: 'by ' + formData.email,
+        })
+      })
+      .catch((err:any) => {
+        if (err.message === 'Email already exists in the waitlist.') {
+          toast.error('Email already exists in the waitlist');
+        } else {
+          toast.error('Error adding to waitlist');
+          console.log(err);
+        }
+      })
+  
+      //empty form after submit
+      setFormData({
+        firstname: '',
+        lastname: '',
+        email: ''
+      });
+    }
   }
   return (
     <>
@@ -77,12 +142,73 @@ export default function Header() {
             )
           } */}
            <div className="inline-flex  ml-auto">
-              <Link
-                      className="flex items-center justify-center w-full h-8 px-4 py-2 text-sm font-semibold text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600 md:w-auto"
-                      href="/dashboard"
-                    >
+              {/* <Link
+                  className="flex items-center justify-center w-full h-8 px-4 py-2 text-sm font-semibold text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600 md:w-auto"
+                  href="/dashboard"
+                >
                       Join Waitlist
-              </Link>
+              </Link> */}
+              <Dialog>
+                <DialogTrigger asChild>
+                <button
+                          className="flex items-center justify-center w-full h-10 px-4 py-2 text-sm text-blue-500 transition-all bg-white border border-gray-300 rounded-lg md:w-auto md:font-semibold hover:text-blue-400"
+                        >
+                          Join Waitlist
+                        </button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Join Waitlist</DialogTitle>
+                    <DialogDescription>
+                      Get notified when we launch.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <div className="sm:flex items-center gap-2">
+                    <div className="grid flex-1 gap-2">
+                      <label htmlFor="link" className="sr-only">
+                        firstname
+                      </label>
+                      <Input
+                        id="firstname"
+                        placeholder="Firstname"
+                        value={formData.firstname}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="grid flex-1 gap-2 mt-4 sm:mt-0">
+                      <label htmlFor="link" className="sr-only">
+                        lastname
+                      </label>
+                      <Input
+                        id="lastname"
+                        placeholder="Lastname"
+                        value={formData.lastname}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  <div className="flex items-center">
+                    <div className="grid flex-1 gap-2">
+                      <label htmlFor="link" className="sr-only">
+                        Link
+                      </label>
+                      <Input
+                        id="email"
+                        placeholder="Email"
+                        value={formData.email}
+                        onChange={handleChange}
+                      />
+                    </div>
+                  </div>
+                  <DialogFooter className="sm:justify-start">
+                    <DialogClose asChild>
+                    <button onClick={handleSubmit} className="flex items-center justify-center w-full h-10 px-4 py-2 text-sm font-semibold text-white transition-all bg-blue-500 rounded-lg hover:bg-blue-600 md:w-auto">
+                              Join
+                          </button>
+                    </DialogClose>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </div>
         </nav>
       </div>
