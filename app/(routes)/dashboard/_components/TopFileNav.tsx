@@ -51,7 +51,7 @@ export default function TopFileNav() {
                 </ul>
                 </nav>
             </div>
-            <div className="inline-flex items-center gap-2 list-none bg-red-500">
+            <div className="inline-flex items-center gap-2 list-none">
                 <div>
                     <img
                         src={user?.picture || ''}
@@ -61,7 +61,7 @@ export default function TopFileNav() {
                         className="rounded-full"
                     />
                 </div>
-                <button className="inline-flex items-center gap-2 justify-center px-4 py-2 text-[14px] text-white bg-blue-500 rounded-full group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-black active:bg-black active:text-white focus-visible:bg-black">
+                <button className="inline-flex items-center gap-2 justify-center px-3 py-2 text-[14px] text-white bg-blue-500 rounded-sm group focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 hover:bg-black active:bg-black active:text-white focus-visible:bg-black">
                     <Send size={14} strokeWidth={2}/>Invite
                 </button>
 

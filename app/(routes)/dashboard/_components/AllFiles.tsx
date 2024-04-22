@@ -183,8 +183,8 @@ const AllFiles: React.FC<{ user: any }> = () => {
     };
 
     return (
-        <div className=''>
-            <div>
+        <div>
+            <div className='mb-4'>
                 <div className="relative">
                     <span className="absolute inset-y-0 left-0 flex items-center pl-3">
                         <svg className="w-3.5 h-3.5 text-gray-400" viewBox="0 0 24 24" fill="none">
@@ -207,7 +207,7 @@ const AllFiles: React.FC<{ user: any }> = () => {
             </div>
     
             <DataTable
-                title="All Files"
+                // title="All Files"
                 columns={columns}
                 data={data}
                 responsive={true}

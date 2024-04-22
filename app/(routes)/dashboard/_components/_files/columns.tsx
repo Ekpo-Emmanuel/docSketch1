@@ -68,7 +68,7 @@ export const columns: ColumnDef<Person>[] = [
   },
   {
     // header: 'Created',
-    header: ({ column }) => {
+    header: (column: any) => {
       return (
         <p
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -80,7 +80,7 @@ export const columns: ColumnDef<Person>[] = [
       )
     },
     accessorKey: 'created',
-    cell: (row: { getValue: (arg: string) => string | number | Date }) => {
+    cell: (row: any) => {
       const date = new Date(row.getValue('_creationTime'));
       console.log(date) 
       // return (
@@ -120,7 +120,7 @@ export const columns: ColumnDef<Person>[] = [
     accessorKey: "action",
     // header: 'Action',
     header: () => <p className="text-[10px] text-black"><RxDotsHorizontal size={20} /></p>,
-    cell: ({ row }) => {
+    cell: (row: any) => {
       const person = row.original
       const personId = person.id
  

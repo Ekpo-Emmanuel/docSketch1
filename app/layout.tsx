@@ -3,7 +3,7 @@ import { Inter, Roboto, Rubik } from "next/font/google";
 import "./globals.css";
 import ConvexClientProvider from "./ConvexClientProvider";
 import { Toaster } from "@/components/ui/sonner"
-import localFont from '@next/font/local';
+// import localFont from '@next/font/local';
 
 const inter = Inter({ 
   subsets: ["latin"] 
@@ -11,11 +11,11 @@ const inter = Inter({
 
 
 export const metadata: Metadata = {
-  title: "Eraser.io",
+  title: "DocSketch",
   description: "Documents & diagrams for students and teams",
 };
 
-const myFont = localFont({ src: '../public/fonts/nexa/Nexa-Heavy.ttf' })
+// const myFont = localFont({ src: '../public/fonts/nexa/Nexa-Heavy.ttf' })
 
 
 

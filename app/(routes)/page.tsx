@@ -1,6 +1,6 @@
 'use client';
 
-import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
+// import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import { useEffect, useState } from "react";
 import Features from "../_components/Features";
 // import Features from "../_components/_features/Features";
@@ -21,17 +21,10 @@ export default function Home() {
   // }, [user])
   
   //loading animation
-  const [loading, setLoading] = useState(true);
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setLoading(false);
-    })
-
-    return () => clearTimeout(timer);
-  }, [])
+ 
   return (
     <>
-    {loading ? <LoadingAnimation /> : null}
+      {/* <LoadingAnimation show={loading} /> */}
       <Header />
       <Hero />
       <Features />

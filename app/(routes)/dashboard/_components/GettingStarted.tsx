@@ -10,7 +10,7 @@ export default function GettingStarted() {
 
   return (
     <div>
-        {/* <TopFileNav /> */}
+        <TopFileNav />
         <AllFiles user={user}  />
         {/* <AllFiles2 /> */}
     </div>

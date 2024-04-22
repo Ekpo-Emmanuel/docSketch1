@@ -14,13 +14,13 @@ import { FileListContext } from '@/app/_context/FIleListContent';
 
 
 export default function SideNav() {
-  type NewType = Team;
+  // type NewType = Team;
 
   const { user }: any = useKindeBrowserClient();
   const [isOpen, setIsOpen] = useState(false);
   const sideNavRef = useRef(null);
   const createFile = useMutation(api.files.createFile);
-  const [activeTeam, setActiveTeam] = useState<NewType>();
+  const [activeTeam, setActiveTeam] = useState<Team>();
   const teamId = activeTeam?._id;
   const [IsLoadingFiles, setIsLoadingFiles] = useState(false);
   const convex = useConvex();
@@ -50,6 +50,11 @@ export default function SideNav() {
   }, [activeTeam, teamId]);
 
   const onFileCreate = (fileName: string) => {
+    if (!activeTeam) {
+      // Handle case where activeTeam is not set
+      console.error("Active team is not set.");
+      return;
+  }
     createFile({
         name: fileName,
         teamId: activeTeam?._id,

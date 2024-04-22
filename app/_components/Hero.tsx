@@ -6,7 +6,7 @@ import Link from "@/node_modules/next/link";
 import {LoginLink} from "@kinde-oss/kinde-auth-nextjs/components";
 import {useKindeBrowserClient} from "@kinde-oss/kinde-auth-nextjs";
 import LoadingAnimation from "./LoadingAnimation";
-import localFont from '@next/font/local';
+// import localFont from '@next/font/local';
 import { BsStars } from "react-icons/bs";
 import { Button } from "@/components/ui/button"
 import {
@@ -26,18 +26,16 @@ import { api } from '@/convex/_generated/api';
 import { toast  } from "sonner"
 import { Switch } from "@/components/ui/switch"
 
-
-
-const myFont1 = localFont({
-  src: [
-    {
-      path: '../../public/fonts/akira/Akira Expanded Demo.otf',
-      weight: '400',
-      style: 'normal',
-    },
-  ],
-  variable: '--my-font',
-});
+// const myFont1 = localFont({
+//   src: [
+//     {
+//       path: '../../public/fonts/akira/Akira Expanded Demo.otf',
+//       weight: '400',
+//       style: 'normal',
+//     },
+//   ],
+//   variable: '--my-font',
+// });
 
 export default function Hero() {
   const {user, isLoading} = useKindeBrowserClient();
