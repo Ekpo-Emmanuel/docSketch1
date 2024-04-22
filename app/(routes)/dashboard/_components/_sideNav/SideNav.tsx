@@ -9,8 +9,9 @@ import { api } from '@/convex/_generated/api';
 import { toast  } from "sonner"
 import { Menu } from 'lucide-react';
 import { FileListContext } from '@/app/_context/FIleListContent';
+import { useRouter } from 'next/navigation';
 
-
+  
 
 
 export default function SideNav() {
@@ -26,6 +27,7 @@ export default function SideNav() {
   const convex = useConvex();
   const tasks = useQuery(api.files.getFiles);
   const {fileList_, setFileList_}: any = useContext(FileListContext);
+  const router = useRouter();
 
   const toggleSideNav = () => {
     setIsOpen(!isOpen);
@@ -51,7 +53,6 @@ export default function SideNav() {
 
   const onFileCreate = (fileName: string) => {
     if (!activeTeam) {
-      // Handle case where activeTeam is not set
       console.error("Active team is not set.");
       return;
   }
@@ -68,6 +69,8 @@ export default function SideNav() {
       toast.success('File Created Successfully', {
         description: 'by ' + user?.email,
       })
+      router.push(`/workspace/${res}`) 
+
     })
     .catch((err:any) => {
       toast.error('Error creating File')

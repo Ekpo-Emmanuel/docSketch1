@@ -55,9 +55,10 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
     const convex = useConvex();
     const { email, given_name: firstName, family_name: lastName, picture } = user || {};
     const userEmail = email ? String(email) : '';
-    const [teamList, setTeamList] = useState<Team[]>();
+    const [teamList, setTeamList] = useState<Team[]>([]);
     const [activeTeam, setactiveTeam] = useState<Team>([]);
     const teams = useQuery(api.teams.getTeam);
+    const router = useRouter();
 
 
 
@@ -97,7 +98,7 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
     }
 
     // if (isLoading) return <LoadingAnimation />; 
-
+   
     return (
         <div className=''>
             <DropdownMenu>

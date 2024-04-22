@@ -48,7 +48,7 @@ export const createTeam = mutation({
       teamName: v.string(),
       createdBy: v.string()
     },
-  handler: async (ctx: { db: { insert: (arg0: string, arg1: any) => any; }; }, args: any) => {
+  handler: async (ctx: any, args: any) => {
     const result = await ctx.db.insert("teams", args);
 
     return result
@@ -57,9 +57,13 @@ export const createTeam = mutation({
 
 export const deleteTeam = mutation({
   args: {
-    teamId: v.id("_id"),
+    id: v.id("teams"),
   },
-  handler: async (ctx, args) => {
-    return await ctx.storage.delete(args.teamId);
+  handler: async (ctx:any, args:any) => {
+    try {
+      await ctx.db.delete(args.id);
+    } catch (error) {
+      console.log(error);
+    }
   },
 });

@@ -33,7 +33,7 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
   
   const menu: MenuItem[] = [
     { name: 'Dashboard', icon: Flag, letter: 'S', link: '/dashboard' },
-    { name: 'Manage Teams', icon: Layers, letter: 'T', link: '/teams' },
+    { name: 'Manage Teams', icon: Layers, letter: 'T', link: '/dashboard/teams' },
     { name: 'Private Files', icon: Lock, letter: 'P', link: '#' },
     { name: 'Archive', icon: Archive, letter: 'E', link: '#' },
   ]

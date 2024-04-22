@@ -52,7 +52,7 @@ export const Bottom = (props: Props) => {
           toast.success('File Created Successfully', {
             description: 'Redirecting',
           })
-          router.push(`/workspace/${res}`)
+          router.push(`/workspace/${res}`) 
         } catch (err: any) {
           toast.error('Error creating File')
           console.log(err)

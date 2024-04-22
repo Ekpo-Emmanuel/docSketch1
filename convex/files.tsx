@@ -58,3 +58,39 @@ export const updateDocument = mutation({
     return result;
   }
 })
+
+
+// export const deleteFilesByTeamId = mutation({
+//   args: {
+//     teamId: v.id("teams"),
+//   },
+//   handler: async (ctx: any, args: any) => {
+//     try {
+//       const files = await ctx.db.query("files").filter((q: any) => q.eq("teamId", args.teamId)).collect();
+
+//       for (const file of files) {
+//         await ctx.db.delete(file._id);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   },
+// })
+
+
+export const deleteFilesByTeamId = mutation({
+  args: {
+    teamId: v.id("teams"),
+  },
+  handler: async (ctx: any, args: any) => {
+    try {
+      const files = await ctx.db.query("files").filter((q: any) => q.eq("teamId", args.teamId)).collect();
+
+      for (const file of files) {
+        await ctx.db.delete(file._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+})
