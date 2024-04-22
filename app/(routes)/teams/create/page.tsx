@@ -43,9 +43,9 @@ export default function page() {
         <div className="relative items-center w-full px-5 mx-auto lg:px-16 max-w-7xl md:px-12">
           <div className="max-w-3xl mx-auto text-center">
             <div>
-              <Link href="/dashboard" className="w-auto px-2 py-1 rounded-full text-sm bg-black/5">
+              {/* <Link href="/dashboard" className="w-auto px-2 py-1 rounded-full text-sm bg-black/5">
                 <span><span className="text-[13px] sm:text-sm font-medium text-blue-600">Go back</span></span>
-              </Link>
+              </Link> */}
               <p className="mt-8 text-3xl font-extrabold tracking-tight  lg:text-5xl">
                 What should we call your team?
               </p>
@@ -81,7 +81,7 @@ export default function page() {
                 </button>
             </div>
             <p className="max-w-xl mx-auto mt-4 text-base text:[14px] text-gray-500">
-              Go back
+              {/* Go back */}
               </p>
           </div>
         </div>

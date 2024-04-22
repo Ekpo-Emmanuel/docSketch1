@@ -75,10 +75,10 @@ export const Bottom = (props: Props) => {
                 </div>
                 <p className='text-[14px]'>Create a Blank File</p>
             </div>
+            {/* <div>1</div>
             <div>1</div>
             <div>1</div>
-            <div>1</div>
-            <div>1</div>
+            <div>1</div> */}
         </section>
     )
 }
