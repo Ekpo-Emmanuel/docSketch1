@@ -1,8 +1,6 @@
 'use client';
 
-import React, {useEffect, useState} from 'react'
-import { api } from "@/convex/_generated/api";
-import { useQuery, useMutation } from "convex/react";
+import React, {useState} from 'react'
 import { useRouter } from '@/node_modules/next/navigation';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import SideNav from './_components/_sideNav/SideNav';
@@ -12,7 +10,7 @@ import { FileListContext } from '@/app/_context/FIleListContent';
 
 export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode; }>) {
     const router = useRouter();
-    const { user, isLoading, isAuthenticated, } = useKindeBrowserClient();
+    const { isLoading, isAuthenticated, } = useKindeBrowserClient();
     const [fileList_, setFileList_] = useState<any[]>([]);
 
 
