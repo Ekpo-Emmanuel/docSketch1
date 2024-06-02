@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import Image from 'next/image'
+import Image from '@/node_modules/next/image';
 import { ChevronDown, Users, Settings, LogOut, Files, FolderPlus, ChevronRight } from 'lucide-react';
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
 
@@ -17,9 +17,9 @@ import {
     DropdownMenuSubTrigger,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import Link from 'next/link'
+import Link from '@/node_modules/next/link'
 import { api } from "@/convex/_generated/api";
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/node_modules/next/navigation';
 import {useConvex, useQuery } from 'convex/react'
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
 
@@ -33,9 +33,9 @@ interface User {
 }
 
 interface Team {
+    _id: string;
     createdBy: string;
     teamName: string;
-    _id: string;
 }
 
 interface MenuItem {
@@ -46,17 +46,18 @@ interface MenuItem {
 
 interface Props {
     user: User;
-    setactiveTeamInfo: (teamName: string) => void;
+    setActiveTeamInfo: (team: Team) => void;
 }
 
 
 
-export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
+export default function SideNavTopSection({ user, setActiveTeamInfo}: any) {
     const convex = useConvex();
     const { email, given_name: firstName, family_name: lastName, picture } = user || {};
     const userEmail = email ? String(email) : '';
     const [teamList, setTeamList] = useState<Team[]>([]);
-    const [activeTeam, setactiveTeam] = useState<Team>([]);
+    // const [activeTeam, setActiveTeam] = useState<Team>([]);
+    const [activeTeam, setActiveTeam] = useState<Team | null>(null); 
     const teams = useQuery(api.teams.getTeam);
     const router = useRouter();
 
@@ -65,24 +66,26 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
     useEffect(() => {
         if (user && teams) {
           setTeamList(teams);
-          setactiveTeam(teams[teams.length - 1]);
+          setActiveTeam(teams[teams.length - 1]);
         }
       }, [user, teams]);
-
-    useEffect(() => {
-        activeTeam && setactiveTeamInfo(activeTeam);
-    }, [activeTeam])
+    
+      useEffect(() => {
+        if (activeTeam) {
+          setActiveTeamInfo(activeTeam);
+        }
+      }, [activeTeam, setActiveTeamInfo]);
 
   
 
     // const getTeamList = async () => {
     //     const teamData = await convex.query(api.teams.getTeam);
     //     setTeamList(teamData);
-    //     setactiveTeam(teamData[teamData.length - 1]);
+    //     setActiveTeam(teamData[teamData.length - 1]);
     // }
 
     const onMenuClick = (item: any) => {
-        setactiveTeam(item);
+        setActiveTeam(item);
     }
 
     const menu: MenuItem[] = [
@@ -125,7 +128,7 @@ export default function SideNavTopSection({ user, setactiveTeamInfo}: any) {
                         <DropdownMenuItem
                             key={index}
                             className={`text-[13px] font-semibold py-[4px] ${activeTeam?._id === team._id ? 'bg-blue-500 text-white hover:bg-blue-500' : ''}`}
-                            onClick={() => setactiveTeam(team)}
+                            onClick={() => setActiveTeam(team)}
                         >
                             {team.teamName}
                         </DropdownMenuItem>

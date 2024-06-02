@@ -5,10 +5,10 @@ import { query, mutation } from "./_generated/server";
 export const getUser = query({
     args: { email:v.string() }, 
 
-    handler: async (ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { email: any; }) => {
+    handler: async (ctx: any, args: any) => {
         const user = await ctx.db
         .query('users')
-        .filter((q) => q.eq(q.field('email'), args.email))
+        .filter((q: any) => q.eq(q.field('email'), args.email))
         .collect()
 
         return user;

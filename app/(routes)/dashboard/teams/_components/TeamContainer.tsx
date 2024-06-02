@@ -44,7 +44,7 @@ import { useRouter } from 'next/navigation'
 export default function TeamContainer() {
   const { user, isLoading }: any = useKindeBrowserClient();
   const teams = useQuery(api.teams.getTeam);
-  const [teamsData, setTeamsData] = useState([]);
+  const [teamsData, setTeamsData] = useState<any[]>([]);
   const router = useRouter(); 
   
   useEffect(() => {
@@ -73,16 +73,17 @@ export default function TeamContainer() {
   const deleteTeamsMutation = useMutation(api.teams.deleteTeam);
   const deleteFilesMutation = useMutation(api.files.deleteFilesByTeamId);
 
-  async function deleteTeam (id: string) {
-    try {
-      await deleteFilesMutation({ teamId: id });
-      await deleteTeamsMutation({ id: id });
-      console.log('Team and files deleted successfully!');
-    } catch (error) {
-      console.error('Error deleting team:', error);
-    }
-  }
+  // async function deleteTeam (id: string) {
+  //   try {
+  //     await deleteFilesMutation({ teamId: id });
+  //     await deleteTeamsMutation({ id: id });
+  //     console.log('Team and files deleted successfully!');
+  //   } catch (error) {
+  //     console.error('Error deleting team:', error);
+  //   }
+  // }
 
+  
   useEffect(() => {
     if (teams?.length === 0) {
         router.push('/teams/create');
@@ -128,7 +129,7 @@ export default function TeamContainer() {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  <AlertDialogAction onClick={() => deleteTeam(team._id)}>Delete</AlertDialogAction>
+                                  {/* <AlertDialogAction onClick={() => deleteTeam(team._id)}>Delete</AlertDialogAction> */}
                                 </AlertDialogFooter>
                               </AlertDialogContent>
                             </AlertDialog>

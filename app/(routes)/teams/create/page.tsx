@@ -8,7 +8,7 @@ import { api } from "@/convex/_generated/api";
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
 import UnauthorizedRedirect from "@/app/_components/UnauthorizedRedirect";
 import Link from "next/link";
-import {useRouter} from "next/navigation";
+import { useRouter } from '@/node_modules/next/router';
 import { toast  } from "sonner"
 
 
@@ -21,7 +21,8 @@ export default function page() {
     const createNewTeam = () => {
       createTeam({
           teamName: teamName,
-          createdBy: user?.email
+          // createdBy: user?.email
+          createdBy: user?.email?? ''
       })
       .then((res: any) => {
         if (res) {

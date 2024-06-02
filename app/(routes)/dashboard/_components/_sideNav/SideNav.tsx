@@ -9,9 +9,14 @@ import { api } from '@/convex/_generated/api';
 import { toast  } from "sonner"
 import { Menu } from 'lucide-react';
 import { FileListContext } from '@/app/_context/FIleListContent';
-import { useRouter } from 'next/navigation';
-
+import { useRouter } from '@/node_modules/next/navigation';
   
+
+
+interface Team {
+  _id: any;
+}
+
 
 
 export default function SideNav() {
@@ -19,14 +24,14 @@ export default function SideNav() {
 
   const { user }: any = useKindeBrowserClient();
   const [isOpen, setIsOpen] = useState(false);
-  const sideNavRef = useRef(null);
+  const sideNavRef = useRef<HTMLDivElement | null>(null);
   const createFile = useMutation(api.files.createFile);
   const [activeTeam, setActiveTeam] = useState<Team>();
   const teamId = activeTeam?._id;
   const [IsLoadingFiles, setIsLoadingFiles] = useState(false);
   const convex = useConvex();
   const tasks = useQuery(api.files.getFiles);
-  const {fileList_, setFileList_}: any = useContext(FileListContext);
+  const { fileList_, setFileList_ }: any = useContext(FileListContext);
   const router = useRouter();
 
   const toggleSideNav = () => {
@@ -34,12 +39,19 @@ export default function SideNav() {
   };
 
   useEffect(() => {
-    activeTeam && getFiles();
-  }, [activeTeam])
+    if (activeTeam) {
+      getFiles();
+    }
+  }, [activeTeam]);
 
   useEffect(() => {
-    const handleClickOutside = (event: { target: any; }) => {
-      if (sideNavRef.current && !sideNavRef.current.contains(event.target)) {
+    activeTeam && setActiveTeam(activeTeam);
+}, [activeTeam])
+
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (sideNavRef.current && !sideNavRef.current.contains(event.target as Node)) {
         setIsOpen(false);
       }
     };
@@ -55,34 +67,32 @@ export default function SideNav() {
     if (!activeTeam) {
       console.error("Active team is not set.");
       return;
-  }
+    }
     createFile({
-        name: fileName,
-        teamId: activeTeam?._id,
-        createdBy: user?.email,
-        archieve: false,
-        document: '',
-        whiteboard: ''
+      name: fileName,
+      teamId: activeTeam._id,
+      createdBy: user?.email,
+      archieve: false,
+      document: '',
+      whiteboard: ''
     })
     .then((res: any) => {
       getFiles();
       toast.success('File Created Successfully', {
         description: 'by ' + user?.email,
-      })
-      router.push(`/workspace/${res}`) 
-
+      });
+      router.push(`/workspace/${res}`);
     })
-    .catch((err:any) => {
-      toast.error('Error creating File')
-      console.log(err)
-    })
-  }
+    .catch((err: any) => {
+      toast.error('Error creating File');
+      console.log(err);
+    });
+  };
 
   const getFiles = async () => {
     const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: teamId });
     setFileList_(newFiles);
-  }
-
+  };
 
 
   return (
@@ -103,10 +113,15 @@ export default function SideNav() {
           isOpen ? '' : '-translate-x-full sm:translate-x-0'
         }`}
       >
-        <SideNavTopSection 
+        {/* <SideNavTopSection 
           user={user} 
-          setactiveTeamInfo={(activeTeam: NewType) => setActiveTeam(activeTeam)}
-        />
+          setactiveTeamInfo={(activeTeam: Team) => setActiveTeam(activeTeam)}
+        /> */}
+<SideNavTopSection 
+  user={user} 
+  setActiveTeamInfo={(activeTeam: Team) => setActiveTeam(activeTeam)}
+/>
+
         <SideNavDownSection 
           onFileCreate={onFileCreate} 
           totalFiles={tasks?.length}

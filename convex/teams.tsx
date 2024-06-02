@@ -17,7 +17,7 @@ import { query, mutation } from "./_generated/server";
 export const getTeam = query ({
   args: {},
 
-    handler: async (ctx: { db: { query: (arg0: string) => any; }; }, args: any) => {
+    handler: async (ctx: any, args: any) => {
       const result = await ctx.db.
       query('teams')
       .collect()
@@ -30,10 +30,10 @@ export const getTeam = query ({
 export const getTeamByName = query({
   args: { teamName: v.optional(v.string()) },
 
-  handler: async (ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { teamName: any; }) => {
+  handler: async (ctx: any, args: any) => {
     const result = await ctx.db.
       query("teams")
-      .filter((q) => q.eq(q.field("teamName"), args.teamName))
+      .filter((q: any) => q.eq(q.field("teamName"), args.teamName))
       .collect();
 
     return result;

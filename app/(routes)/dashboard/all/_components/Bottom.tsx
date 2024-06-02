@@ -8,7 +8,7 @@ import { toast  } from "sonner"
 import { FileListContext } from '@/app/_context/FIleListContent';
 
 import { Plus } from 'lucide-react'
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/node_modules/next/navigation';
 
 
 
@@ -16,15 +16,24 @@ interface Props {
     
 }
 
+interface Team {
+  // Define the properties of the Team type
+  _id: string;
+  teamId: string;
+  name: string;
+  teamName: string;
+}
+
 export const Bottom = (props: Props) => {
   const { user }: any = useKindeBrowserClient();
   const createFile = useMutation(api.files.createFile);
   const teams = useQuery(api.teams.getTeam);
-  const [teamsData, setTeamsData] = useState([]);
-  const [activeTeam, setActiveTeam] = useState<Team>();
+  const [teamsData, setTeamsData] = useState<Team[]>([]); // Initialize with the correct type
+  const [activeTeam, setActiveTeam] = useState<Team | null>(null); 
   const tasks = useQuery(api.files.getFiles);
   const {fileList_, setFileList_}: any = useContext(FileListContext);
   const router = useRouter();
+  const convex = useConvex();
 
 
 
@@ -60,10 +69,11 @@ export const Bottom = (props: Props) => {
       }
 
 
-    const getFiles = async () => {
-        const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: teamId });
+      const getFiles = async () => {
+        const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: activeTeam?._id });
         setFileList_(newFiles);
     }
+    
 
     
 

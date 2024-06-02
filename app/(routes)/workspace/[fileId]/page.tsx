@@ -2,7 +2,7 @@
 
 import React, {useState, useEffect} from 'react'
 import { Editor } from '../_components/Editor'
-import WorkSpaceHeader from '../_components/workSpaceHeader'
+import WorkSpaceHeader from "@/app/(routes)/workspace/_components/WorkSpaceHeader";
 import {
   ResizableHandle,
   ResizablePanel,

@@ -60,21 +60,21 @@ export const Editor = ({onSaveTrigger, fileId}: any) => {
 
     const onSaveDocument = async () => {
         try {
-            if (ref.current) {
-                const outputData = await ref.current.save();
-
-                await updateDocumentMutation.mutate({
-                    _id: fileId,
-                    document: JSON.stringify(outputData)
-                });
-                toast("Document saved successfully");
-                console.log('file saved');
-            }
+          if (ref.current) {
+            const outputData = await ref.current.save();
+      
+            await updateDocumentMutation({
+              _id: fileId,
+              document: JSON.stringify(outputData)
+            });
+            toast("Document saved successfully");
+            console.log('file saved');
+          }
         } catch (error) {
-            toast("Document failed to save");
-            console.log('Saving failed: ', error);
+          toast("Document failed to save");
+          console.log('Saving failed: ', error);
         }
-    }
+      }
 
     const initializeEditor = () => {
         const editor = new EditorJS({

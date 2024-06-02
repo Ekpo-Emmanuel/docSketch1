@@ -4,9 +4,8 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import { FileListContext } from '@/app/_context/FIleListContent';
 import { Pen, Copy, Send, Trash2  } from 'lucide-react';
 import { RxDotsHorizontal } from "react-icons/rx";
-import {useRouter} from "next/navigation";
-import Link from "next/link";
-
+import {useRouter} from "@/node_modules/next/navigation";
+import Link from '@/node_modules/next/link';
 import moment from 'moment'
 import {
     DropdownMenu,
@@ -18,6 +17,7 @@ import {
 
 
 type DataRow = {
+    _id: string;
     name: string;
     created_at: string;
     edited_at: string;
@@ -25,11 +25,9 @@ type DataRow = {
     author: any;
     picture: any;
 };
-
 const customStyles = {
     headCells: {
         style: {
-            // fontSize: '14px',
             fontWeight: 'bold',
         },
     },
@@ -40,6 +38,9 @@ const customStyles = {
     },
 };
 
+interface CustomTableColumn<DataRow> extends TableColumn<DataRow> {
+    cellClass?: string;
+  }
 
 const AllFiles: React.FC<{ user: any }> = () => {
     const { fileList_, setFileList_ }: any = useContext(FileListContext);
@@ -52,43 +53,44 @@ const AllFiles: React.FC<{ user: any }> = () => {
     const columns: TableColumn<DataRow>[] = [
         {
             name: 'NAME',
-            selector: (row: { name: any, _id: any }) => {return <Link href={`/workspace/${row._id}`} className="text-[14px] capitalize" >{row.name}</Link>},
+            cell: (row: DataRow) => {return <Link href={`/workspace/${row._id}`} className="text-[14px] capitalize" >{row.name}</Link>},
             sortable: true,
         },
         {
             name: 'CREATED',
-            selector: (row: { _creationTime: any, _id: any; }) => {
-                return (
-                    <Link href={`/workspace/${row._id}`} className="text-[12px]">{moment(row._creationTime).format('DD MMM YY')}</Link>
-                )
+            cell: (row: DataRow) => {
+                return <Link href={`/workspace/${row._id}`} className="text-[12px]">{moment(row.created_at).format('DD MMM YY')}</Link> 
             },
             sortable: true,
-            hide: 'md',
+            // hide: 'md',
+            // cellClass: 'hide-on-mobile' as any,
         },
         {
             name: 'EDITED',
-            selector: (row: { _creationTime: any, _id: any; }) => {
-                const time = moment(row._creationTime).fromNow();
+            cell: (row: DataRow) => {
+                const time = moment(row.created_at).fromNow();
                 return (
                     <Link href={`/workspace/${row._id}`} className="text-[12px]">{time}</Link>
                 )
             },
             sortable: true,
-            hide: 'md',
+            // hide: 'md',
+            // cellClass: 'hide-on-mobile' as any,
         },
         {
             name: 'AUTHOR',
-            selector: (row: { createdBy: any, _id: any; })  => {
+            cell: (row: DataRow)  => {
                 const {user}: any = useKindeBrowserClient();
                 return  (
                     <img src={user?.picture} className="rounded-full" width={35} height={35} alt={'author'} onClick={() => router.push(`/workspace/${row._id}`)}/>
                 )
             },
-            hide: 'sm',
+            // hide: 'sm',
+            // cellClass: 'hide-on-mobile' as any,
         },
         {
             name: <RxDotsHorizontal size={20} />,
-            selector: (row: { name: any; }) => {
+            cell: (row: { name: any; }) => {
                     return (
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -175,12 +177,19 @@ const AllFiles: React.FC<{ user: any }> = () => {
         setData(filteredData);
     };
 
-    const handleSort = (column: { selector: any; }, sortDirection: any) => console.log(column.selector, sortDirection);
+    // const handleSort = (column: { cell: any; }, sortDirection: any) => console.log(column.cell, sortDirection);
 
     const handleFileClick = (filename: string) => {
         const router = useRouter();
-        router.push(`/file/view/${filename}`, undefined, { shallow: true }); // Open in a new tab
+        router.push(`/file/view/${filename}`); // Open in a new tab
     };
+
+    // const handleFileClick1 = (filename: string) => {
+    //     const router = useRouter();
+    //     router.push({
+    //         pathname: `/file/view/${filename}`,
+    //     }, undefined, { shallow: true });
+    // };
 
     return (
         <div>
@@ -215,8 +224,8 @@ const AllFiles: React.FC<{ user: any }> = () => {
                 customStyles={customStyles}
                 pagination
                 fixedHeader
-                hoverRowColor="#f1f1f1"
-                onSort={handleSort}
+                // hoverRowColor="#f1f1f1"
+                // onSort={handleSort}
                 highlightOnHover 
                 pointerOnHover
             />
@@ -225,3 +234,11 @@ const AllFiles: React.FC<{ user: any }> = () => {
 };
 
 export default AllFiles;
+
+<style jsx global>{`
+    @media (max-width: 768px) {
+        .hide-on-mobile {
+            display: none;
+        }
+    }
+`}</style>
