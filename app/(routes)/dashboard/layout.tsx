@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react'
 import { api } from "@/convex/_generated/api";
 import { useQuery, useMutation } from "convex/react";
-import { useRouter } from 'next/navigation';
+import { useRouter } from '@/node_modules/next/navigation';
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import SideNav from './_components/_sideNav/SideNav';
 import LoadingAnimation from '@/app/_components/LoadingAnimation';

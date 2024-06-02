@@ -8,7 +8,7 @@ import { api } from "@/convex/_generated/api";
 import LoadingAnimation from '@/app/_components/LoadingAnimation';
 import UnauthorizedRedirect from "@/app/_components/UnauthorizedRedirect";
 import Link from "next/link";
-import { useRouter } from '@/node_modules/next/router';
+import { useRouter } from '@/node_modules/next/navigation';
 import { toast  } from "sonner"
 
 
