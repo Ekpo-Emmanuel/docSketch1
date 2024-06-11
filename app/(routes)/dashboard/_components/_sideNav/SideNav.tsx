@@ -17,10 +17,11 @@ interface Team {
   _id: any;
 }
 
+interface Props {
+  
+}
 
-
-export default function SideNav() {
-  // type NewType = Team;
+export default function SideNav(props: Props) {
 
   const { user }: any = useKindeBrowserClient();
   const [isOpen, setIsOpen] = useState(false);
@@ -113,15 +114,10 @@ export default function SideNav() {
           isOpen ? '' : '-translate-x-full sm:translate-x-0'
         }`}
       >
-        {/* <SideNavTopSection 
+        <SideNavTopSection 
           user={user} 
-          setactiveTeamInfo={(activeTeam: Team) => setActiveTeam(activeTeam)}
-        /> */}
-<SideNavTopSection 
-  user={user} 
-  setActiveTeamInfo={(activeTeam: Team) => setActiveTeam(activeTeam)}
-/>
-
+          setActiveTeamInfo={(activeTeam: Team) => setActiveTeam(activeTeam)}
+        />
         <SideNavDownSection 
           onFileCreate={onFileCreate} 
           totalFiles={tasks?.length}
