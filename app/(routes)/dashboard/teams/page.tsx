@@ -9,13 +9,8 @@ import TeamBody from "@/app/(routes)/dashboard/teams/_components/TeamBody";
 export default function page() {
 
   return (
-    <>
-
-      <div className=''>
-        <div className='p-4'>
-          <TeamBody />
-        </div>
+      <div>
+        <TeamBody />
       </div>
-    </>
   ) ;
 }
