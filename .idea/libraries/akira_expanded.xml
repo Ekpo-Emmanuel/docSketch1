@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="akira_expanded">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/public/fonts/akira/akira_expanded.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
