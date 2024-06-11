@@ -14,6 +14,14 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
+import AllFiles3 from './_files/AlllFiles3';
+import {
+    createColumnHelper,
+    flexRender,
+    getCoreRowModel,
+    useReactTable,
+  } from '@tanstack/react-table';
+
 
 
 type DataRow = {
@@ -25,6 +33,145 @@ type DataRow = {
     author: any;
     picture: any;
 };
+const columnHelper = createColumnHelper<DataRow>();
+const columns = [
+    // columnHelper.accessor('Name', {
+    //   cell: (info: any) => info.getValue(),
+    //   footer: (info: any) => info.column.name,
+    // }),
+    columnHelper.accessor((row: any) => row.name, {
+      id: 'Name',
+      header: () => <span className='cursor-pointer'>File Name</span>,
+      cell: (info: any) => <i>{info.getValue()}</i>,
+      enableSorting: true,
+    }),
+
+    {
+        header: 'CREATED',
+        accessorKey: 'created_at',
+        cell: (info: any) => {
+          return (
+            <Link href={`/workspace/${info.row.original._id}`} className="text-[12px]">
+              {moment(info.row.original.created_at).format('DD MMM YY')}
+            </Link>
+          );
+        },
+      },
+    // {
+    //     header: 'EDITED',
+    //     cell: (row: DataRow) => {
+    //         const time = moment(row.created_at).fromNow();
+    //         return (
+    //             <Link href={`/workspace/${row._id}`} className="text-[12px]">
+    //                 {time}
+    //             </Link>
+    //         )
+    //     },
+    //   enableSorting: true,
+
+    // },
+    {
+        header: 'AUTHOR',
+        cell: (row: DataRow)  => {
+            const {user}: any = useKindeBrowserClient();
+            return  (
+                <img src={user?.picture} className="rounded-full" width={35} height={35} alt={'author'} />
+            )
+        },
+    },
+    columnHelper.accessor((row: any) => row.name, {
+        id: 'Actions',
+        header: () => <span> Action <RxDotsHorizontal size={20} /></span>,
+        // cell: (info: any) => <i>{info.getValue()}</i>,
+        cell: (info: any) => {
+            return (
+                <>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <div className='cursor-pointer rounded-sm'>
+                                <RxDotsHorizontal size={20} />
+                            </div>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                            <DropdownMenuGroup>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Pen strokeWidth={2} size={11} />
+                                        <span className="'text-[12px] font-semibold">Rename</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Alt ⇧ R</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Send 
+                                        strokeWidth={2}
+                                        size={11}
+                                        />
+                                        <span className="'text-[12px] font-semibold">Share</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Ctrl I</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Copy 
+                                            strokeWidth={2}
+                                            size={11}
+                                        />
+                                        <span className="'text-[12px] font-semibold">Duplicate</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Ctrl ⇧ D</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Pen strokeWidth={2} size={11} />
+                                        <span className="'text-[12px] font-semibold">Manage Team</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Alt ⇧ T</p>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem className="flex items-end gap-4 justify-between focus:bg-black focus:text-white">
+                                    <div className='flex items-center gap-2'>
+                                        <Trash2 
+                                        strokeWidth={2}
+                                        size={11}
+                                        />
+                                        <span className="'text-[12px] font-semibold">Delete</span>
+                                    </div>
+                                    <p className="text-[11px] opacity-70">Alt ⇧ W</p>
+                                </DropdownMenuItem>
+                            </DropdownMenuGroup>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </>
+            );
+          },
+      }),
+
+      
+    // columnHelper.accessor((row: any) => row.created_at, {
+    //     id: 'created_at',
+    //     cell: (info: any) => <i>{info.getValue()}</i>,
+    //     header: () => <span>Created at</span>,
+    //     footer: (info: any) => info.column.created_at,
+    //   }),
+    // columnHelper.accessor('Edited at', {
+    // //   header: () => 'Age',
+    //   cell: (info: any) => info.renderValue(),
+    //   footer: (info: any) => info.column.id,
+    // }),
+    // columnHelper.accessor('visits', {
+    //   header: () => <span>Visits</span>,
+    //   footer: (info: any) => info.column.id,
+    // }),
+    // columnHelper.accessor('status', {
+    //   header: 'Status',
+    //   footer: (info: any) => info.column.id,
+    // }),
+    // columnHelper.accessor('progress', {
+    //   header: 'Profile Progress',
+    //   footer: (info: any) => info.column.id,
+    // }),
+];
+
 const customStyles = {
     headCells: {
         style: {
@@ -38,17 +185,16 @@ const customStyles = {
     },
 };
 
-interface CustomTableColumn<DataRow> extends TableColumn<DataRow> {
-    cellClass?: string;
-  }
 
-const AllFiles: React.FC<{ user: any }> = () => {
+const AllFiles: React.FC<{ user: any}> = () => {
     const { fileList_, setFileList_ }: any = useContext(FileListContext);
     const {user}: any = useKindeBrowserClient();
     const [data, setData] = useState<any[]>([]);
     const [selectedRows, setSelectedRows] = useState(false);
     const [toggledClearRows, setToggleClearRows] = useState(false);
     const router = useRouter();
+
+    const rerender = React.useReducer(() => ({}), {})[1];
 
     const columns: TableColumn<DataRow>[] = [
         {
@@ -65,18 +211,18 @@ const AllFiles: React.FC<{ user: any }> = () => {
             // hide: 'md',
             // cellClass: 'hide-on-mobile' as any,
         },
-        {
-            name: 'EDITED',
-            cell: (row: DataRow) => {
-                const time = moment(row.created_at).fromNow();
-                return (
-                    <Link href={`/workspace/${row._id}`} className="text-[12px]">{time}</Link>
-                )
-            },
-            sortable: true,
-            // hide: 'md',
-            // cellClass: 'hide-on-mobile' as any,
-        },
+        // {
+        //     name: 'EDITED',
+        //     cell: (row: DataRow) => {
+        //         const time = moment(row.created_at).fromNow();
+        //         return (
+        //             <Link href={`/workspace/${row._id}`} className="text-[12px]">{time}</Link>
+        //         )
+        //     },
+        //     sortable: true,
+        //     // hide: 'md',
+        //     // cellClass: 'hide-on-mobile' as any,
+        // },
         {
             name: 'AUTHOR',
             cell: (row: DataRow)  => {
@@ -154,14 +300,12 @@ const AllFiles: React.FC<{ user: any }> = () => {
         }
     ];
     
+    
 
     useEffect(() => {
         setData(fileList_);
     }, [fileList_]);
 
-    // const handleChange = (selectedRows: any) => {
-    //     setSelectedRows(selectedRows.selectedRows);
-    // };
     const handleChange = ( selectedRows: any ) => {
         setSelectedRows(selectedRows);
     };
@@ -215,6 +359,7 @@ const AllFiles: React.FC<{ user: any }> = () => {
                 </div>
             </div>
     
+            {/* <AllFiles3 data={data} columns={columns} /> */}
             <DataTable
                 // title="All Files"
                 columns={columns}
@@ -223,11 +368,13 @@ const AllFiles: React.FC<{ user: any }> = () => {
                 selectableRows
                 customStyles={customStyles}
                 pagination
-                fixedHeader
+                // fixedHeader
                 // hoverRowColor="#f1f1f1"
                 // onSort={handleSort}
                 highlightOnHover 
                 pointerOnHover
+                fixedHeader={true}
+		        // fixedHeaderScrollHeight='70vh'
             />
         </div>
     );
