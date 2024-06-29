@@ -3,6 +3,7 @@ import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import AllFiles from './AllFiles'
 import TopFileNav from './TopFileNav'
 import AllFiles2 from './_files/AllFiles2';
+import File1 from './_fileDisplay/File1';
 
 
 export default function GettingStarted() {
@@ -11,10 +12,10 @@ export default function GettingStarted() {
   return (
     <div>
         {/* <TopFileNav /> */}
-        <AllFiles 
+        {/* <AllFiles 
           user={user}         
-        />
-        {/* <AllFiles2 /> */}
+        /> */}
+        <File1 />
     </div>
   )
 }
