@@ -39,7 +39,6 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
   ]
   const handleInputChange = (event: { target: { value: any; }; }) => {
     setFileInput(event.target.value);
-    
   };
 
   const maxFiles = 30; 
@@ -47,27 +46,29 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
 
 
   return (
-    <div className="mt-auto flex flex-col gap-4 ">
-        <div>
+    <div className="mt-10 grid gap-4">
+        <div className='grid'>
          {menu.map((item, index) => (
             <div 
               key={index} 
-              className="flex items-end justify-between px-4 py-2 rounded-sm w-full cursor-pointer hover:bg-black hover:text-white"
+              className='flex justify-between py-1 px-3 hover:bg-gray-200 rounded-sm cursor-pointer'
               onClick={() => router.push(item.link)}
             >
-                <div className='flex items-center gap-2'>
-                  <item.icon size={14} strokeWidth={1.5} />
-                  <span className='text-[13px] font-semibold'>{item.name}</span>
-                </div>
-                <span className='text-[11px] opacity-70'>{item.letter}</span>
+              <div className='flex gap-2 items-center'>
+                <item.icon className="h-4 w-4" />
+                <p className='text-sm'>{item.name}</p>
+              </div>
+              <div>
+                <span className='text-xs opacity-70'>{item.letter}</span>
+              </div>
             </div>
          ))}
         </div>
         <Dialog>
           <DialogTrigger asChild>
             <button className="flex items-end justify-between bg-black px-4 py-2 rounded-sm w-full transition ease-in-out duration-300 ">
-              <span className='text-white text-[13px] font-semibold'>New File</span>
-              <span className='text-white text-[11px] opacity-70'>CTRL N</span>
+              <span className='text-white text-sm font-medium'>New File</span>
+              <span className='text-white text-[11px] opacity-70'>⌘ + N</span>
             </button>
           </DialogTrigger>
           <DialogContent>
