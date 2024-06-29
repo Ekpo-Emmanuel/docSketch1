@@ -184,7 +184,7 @@ export default function SideNavTopSection({ user, setActiveTeamInfo}: any) {
                 </DropdownMenuContent>
             </DropdownMenu>
 
-            <div className='flex items-center justify-between cursor-pointer py-2 px-4 mt-8 rounded-sm hover:bg-slate-100 '>
+            {/* <div className='flex items-center justify-between cursor-pointer py-2 px-4 mt-8 rounded-sm hover:bg-slate-100 '>
                 <p className='flex gap-2 align-center items-center text-[14px] font-semibold'>
                     <Files size={16} />All Files
                 </p>
@@ -198,13 +198,12 @@ export default function SideNavTopSection({ user, setActiveTeamInfo}: any) {
                     <FolderPlus size={14} strokeWidth={2} />
                 </p>
             </div>
-            {/* folders */}
             <div className='flex flex-col items-center justify-between cursor-pointer py-1rounded-sm '>
                 <div className='text-[13px] pl-4 w-full rounded-sm py-2 text-black hover:bg-slate-100 flex align-center gap-2'>
                     <ChevronRight size={16} strokeWidth={1} />
                     <span>Untitled Folder </span>
                 </div>
-            </div>
+            </div> */}
         </div>
 
     )
