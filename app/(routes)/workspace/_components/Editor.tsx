@@ -1,125 +1,124 @@
-'use client'
+"use client";
 
-import React, {useEffect} from 'react'
+import React, { useEffect, useState, useRef } from "react";
+import EditorJS from "@editorjs/editorjs";
 // @ts-ignore
-import EditorJS from '@editorjs/editorjs';
-// @ts-ignore
-import Header from '@editorjs/header';
-// @ts-ignore
-import LinkTool from '@editorjs/link';
+import Header from "@editorjs/header";
 // @ts-ignore
 import List from "@editorjs/list";
 // @ts-ignore
-import SimpleImage from "@editorjs/simple-image";
+import Checklist from "@editorjs/checklist";
 // @ts-ignore
-import Checklist from '@editorjs/checklist'
+import Paragraph from "@editorjs/paragraph";
 // @ts-ignore
-import ImageTool from '@editorjs/image';
-// @ts-ignore
-import Embed from '@editorjs/embed';
+import Warning from "@editorjs/warning";
 
 import { api } from "@/convex/_generated/api";
 import { useMutation } from "convex/react";
-import { toast } from "sonner"
+import { toast } from "sonner";
+import { File } from "../../dashboard/_components/_fileDisplay/File1";
 
 const rawDocument = {
-    "time": 1550476186479,
-    "blocks" : [
-        {
-            type: 'header',
-            data: {
-                "text" : "Welcome to your new workspace 🚀 ",
-                "level" : 2
-            },
-            id: '123',
+  time: 1550476186479,
+  blocks: [
+    {
+      data: {
+        text: "Document Name",
+        level: 2,
+      },
+      id: "123",
+      type: "header",
+    },
+    {
+      data: {
+        level: 4,
+      },
+      id: "1234",
+      type: "header",
+    },
+  ],
+  version: "2.8.1",
+};
+
+export const Editor = ({
+  onSaveTrigger,
+  fileId,
+  fileData,
+}: {
+  onSaveTrigger: any;
+  fileId: any;
+  fileData: File;
+}) => {
+  const ref = useRef<EditorJS>();
+  const updateDocument = useMutation(api.files.updateDocument);
+  const [document, setDocument] = useState(rawDocument);
+  useEffect(() => {
+    fileData && initEditor();
+  }, [fileData]);
+
+  useEffect(() => {
+    console.log("triiger Value:", onSaveTrigger);
+    onSaveTrigger && onSaveDocument();
+  }, [onSaveTrigger]);
+
+  const initEditor = () => {
+    const editor = new EditorJS({
+      tools: {
+        header: {
+          class: Header,
+          shortcut: "CMD+SHIFT+H",
+          config: {
+            placeholder: "Enter a Header",
+          },
         },
-        {
-            type: 'header',
-            data: {
-                "level" : 4
+        list: {
+          class: List,
+          inlineToolbar: true,
+          config: {
+            defaultStyle: "unordered",
+          },
+        },
+        checklist: {
+          class: Checklist,
+          inlineToolbar: true,
+        },
+        paragraph: Paragraph,
+        warning: Warning,
+      },
+
+      holder: "editorjs",
+      data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
+    });
+    ref.current = editor;
+  };
+
+  const onSaveDocument = () => {
+    if (ref.current) {
+      ref.current
+        .save()
+        .then((outputData) => {
+          updateDocument({
+            _id: fileId,
+            document: JSON.stringify(outputData),
+          }).then(
+            (resp) => {
+              toast("Document Updated!");
             },
-            id: '123',
-        }
-    ],
-    "version" : "2.8.1"
-}
-
-export const Editor = ({onSaveTrigger, fileId}: any) => {
-    const [document, setDocument] = React.useState(rawDocument);
-    const ref = React.useRef<EditorJS>()
-    const updateDocumentMutation = useMutation(api.files.updateDocument);
-
-    useEffect(() => {
-        initializeEditor()
-    }, [])
-
-    useEffect(() => {
-        console.log('trigger value:', onSaveTrigger);
-        onSaveTrigger && onSaveDocument();
-    }, [onSaveTrigger])
-
-    const onSaveDocument = async () => {
-        try {
-          if (ref.current) {
-            const outputData = await ref.current.save();
-      
-            await updateDocumentMutation({
-              _id: fileId,
-              document: JSON.stringify(outputData)
-            });
-            toast("Document saved successfully");
-            console.log('file saved');
-          }
-        } catch (error) {
-          toast("Document failed to save");
-          console.log('Saving failed: ', error);
-        }
-      }
-
-    const initializeEditor = () => {
-        const editor = new EditorJS({
-            tools: {
-                header: {
-                    class: Header,
-                    shortcut: 'CMD+H',
-                    config: {
-                      placeholder: 'Type your notes or document here --- Style with markdown or shortcuts (Ctrl/)',
-                      levels: [2, 3, 4],
-                      defaultLevel: 3
-                    }
-                },
-                list: {
-                    class: List,
-                    shortcut: 'CMD+L',
-                    inlineToolbar: true,
-                    config: {
-                      defaultStyle: 'unordered'
-                    }
-                },
-                checklist: {
-                    class: Checklist,
-                    inlineToolbar: true,
-                },
-                image: {
-                    class: ImageTool,
-                    // config: {
-                    //   endpoints: {
-                    //     byFile: 'http://localhost:3000/workspace/jd7ftd7rf7bcfqa0n2ez0c9ry96pz2bb', // Your backend file uploader endpoint
-                    //     byUrl: 'http://localhost:3000/workspace/jd74jdgppbtcaadqczsz3dfmjh6pm008', // Your endpoint that provides uploading by Url
-                    //   }
-                    // }
-                },
-            },
-            holder: 'editorjs',
-            data:document
+            (e) => {
+              toast("Server Error!");
+            }
+          );
+        })
+        .catch((error) => {
+          console.log("Saving failed: ", error);
         });
-
-        ref.current = editor
     }
+  };
+
+  const expectedLength = 24; 
   return (
     <div>
-        <div id='editorjs' className='sm:m-8'></div>
-        {/* <div id='editorjs' className='m-8 '></div> */}
+      <div id="editorjs" className="sm:m-8"></div>
     </div>
-  )
-}
+  );
+};
