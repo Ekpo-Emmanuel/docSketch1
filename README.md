@@ -1,37 +1,119 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+  ## Docsketch.io
+  <p align="left">
+    Docsketch is an all-in-one AI document editor and collaborative canvas designed for students and teams. It offers diagramming tools, integrations with popular platforms, AI note-taking features, and supports team collaboration with real-time comments and annotations.
+    <br/>
+  </p>
+
+<!-- ![Downloads](https://img.shields.io/github/downloads/Ekpo-Emmanuel/Cloud-File-Share/total) ![Contributors](https://img.shields.io/github/contributors/Ekpo-Emmanuel/Cloud-File-Share?color=dark-green) ![Issues](https://img.shields.io/github/issues/Ekpo-Emmanuel/Cloud-File-Share) ![License](https://img.shields.io/github/license/Ekpo-Emmanuel/Cloud-File-Share)  -->
+
+## Table Of Contents
+
+* [About the Project](#about-the-project)
+* [Key Featues](#key-features)
+* [Technologies Used](#technologies-used)
+* [Getting Started](#getting-started)
+  * [Prerequisites](#prerequisites)
+  * [Installation](#installation)
+* [Contributing](#contributing)
+
+
+## About The Project
+
+![Screen Shot](public/images/screenshots/scr1.png)
+
+CloudShare Hub is an innovative and secure file-sharing platform built with cutting-edge technologies to provide users with a seamless and efficient way to share files. The platform harnesses the power of ReactJS and NextJS for a responsive and dynamic user interface, ensuring a smooth and engaging user experience.
+
+## Technologies Used
+
+This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+* Next.js - Typescript
+* Tailwind CSS
+* Shadcn UI, Flowbite, Aceternity UI, Magic UI
+* Convex
+
+## Key features
+
+1. **Diagramming Tools**: A variety of shapes and connectors for creating detailed diagrams.
+
+2. **Integrations**: Connects with platforms like LMS, WhatsApp, Slack, and more for seamless workflow.
+
+3. **Prioritizing Features**: Set and manage priorities for projects to focus on what’s important.
+
+4. **AI Note Taker**: Advanced text formatting with features like headings, lists, and quotes.
+
+5. **Team Projects**: Real-time collaboration on projects with simultaneous work by team members.
+
+6. **Comments and Annotations**: Directly add comments and annotations to documents for easy feedback and discussion.
+
+7. **Automation Builder**: Tools for creating automated workflows and processes.
+
+8. **Collaborative Canvas**: An interactive space for document creation and team collaboration.
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+1. **Node JS**
+
+### Installation
+
+1. API Keys
+* Kinde Auth API Key at [kinde.com](kinde.com), 
+* Convex Dev API Key at [https://www.convex.dev/](https://www.convex.dev/)
+
+2. Clone the repo
+
+```sh
+git clone https://github.com/Ekpo-Emmanuel/docSketch1
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```sh
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+4. Create an `.env.local` file in the root of the project
+```JS
+KINDE_CLIENT_ID=
+KINDE_CLIENT_SECRET=
+KINDE_ISSUER_URL= 
+KINDE_SITE_URL=http://localhost:3000
+KINDE_POST_LOGOUT_REDIRECT_URL=http://localhost:3000
+KINDE_POST_LOGIN_REDIRECT_URL=http://localhost:3000/dashboard
+```
+5. open the terminal and run `npx convex dev`. follow the steps. It will add some .env keys to your `.env.local` file
+```
+CONVEX_DEPLOYMENT=
 
-## Learn More
+NEXT_PUBLIC_CONVEX_URL=
+```
 
-To learn more about Next.js, take a look at the following resources:
+6. Then open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Contributing
 
-## Deploy on Vercel
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+* If you have suggestions for adding or removing projects, feel free to [open an issue](https://github.com/Ekpo-Emmanuel/Cloud-File-Share/issues/new) to discuss it, or directly create a pull request after you edit the *README.md* file with necessary changes.
+* Please make sure you check your spelling and grammar.
+* Create individual PR for each suggestion.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Creating A Pull Request
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
-#
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+
+## Author
+
+* **Emmanuel Ekpo** 
