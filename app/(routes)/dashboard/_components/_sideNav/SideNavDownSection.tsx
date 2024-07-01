@@ -13,11 +13,13 @@ DialogClose,
 } from "@/components/ui/dialog"
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+import { FileListContext } from '@/app/_context/FIleListContent';
 
 
 interface SideNavDownSectionProps {
-  onFileCreate: (fileName: string) => void;
+  onCreateFile: (fileName: string) => void;
   totalFiles: number;
+  isSubscribed: boolean;
 }
 
 interface MenuItem {
@@ -27,9 +29,10 @@ interface MenuItem {
   link: string
 }
 
-export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDownSectionProps) {
+export default function SideNavDownSection({onCreateFile, totalFiles, isSubscribed}: SideNavDownSectionProps) {
   const [fileInput, setFileInput] = useState<any>('');
   const router = useRouter();
+
   
   const menu: MenuItem[] = [
     { name: 'Dashboard', icon: Flag, letter: 'S', link: '/dashboard' },
@@ -41,8 +44,19 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
     setFileInput(event.target.value);
   };
 
-  const maxFiles = 30; 
+  const maxFiles = 10; 
   const progressPercentage = (totalFiles / maxFiles) * 100;
+
+  const handleCreateFile = () => {
+    if (totalFiles >= maxFiles && !isSubscribed) {
+      alert('You have reached the maximum number of files. Please upgrade your subscription for unlimited access.');
+      setFileInput(''); 
+      return;
+    }
+    
+    onCreateFile(fileInput);
+    setFileInput(''); 
+  };
 
 
   return (
@@ -84,6 +98,7 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
                     </label>
                     <input
                       placeholder="Enter File Name"
+                      id="email-address"
                       className="block w-full h-10 px-4 py-2 duration-200 border rounded-lg appearance-none bg-chalk border-zinc-300 text-black placeholder-zinc-300 focus:border-zinc-300 focus:outline-none focus:ring-zinc-300 sm:text-sm"
                       onChange={handleInputChange}
                       value={fileInput}
@@ -94,7 +109,7 @@ export default function SideNavDownSection({onFileCreate, totalFiles}: SideNavDo
                         type="button" 
                         className='text-white bg-blue-600 hover:bg-black'
                         disabled={fileInput.length < 3 || !fileInput} 
-                        onClick={() => onFileCreate(fileInput)}
+                        onClick={handleCreateFile}
                       >
                         Create 
                       </Button>
