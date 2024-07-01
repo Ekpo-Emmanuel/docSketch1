@@ -1,38 +1,39 @@
-import {v} from "convex/values";
+import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 
+
+export const getTeam = query({
+  args: {
+    email: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const result = await ctx.db
+      .query("teams")
+      .filter((q) => q.eq(q.field("createdBy"), args.email))
+      .collect();
+
+    return result;
+  },
+});
+
 // export const getTeam = query ({
-//     args: {email:v.string()},
+//   args: {},
 
-//     handler: async(ctx: { db: { query: (arg0: string) => { (): any; new(): any; filter: { (arg0: (q: any) => any): { (): any; new(): any; collect: { (): any; new(): any; }; }; new(): any; }; }; }; }, args: { email: any; }) => {
-//         const result = await ctx.db.
-//         query('teams')
-//         .filter((q) => q.eq(q.field('createdBy'), args.email))
-//         .collect()
+//     handler: async (ctx: any, args: any) => {
+//       const result = await ctx.db.
+//       query('teams')
+//       .collect()
 
-//         return result
-//     }
+//       return result
+//   }
 // })
-
-export const getTeam = query ({
-  args: {},
-
-    handler: async (ctx: any, args: any) => {
-      const result = await ctx.db.
-      query('teams')
-      .collect()
-
-      return result
-  }
-})
-
 
 export const getTeamByName = query({
   args: { teamName: v.optional(v.string()) },
 
   handler: async (ctx: any, args: any) => {
-    const result = await ctx.db.
-      query("teams")
+    const result = await ctx.db
+      .query("teams")
       .filter((q: any) => q.eq(q.field("teamName"), args.teamName))
       .collect();
 
@@ -40,18 +41,15 @@ export const getTeamByName = query({
   },
 });
 
-
-
-
 export const createTeam = mutation({
-  args: { 
-      teamName: v.string(),
-      createdBy: v.string()
-    },
+  args: {
+    teamName: v.string(),
+    createdBy: v.string(),
+  },
   handler: async (ctx: any, args: any) => {
     const result = await ctx.db.insert("teams", args);
 
-    return result
+    return result;
   },
 });
 
@@ -59,7 +57,7 @@ export const deleteTeam = mutation({
   args: {
     id: v.id("teams"),
   },
-  handler: async (ctx:any, args:any) => {
+  handler: async (ctx: any, args: any) => {
     try {
       await ctx.db.delete(args.id);
     } catch (error) {

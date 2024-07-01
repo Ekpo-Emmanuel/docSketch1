@@ -23,6 +23,6 @@ export const createUser = mutation({
         image: v.string()
     },
     handler: async (ctx: any, args: any) => {
-      return await ctx.db.insert("users", { text: args });
+      return await ctx.db.insert("users", args);
     },
   });
