@@ -21,8 +21,6 @@
 
 ![Screen Shot](public/images/screenshots/scr1.png)
 
-CloudShare Hub is an innovative and secure file-sharing platform built with cutting-edge technologies to provide users with a seamless and efficient way to share files. The platform harnesses the power of ReactJS and NextJS for a responsive and dynamic user interface, ensuring a smooth and engaging user experience.
-
 ## Technologies Used
 
 This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
