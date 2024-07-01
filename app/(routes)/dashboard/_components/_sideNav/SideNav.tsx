@@ -30,8 +30,8 @@ export default function SideNav(props: Props) {
   const [activeTeam, setActiveTeam] = useState<Team>();
   const teamId = activeTeam?._id;
   const [IsLoadingFiles, setIsLoadingFiles] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const convex = useConvex();
-  const tasks = useQuery(api.files.getFiles);
   const { fileList_, setFileList_ }: any = useContext(FileListContext);
   const router = useRouter();
 
@@ -64,7 +64,13 @@ export default function SideNav(props: Props) {
     };
   }, [activeTeam, teamId]);
 
-  const onFileCreate = (fileName: string) => {
+  const checkSubscription = async () => {
+    // const subscriptionStatus = await convex.query(api.subscriptions.getUserSubscriptionStatus, { email: user?.email });
+    // setIsSubscribed(subscriptionStatus === 'subscribed');
+
+  };
+
+  const onCreateFile = (fileName: string) => {
     if (!activeTeam) {
       console.error("Active team is not set.");
       return;
@@ -82,7 +88,7 @@ export default function SideNav(props: Props) {
       toast.success('File Created Successfully', {
         description: 'by ' + user?.email,
       });
-      router.push(`/workspace/${res}`);
+      // router.push(`/workspace/${res}`);
     })
     .catch((err: any) => {
       toast.error('Error creating File');
@@ -105,22 +111,24 @@ export default function SideNav(props: Props) {
         <Menu />
       </button>
       <div className="fixed inset-0 bg-gray-500 opacity-50 z-30 transition-opacity duration-300"
-           onClick={() => setIsOpen(false)}
-           style={{ visibility: isOpen ? 'visible' : 'hidden' }}
-      ></div>
+        onClick={() => setIsOpen(false)}
+        style={{ visibility: isOpen ? 'visible' : 'hidden' }}
+      />
       <div
         ref={sideNavRef}
-        className={`fixed top-0 bg-[#F9F9F9] left-0 z-40 p-2 py-4 w-60 h-screen flex flex-col transition-transform ${
-          isOpen ? '' : '-translate-x-full sm:translate-x-0'
-        }`}
+        className={`
+          fixed top-0 bg-[#F9F9F9] left-0 z-40 p-2 py-4 w-60 h-screen flex flex-col transition-transform 
+          ${isOpen ? '' : '-translate-x-full sm:translate-x-0'}
+        `}
       >
         <SideNavTopSection 
           user={user} 
           setActiveTeamInfo={(activeTeam: Team) => setActiveTeam(activeTeam)}
         />
         <SideNavDownSection 
-          onFileCreate={onFileCreate} 
-          totalFiles={tasks?.length}
+          onCreateFile={onCreateFile} 
+          totalFiles={fileList_?.length}
+          isSubscribed={isSubscribed}
         />
       </div>
     </>
