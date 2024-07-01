@@ -26,17 +26,14 @@ export interface File {
   _id: string;
 }
 
-interface Team {
-  _id: string;
-}
-
 export default function File1() {
-  //functions: search, create project, export table, getFiles, pagnition
+  //functions: search, create project, export table, getFiles, pagnition, Edits (Rename, Delete, Share, Add to Team),
   const { fileList_, setFileList_ } = useContext(FileListContext);
   const [fileList, setFileList] = useState<any>();
   const [searchQuery, setSearchQuery] = useState<string>("");
   const { user }: any = useKindeBrowserClient();
   const router = useRouter();
+  const deleteFilesMutation = useMutation(api.files.deleteFilesById);
 
   useEffect(() => {
     fileList_ && setFileList(fileList_);
@@ -59,6 +56,29 @@ export default function File1() {
       setFileList(fileList_);
     }
   }
+  
+  /**
+   * Deletes a project by its ID.
+   *
+   * @param {any} fileId - The ID of the file to be deleted.
+   * @return {Promise<void>} A promise that resolves when the file is successfully deleted.
+   */
+  const deleteProject = async (fileId: any) => {
+    try {
+      await deleteFilesMutation({ fileId: fileId });
+      const updatedFileList = fileList.filter((file: any) => file._id !== fileId);
+      setFileList(updatedFileList);
+      setFileList_(updatedFileList);
+
+      toast.success('File Deleted Successfully');
+    } catch (error) {
+      console.error('Error deleting team:', error);
+    }
+  }
+
+  const renameProject = (fileId: any) => {
+    console.log(fileId);
+  }
 
   return (
     <section className="container px-4 mx-auto">
@@ -67,27 +87,27 @@ export default function File1() {
         fileList={fileList_.length} 
         onSearch={searchForProject}
       />
-      <div className="flex flex-col mt-6">
-        <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-            <div
-              className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg"
-              style={{ overflowY: "auto", maxHeight: "550px" }}
-            > 
-              {fileList && fileList.length > 0 ? (
-                <table className="relative min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                  <TableHeader />
-                  <TableBody fileList={fileList} />
-                </table>
-              ) : searchQuery ? (
-                <NotFound />
-              ) : (
-                <EmptyTable />
-              )}
+        <div className="flex flex-col mt-6">
+          <div className="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+            <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+              <div
+                className="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg"
+                style = {{ overflowY: "auto", maxHeight: "550px" }}
+              > 
+                {fileList && fileList.length > 0 ? (
+                  <table className="relative min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                    <TableHeader />
+                    <TableBody 
+                      fileList = {fileList}
+                      deleteProject = {deleteProject}
+                      renameProject = {renameProject}
+                    />
+                  </table>
+                ) : searchQuery ? <NotFound /> : <EmptyTable />}
+              </div>
             </div>
           </div>
         </div>
-      </div>
       <TablePagintion />
     </section>
   );
