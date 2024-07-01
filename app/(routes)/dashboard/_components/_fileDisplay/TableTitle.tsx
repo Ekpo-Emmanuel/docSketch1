@@ -21,12 +21,14 @@ interface TableInfoProps {
 export default function TableTitle(props: TableInfoProps) {
   const [fileInput, setFileInput] = useState<any>('');
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFileInput(e.target.value);
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setFileInput(inputValue);
   };
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    props.onSearch(e.target.value);
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const query = event.target.value;
+    props.onSearch(query);
   };
   return (
     <div className="-mx-4 md:mx-0">
@@ -103,6 +105,7 @@ export default function TableTitle(props: TableInfoProps) {
                     </label>
                     <input
                       placeholder="Enter project name"
+                      id="email-address"
                       className="block w-full h-10 px-4 py-2 duration-200 border rounded-lg appearance-none bg-chalk border-zinc-300 text-black placeholder-zinc-300 focus:border-zinc-300 focus:outline-none focus:ring-zinc-300 sm:text-sm"
                       onChange={handleInputChange}
                       value={fileInput}
@@ -114,7 +117,6 @@ export default function TableTitle(props: TableInfoProps) {
                           disabled={fileInput.length < 3 || !fileInput}
                           onClick={() => props.onProjectCreate(fileInput)}
                         >
-                          
                           Create
                         </button>
                       </DialogClose>
@@ -158,6 +160,7 @@ export default function TableTitle(props: TableInfoProps) {
           <input
             type="text"
             placeholder="Search"
+            id="search"
             onChange={handleSearchChange}
             className="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
           />
