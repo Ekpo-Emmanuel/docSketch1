@@ -83,7 +83,7 @@ export default function Header() {
   return (
     <>
       <div className="w-full mx-auto bg-white px-8 lg:px-12 sm:px-16 2xl:max-w-7xl">
-      <div className="relative flex w-full py-3 mx-auto bg-white md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
+      <div className="relative flex w-full py-5 mx-auto bg-white md:items-center md:justify-between md:flex-row md:px-6 lg:px-8">
         <div className="flex flex-row items-center  justify-between lg:justify-start">
           <Link href="/" className="flex items-center ">
             <Image
@@ -165,7 +165,7 @@ export default function Header() {
                   </DialogHeader>
                   <div className="sm:flex items-center gap-2">
                     <div className="grid flex-1 gap-2">
-                      <label htmlFor="link" className="sr-only">
+                      <label htmlFor="firstname" className="sr-only">
                         firstname
                       </label>
                       <Input
@@ -176,7 +176,7 @@ export default function Header() {
                       />
                     </div>
                     <div className="grid flex-1 gap-2 mt-4 sm:mt-0">
-                      <label htmlFor="link" className="sr-only">
+                      <label htmlFor="lastname" className="sr-only">
                         lastname
                       </label>
                       <Input
@@ -189,7 +189,7 @@ export default function Header() {
                   </div>
                   <div className="flex items-center">
                     <div className="grid flex-1 gap-2">
-                      <label htmlFor="link" className="sr-only">
+                      <label htmlFor="email" className="sr-only">
                         Link
                       </label>
                       <Input
