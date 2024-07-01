@@ -84,6 +84,18 @@ export const updateWhiteboard = mutation({
 //     }
 //   },
 // })
+export const deleteFilesById = mutation({
+  args: {
+    fileId: v.id("files"),
+  },
+  handler: async (ctx: any, args: any) => {
+    try {
+      await ctx.db.delete(args.fileId);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+});
 
 export const deleteFilesByTeamId = mutation({
   args: {
@@ -114,3 +126,6 @@ export const getFileById = query({
     return result;
   },
 });
+
+
+
