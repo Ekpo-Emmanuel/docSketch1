@@ -43,15 +43,24 @@ import { useRouter } from 'next/navigation'
 
 export default function TeamContainer() {
   const { user, isLoading }: any = useKindeBrowserClient();
-  const teams = useQuery(api.teams.getTeam);
   const [teamsData, setTeamsData] = useState<any[]>([]);
   const router = useRouter(); 
+  const convex = useConvex();
   
   useEffect(() => {
-    if (user && teams) {
-      setTeamsData(teams);
+    if (user) {
+      getTeamData();
     }
-  }, [user, teams]);
+  }, [user]);
+
+  const getTeamData = async () => {
+    const result = await convex.query(api.teams.getTeam, {
+      email : String(user?.email)
+    });
+    const teams = result;
+    setTeamsData(teams);
+  };
+
 
   function formatDate(timestamp: string) {
     const milliseconds = parseFloat(timestamp);  
@@ -84,11 +93,11 @@ export default function TeamContainer() {
   // }
 
   
-  useEffect(() => {
-    if (teams?.length === 0) {
-        router.push('/teams/create');
-    }
-}, [teams]);
+//   useEffect(() => {
+//     if (teams?.length === 0) {
+//         router.push('/teams/create');
+//     }
+// }, [teams]);
   return (
     <div className="mt-4">
         <Link href={'/teams/create'} className="flex items-center gap-2 flex-wrap bg-blue-500 text-white px-4 py-1 w-fit rounded-sm text-sm hover:bg-blue-600">
@@ -129,7 +138,10 @@ export default function TeamContainer() {
                                 </AlertDialogHeader>
                                 <AlertDialogFooter>
                                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                  {/* <AlertDialogAction onClick={() => deleteTeam(team._id)}>Delete</AlertDialogAction> */}
+                                  {/* <AlertDialogAction onClick={() => deleteTeam(team._id)}> */}
+                                  <AlertDialogAction onClick={() => console.log('delete team: ' + team._id)}>
+                                    Delete
+                                  </AlertDialogAction>
                                 </AlertDialogFooter>
                               </AlertDialogContent>
                             </AlertDialog>
