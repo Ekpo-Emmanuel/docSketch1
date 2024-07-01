@@ -8,7 +8,7 @@ export default function LaunchingSoon() {
     <div className="p-8 text-center border lg:p-20 bg-gray-50 rounded-xl">
       <p className="text-4xl font-semibold tracking-tighter text-gray-900 lg:text-7xl">
         {/* We are about <span className="md:block">to launching soon</span> */}
-        We are <span className="md:block"> launching soon</span>
+       <span className="md:block"> Coming soon</span>
       </p>  
       {/* <p className="mt-4 text-base text-gray-500">
         We're onboarding users in Autumn 2023.
