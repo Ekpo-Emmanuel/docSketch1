@@ -1,23 +1,44 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { ArrowDownToLine, UserPlus } from "lucide-react"
-import { MoreHorizontal, Pencil, Trash } from "lucide-react"
- 
+import { ArrowDownToLine, UserPlus } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button";
+} from "@/components/ui/dropdown-menu";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+
+import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 interface File {
   archive: boolean;
@@ -32,26 +53,42 @@ interface File {
 
 interface TableBodyProps {
   fileList: File[];
+  deleteProject: any;
+  renameProject: any;
 }
-
 
 export default function TableBody(props: TableBodyProps) {
   const router = useRouter();
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [isRenameDialogInput, setIsRenameDialogInput] = useState<string>("");
 
-  const handleDropdownToggle = (fileId: string) => {
+  const toggleDropdown = (fileId: string) => {
     setOpenDropdown(openDropdown === fileId ? null : fileId);
   };
+
+  const truncateString = (inputString: string, maxLength: number) => {
+    if (inputString && inputString.length > maxLength) {
+      return inputString.slice(0, maxLength) + "...";
+    }
+    return inputString;
+  };
+
+  const handleRenameDialogInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = event.target.value;
+    setIsRenameDialogInput(inputValue);
+    console.log(inputValue);
+  }
 
   return (
     <>
       <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-          {props.fileList && props.fileList.map((file: File, index: number) => (
-            <tr key={index} onClick={() => router.push('/workspace/' + file._id)}>
+        {props.fileList &&
+          props.fileList.map((file: File) => (
+            <tr key={file._id}>
               <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
                 <div>
                   <h2 className="font-medium text-gray-800 dark:text-white ">
-                    {file.name}
+                    {truncateString(file.name, 10)}
                   </h2>
                 </div>
               </td>
@@ -101,20 +138,80 @@ export default function TableBody(props: TableBodyProps) {
                   <div className="bg-blue-500 w-2/3 h-1.5" />
                 </div>
               </td>
-              <td className="px-4 py-4 text-sm whitespace-nowrap" onClick={() => console.log('clicked')}>
-                <DropdownMenu open={openDropdown === file._id} onOpenChange={() => handleDropdownToggle(file._id)}>
+              <td className="px-4 py-4 text-sm whitespace-nowrap">
+                <DropdownMenu
+                  open={openDropdown === file._id}
+                  onOpenChange={() => toggleDropdown(file._id)}
+                >
                   <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); handleDropdownToggle(file._id); }}>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        toggleDropdown(file._id);
+                      }}
+                    >
                       <MoreHorizontal />
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-[200px]">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
                     <DropdownMenuGroup>
-                      <DropdownMenuItem>
-                        <Pencil className="mr-2 h-4 w-4" />
-                        Rename
-                      </DropdownMenuItem>
+                        <Dialog>
+                          <DialogTrigger asChild className="hover:bg-gray-50 w-full">
+                            {/* <Button variant="outline">Edit Profile</Button> */}
+                            <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                              <Pencil className="mr-2 h-4 w-4" />
+                              Rename
+                            </div>
+                          </DialogTrigger>
+                          <DialogContent className="sm:max-w-[425px]">
+                            <DialogHeader>
+                              <DialogTitle>Rename project</DialogTitle>
+                              <DialogDescription>
+                                Make changes to your project here. Click save
+                                when you're done.
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="grid gap-4 py-4">
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label htmlFor="name" className="text-right">
+                                  current
+                                </Label>
+                                <Input
+                                  id="name"
+                                  defaultValue={file.name}
+                                  className="col-span-3"
+                                  disabled
+                                />
+                              </div>
+                              <div className="grid grid-cols-4 items-center gap-4">
+                                <Label
+                                  htmlFor="username"
+                                  className="text-right"
+                                >
+                                  New
+                                </Label>
+                                <Input
+                                  id="username"
+                                  className="col-span-3"
+                                  onChange={handleRenameDialogInputChange}
+                                  value={isRenameDialogInput}
+                                />
+                              </div>
+                            </div>
+                            <DialogFooter
+                                onClick={() => props.renameProject(file._id)}
+                            >
+                              <Button 
+                                type="submit"
+                              >
+                                Save changes
+                              </Button>
+                            </DialogFooter>
+                          </DialogContent>
+                        </Dialog>
+
                       <DropdownMenuItem>
                         <UserPlus className="mr-2 h-4 w-4" />
                         Add member
@@ -124,11 +221,34 @@ export default function TableBody(props: TableBodyProps) {
                         Download
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-red-600">
-                        <Trash className="mr-2 h-4 w-4" />
-                        Delete
-                        <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-                      </DropdownMenuItem>
+                      <AlertDialog>
+                        <AlertDialogTrigger className="hover:bg-gray-50 w-full">
+                          <div className="text-red-600 relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            <Trash className="mr-2 h-4 w-4" />
+                            Delete
+                          </div>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              Are you absolutely sure?
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              This action cannot be undone. This will
+                              permanently delete your account and remove your
+                              data from our servers.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => props.deleteProject(file._id)}
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
