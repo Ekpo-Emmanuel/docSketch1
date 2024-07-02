@@ -26,43 +26,54 @@ export default function Workspace({ params }: any) {
   useEffect(() => {
     console.log("FILEID", params.fileId);
     params.fileId && getFileData();
-  }, []);
+  }, [params.fileId]);
 
   const getFileData = async () => {
-    const result = await convex.query(api.files.getFileById, {
-      _id: params.fileId,
-    });
-    setFileData(result);
+    try {
+      const result = await convex.query(api.files.getFileById, {
+        _id: params.fileId,
+      });
+      setFileData(result);
+    } catch (error) {
+      console.error("Error fetching file data:", error);
+    }
   };
 
   return (
     <div className="h-screen">
-      <WorkSpaceHeader onSave = {() => setTriggerSave(!triggerSave)} />
-      <div className="bg-white">
-        <ResizablePanelGroup
-          direction = {direction}
-          className="rounded-lg border min-h-[600px]"
-        >
-          <ResizablePanel defaultSize = {50} minSize = {30}>
-            <div className="h-full rounded-sm p-2 border b-1">
-              <Editor
-                onSaveTrigger = {triggerSave}
-                fileId = {params.fileId}
-                fileData = {fileData}
-              />
-            </div>
-          </ResizablePanel>
-          <ResizableHandle withHandle />
-          <ResizablePanel defaultSize = {canvasMinSize} minSize = {canvasMinSize}>
-            <div className="h-screen border-l">
-              <Canvas
-                onSaveTrigger = {triggerSave}
-                fileId = {params.fileId}
-                fileData = {fileData}
-              />
-            </div>
-          </ResizablePanel>
-        </ResizablePanelGroup>
+      <div className="p-3 grid gap-2">
+        <div>
+          <WorkSpaceHeader 
+            onSave = {() => setTriggerSave(!triggerSave)}
+            fileName = {fileData?.name} 
+          />
+        </div>
+        <div className="bg-white">
+          <ResizablePanelGroup
+            direction = {direction}
+            className="rounded-lg border min-h-[600px]"
+          >
+            <ResizablePanel defaultSize = {50} minSize = {30}>
+              <div className="h-full rounded-sm border b-1">
+                <Editor
+                  onSaveTrigger = {triggerSave}
+                  fileId = {params.fileId}
+                  fileData = {fileData}
+                />
+              </div>
+            </ResizablePanel>
+            <ResizableHandle withHandle />
+            <ResizablePanel defaultSize = {canvasMinSize} minSize = {canvasMinSize}>
+              <div className="h-full rounded-sm border-l">
+                <Canvas
+                  onSaveTrigger = {triggerSave}
+                  fileId = {params.fileId}
+                  fileData = {fileData}
+                />
+              </div>
+            </ResizablePanel>
+          </ResizablePanelGroup>
+        </div>
       </div>
     </div>
   );
