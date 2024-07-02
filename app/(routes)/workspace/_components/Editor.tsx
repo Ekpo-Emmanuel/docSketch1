@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import EditorJS from "@editorjs/editorjs";
 // @ts-ignore
 import Header from "@editorjs/header";
@@ -51,17 +51,12 @@ export const Editor = ({
 }) => {
   const ref = useRef<EditorJS>();
   const updateDocument = useMutation(api.files.updateDocument);
-  const [document, setDocument] = useState(rawDocument);
-  useEffect(() => {
-    fileData && initEditor();
-  }, [fileData]);
 
-  useEffect(() => {
-    console.log("triiger Value:", onSaveTrigger);
-    onSaveTrigger && onSaveDocument();
-  }, [onSaveTrigger]);
+  const initEditor = useCallback(() => {
+    if (ref.current) {
+      ref.current.destroy();
+    }
 
-  const initEditor = () => {
     const editor = new EditorJS({
       tools: {
         header: {
@@ -85,40 +80,56 @@ export const Editor = ({
         paragraph: Paragraph,
         warning: Warning,
       },
-
       holder: "editorjs",
       data: fileData?.document ? JSON.parse(fileData.document) : rawDocument,
     });
     ref.current = editor;
-  };
+  }, [fileData]);
 
-  const onSaveDocument = () => {
-    if (ref.current) {
-      ref.current
-        .save()
-        .then((outputData) => {
-          updateDocument({
-            _id: fileId,
-            document: JSON.stringify(outputData),
-          }).then(
-            (resp) => {
-              toast("Document Updated!");
-            },
-            (e) => {
-              toast("Server Error!");
-            }
-          );
-        })
-        .catch((error) => {
-          console.log("Saving failed: ", error);
-        });
+  useEffect(() => {
+    fileData && initEditor();
+
+    return () => {
+      if (ref.current) {
+        ref.current.destroy();
+      }
+    };
+  }, [fileData, initEditor]);
+
+  useEffect(() => {
+    if (onSaveTrigger) {
+      onSaveDocument(true);
+    }
+  }, [onSaveTrigger]);
+
+  useEffect(() => {
+    const autoSaveInterval = setInterval(() => {
+      onSaveDocument(false);
+    }, 2000); // Auto-save every 2 seconds
+
+    return () => {
+      clearInterval(autoSaveInterval);
+    };
+  }, [fileData, fileId]); 
+
+  const onSaveDocument = async (isManual: boolean) => {
+    if (!ref.current) return;
+
+    try {
+      const outputData = await ref.current.save();
+      await updateDocument({
+        _id: fileId,
+        document: JSON.stringify(outputData),
+      });
+
+      if (isManual) {
+        toast.success("Document Saved!");
+      }
+    } catch (error) {
+      toast.error("Server Error!");
     }
   };
-
-  const expectedLength = 24; 
   return (
-    <div>
-      <div id="editorjs" className="sm:m-8"></div>
-    </div>
+      <div id="editorjs" className="sm:m-8" />
   );
 };
