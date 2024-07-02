@@ -34,6 +34,7 @@ export default function File1() {
   const { user }: any = useKindeBrowserClient();
   const router = useRouter();
   const deleteFilesMutation = useMutation(api.files.deleteFilesById);
+  const renameFilesMutation = useMutation(api.files.renameFIle);
 
   useEffect(() => {
     fileList_ && setFileList(fileList_);
@@ -44,7 +45,12 @@ export default function File1() {
     console.log("New File Created", name);
   }
 
-  //Search Project
+  /**
+   * Updates the search query and filters the file list based on the query.
+   *
+   * @param {string} query - The search query.
+   * @return {void}
+   */
   const searchForProject = (query: string) => {
     setSearchQuery(query);
     if (query) {
@@ -72,12 +78,32 @@ export default function File1() {
 
       toast.success('File Deleted Successfully');
     } catch (error) {
-      console.error('Error deleting team:', error);
+      console.error('Error deleting project:', error);
     }
   }
 
-  const renameProject = (fileId: any) => {
-    console.log(fileId);
+  /**
+   * Renames a project by its ID.
+   *
+   * @param {any} fileId - The ID of the file to be renamed.
+   * @param {string} fileName - The new name for the file.
+   * @return {Promise<void>} A promise that resolves when the file is successfully renamed.
+   */
+  const renameProject = async (fileId: any, fileName: string) => {
+    try {
+      await renameFilesMutation({ _id: fileId, name: fileName });
+    
+      const updatedFileList = fileList.map((file: any) => 
+        file._id === fileId ? { ...file, name: fileName } : file
+      );
+
+      setFileList(updatedFileList);
+      setFileList_(updatedFileList);
+
+      toast.success('File Renamed Successfully');
+    } catch (error) {
+      console.log('Error renaming project', error)
+    }
   }
 
   return (
