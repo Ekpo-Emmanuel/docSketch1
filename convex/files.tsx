@@ -48,8 +48,9 @@ export const updateDocument = mutation({
   },
 
   handler: async (ctx: any, args: any) => {
-    const result = await ctx.db.patch("files", { args });
-
+    const result = await ctx.db.patch(args._id, {
+      document: args.document,
+    });
     return result;
   },
 });
@@ -96,6 +97,20 @@ export const deleteFilesById = mutation({
     }
   },
 });
+
+export const renameFIle = mutation({
+  args: {
+    _id: v.id("files"),
+    name: v.string(),
+  },
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db.patch(args._id, {
+      name: args.name,
+    });
+
+    return result;
+  },
+})
 
 export const deleteFilesByTeamId = mutation({
   args: {
