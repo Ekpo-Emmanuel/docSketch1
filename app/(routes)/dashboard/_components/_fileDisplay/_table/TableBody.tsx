@@ -76,7 +76,6 @@ export default function TableBody(props: TableBodyProps) {
   const handleRenameDialogInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
     setIsRenameDialogInput(inputValue);
-    console.log(inputValue);
   }
 
   return (
@@ -85,28 +84,40 @@ export default function TableBody(props: TableBodyProps) {
         {props.fileList &&
           props.fileList.map((file: File) => (
             <tr key={file._id}>
-              <td className="px-4 py-4 text-sm font-medium whitespace-nowrap">
+              <td 
+                className="px-4 py-4 text-sm font-medium whitespace-nowrap"
+                onClick={() => router.push(`/workspace/${file._id}`)}
+              >
                 <div>
-                  <h2 className="font-medium text-gray-800 dark:text-white ">
+                  <h2 className="font-medium text-gray-800 dark:text-white">
                     {truncateString(file.name, 10)}
                   </h2>
                 </div>
               </td>
-              <td className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap">
+              <td 
+                className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap"
+                onClick={() => router.push(`/workspace/${file._id}`)}
+              >
                 <div>
                   <h4 className="text-gray-700 dark:text-gray-200">
                     {moment(file._creationTime).format("DD MMM YYYY")}
                   </h4>
                 </div>
               </td>
-              <td className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap">
+              <td 
+                className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap"
+                onClick={() => router.push(`/workspace/${file._id}`)}
+              >
                 <div>
                   <h4 className="text-gray-700 dark:text-gray-200">
                     {moment(file._creationTime).format("DD MMM YYYY")}
                   </h4>
                 </div>
               </td>
-              <td className="px-4 py-4 text-sm whitespace-nowrap">
+              <td 
+                className="px-4 py-4 text-sm whitespace-nowrap"
+                onClick={() => router.push(`/workspace/${file._id}`)}
+              >
                 <div className="flex items-center">
                   <img
                     className="object-cover w-6 h-6 -mx-1 border-2 border-white rounded-full dark:border-gray-700 shrink-0"
@@ -201,7 +212,7 @@ export default function TableBody(props: TableBodyProps) {
                               </div>
                             </div>
                             <DialogFooter
-                                onClick={() => props.renameProject(file._id)}
+                                onClick={() => props.renameProject(file._id, isRenameDialogInput)}
                             >
                               <Button 
                                 type="submit"
