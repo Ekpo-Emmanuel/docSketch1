@@ -85,7 +85,7 @@ export default function TableBody(props: TableBodyProps) {
           props.fileList.map((file: File) => (
             <tr key={file._id}>
               <td 
-                className="px-4 py-4 text-sm font-medium whitespace-nowrap"
+                className="px-4 py-4 text-sm font-medium whitespace-nowrap cursor-pointer"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
                 <div>
@@ -95,7 +95,7 @@ export default function TableBody(props: TableBodyProps) {
                 </div>
               </td>
               <td 
-                className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap"
+                className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap cursor-pointer"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
                 <div>
@@ -105,7 +105,7 @@ export default function TableBody(props: TableBodyProps) {
                 </div>
               </td>
               <td 
-                className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap"
+                className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap cursor-pointer"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
                 <div>
