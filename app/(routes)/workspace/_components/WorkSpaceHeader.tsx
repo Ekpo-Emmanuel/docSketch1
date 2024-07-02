@@ -29,18 +29,24 @@ interface MenuItem {
     link: string;
 }
 
+interface Props {
+    fileName: string;
+    onSave: any;
+}
 
-export default function WorkSpaceHeader({onSave}: any) {
+export default function WorkSpaceHeader(props: Props) {
     const menu: MenuItem[] = [
         { name: 'Dashboard', icon: Users, link: '/teams/create' },
         { name: 'Export', icon: Settings, link: '/' },
     ];
   return (
-    <div className='p-2'>
+    <div className=''>
         <div className='flex gap-2 items-center justify-between'>
             <div className='flex gap-2 '>
                 <img src="https://flowbite.com/docs/images/logo.svg" className=" h-5" alt="Flowbite Logo" />
-                <h2 className='font-bold'>File Name</h2>
+                <h2 className='font-bold'>
+                    {props.fileName}
+                </h2>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <span className='cursor-pointer hover:bg-slate-300 mt-auto mb-auto' > <TbDots  /> </span>
@@ -78,7 +84,7 @@ export default function WorkSpaceHeader({onSave}: any) {
                 </DropdownMenu>
             </div>
             <div className='flex items-center gap-2'>
-                <button className='bg-black text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm font-semibold' onClick={() => onSave()}><IoSaveSharp /> Save</button>
+                <button className='bg-black text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm font-semibold' onClick={() => props.onSave()}><IoSaveSharp /> Save</button>
                 <button className='bg-blue-500 text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm hover:bg-black font-semibold'> <IoMdShare  />Share </button>
             </div>
         </div>
