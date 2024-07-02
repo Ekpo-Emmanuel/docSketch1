@@ -83,9 +83,12 @@ export default function WorkSpaceHeader(props: Props) {
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>
-            <div className='flex items-center gap-2'>
-                <button className='bg-black text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm font-semibold' onClick={() => props.onSave()}><IoSaveSharp /> Save</button>
-                <button className='bg-blue-500 text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm hover:bg-black font-semibold'> <IoMdShare  />Share </button>
+            <div className=''>
+                <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600" onClick={() => props.onSave()}>
+                <IoSaveSharp />
+                <span>Save project</span>
+              </button>
+                {/* <button className='bg-blue-500 text-sm py-[7px] px-4 flex gap-2 items-center text-white rounded-sm hover:bg-black font-semibold'> <IoMdShare  />Share </button> */}
             </div>
         </div>
     </div>
