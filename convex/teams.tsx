@@ -2,6 +2,20 @@ import { v } from "convex/values";
 import { query, mutation } from "./_generated/server";
 
 
+
+
+export const createTeam = mutation({
+  args: {
+    teamName: v.string(),
+    createdBy: v.string(),
+  },
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db.insert("teams", args);
+
+    return result;
+  },
+});
+
 export const getTeam = query({
   args: {
     email: v.string(),
@@ -16,18 +30,6 @@ export const getTeam = query({
   },
 });
 
-// export const getTeam = query ({
-//   args: {},
-
-//     handler: async (ctx: any, args: any) => {
-//       const result = await ctx.db.
-//       query('teams')
-//       .collect()
-
-//       return result
-//   }
-// })
-
 export const getTeamByName = query({
   args: { teamName: v.optional(v.string()) },
 
@@ -41,17 +43,32 @@ export const getTeamByName = query({
   },
 });
 
-export const createTeam = mutation({
+export const addUserToTeam = mutation({
   args: {
-    teamName: v.string(),
-    createdBy: v.string(),
+    teamId: v.id("teams"),
+    email: v.string(),
   },
   handler: async (ctx: any, args: any) => {
-    const result = await ctx.db.insert("teams", args);
+    try {
+      const team = await ctx.db
+        .query("teams")
+        .filter((q: any) => q.eq(q.field("teamId"), args.teamId))
+        .collect();
 
-    return result;
-  },
-});
+      const user = await ctx.db
+        .query("users")
+        .filter((q: any) => q.eq(q.field("email"), args.email))
+        .collect();
+
+      await ctx.db
+        .query("users")
+        .filter((q: any) => q.eq(q.field("userId"), user[0]._id))
+        .update((q: any) => q.set("teamId", team[0]._id));
+    } catch (error) {
+      console.log(error);
+    }
+  }
+})
 
 export const deleteTeam = mutation({
   args: {
