@@ -6,7 +6,6 @@ import Link from "@/node_modules/next/link";
 import { LoginLink } from "@kinde-oss/kinde-auth-nextjs/components";
 import { useKindeBrowserClient } from "@kinde-oss/kinde-auth-nextjs";
 import LoadingAnimation from "./LoadingAnimation";
-// import localFont from '@next/font/local';
 import { BsStars } from "react-icons/bs";
 import { Button } from "@/components/ui/button";
 import {
@@ -86,14 +85,14 @@ export default function Hero() {
       <section>
         <div className="h-full px-8 py-20 sm:py-24  mx-auto lg:py-32 md:px-12 max-w-7xl">
           <div className="sm:text-center">
-            <span className="text-sm font-medium flex gap-2 items-center justify-center bg-[#f2f2f2] text-gray-500 w-fit m-0 sm:m-auto px-2 sm:px-6 py-1 rounded-full ">
+            <span className="text-[10px] md:text-sm font-medium flex gap-2 items-center justify-center bg-[#f2f2f2] text-gray-500 w-fit m-0 sm:m-auto px-4 sm:px-6 py-1 rounded-full ">
               See what's new{" "}
-              <span className="text-sm font-medium text-blue-600 flex">
+              <span className=" font-medium text-blue-600 flex">
                 {" "}
                 <BsStars /> AI Diagram
               </span>
             </span>
-            <h1 className="text-3xl mt-4 font-semibold sm:font-bold tracking-tighter text-gray-900 lg:text-7xl text-balance">
+            <h1 className="text-4xl mt-4 font-medium  tracking-tighter text-gray-900 lg:text-7xl text-balance">
               Documents and Diagrams
               <span className="text-blue-500"> for students and teams</span>
             </h1>
