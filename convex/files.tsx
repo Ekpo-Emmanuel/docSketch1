@@ -17,6 +17,22 @@ export const createFile = mutation({
   },
 });
 
+export const addUserToFile = mutation({
+  args: {
+    _id: v.id("files"),
+    userId: v.string(),
+  },
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db
+      .query("files")
+      .filter((q: any) => q.eq(q.field("teamId"), args._id))
+      .modify((q: any) => q.addUnique("users", args.userId))
+      .collect();
+    return result;
+  }
+})
+
+
 export const getFiles = query({
   args: {},
   handler: async (ctx: any, args: any) => {
