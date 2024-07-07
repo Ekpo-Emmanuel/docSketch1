@@ -10,6 +10,5 @@ export const config = {
         "/teams",
         "/teams/:path*",
         "/workspace",
-        "/workspace/:path*",
     ]
 };
