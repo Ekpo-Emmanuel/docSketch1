@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Editor } from "../_components/Editor";
 import WorkSpaceHeader from "@/app/(routes)/workspace/_components/WorkSpaceHeader";
 import {
@@ -9,26 +9,33 @@ import {
   ResizablePanelGroup,
 } from "@/components/ui/resizable";
 import { useMediaQuery } from "react-responsive";
-import { useConvex } from "convex/react";
-import { api } from "@/convex/_generated/api";
 import { File } from "../../dashboard/_components/_fileDisplay/File1";
 import Canvas from "../_components/Canvas";
+import MyCustomAutoFocusPlugin from "../_components/LexicalEditor";
+import { FileListContext } from "@/app/_context/FIleListContent";
+import { useMutation, useConvex, useQuery } from "convex/react";
+import { api } from "@/convex/_generated/api";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+
+
 
 export default function Workspace({ params }: any) {
+  // const { fileList_, setFileList_ } = useContext(FileListContext);
+  // const [fileList, setFileList] = useState<any>();
   const [triggerSave, setTriggerSave] = useState(false);
   const [fileData, setFileData] = useState<File | any>();
-  const isSmallScreen = useMediaQuery({ query: "(max-width: 768px)" });
-  const [bothVisible, setBothVisible] = useState(!isSmallScreen);
-  const [onlyDocumentVisible, setOnlyDocumentVisible] = useState(isSmallScreen);
+  const [onlyDocumentVisible, setOnlyDocumentVisible] = useState(true);
   const [onlyCanvasVisible, setOnlyCanvasVisible] = useState(false);
-  const direction = isSmallScreen ? 'vertical' : params.direction || 'horizontal';
-  const contentMinSize = isSmallScreen ? 20 : 50;
-  const canvasMinSize = isSmallScreen ? 20 : 50;
   const convex = useConvex();
+  const router = useRouter();
+  const deleteFilesMutation = useMutation(api.files.deleteFilesById);
+  const renameFilesMutation = useMutation(api.files.renameFIle);
 
   useEffect(() => {
-    console.log("FILEID", params.fileId);
-    params.fileId && getFileData();
+    if (params.fileId) {
+      getFileData();
+    }
   }, [params.fileId]);
 
   const getFileData = async () => {
@@ -42,64 +49,67 @@ export default function Workspace({ params }: any) {
     }
   };
 
-  const toggleVisible = () => {
-    setBothVisible(true);
-    setOnlyDocumentVisible(false);
-    setOnlyCanvasVisible(false);
-  };
-
   const showOnlyDocument = () => {
-    setBothVisible(false);
     setOnlyDocumentVisible(true);
     setOnlyCanvasVisible(false);
   };
 
   const showOnlyCanvas = () => {
-    setBothVisible(false);
     setOnlyDocumentVisible(false);
     setOnlyCanvasVisible(true);
+  };
+
+  const deleteProject = async (fileId: any) => {
+    try {
+      console.log("File deleted");
+      await deleteFilesMutation({ fileId: fileId });
+      // const updatedFileList = fileList.filter(
+      //   (file: any) => file._id !== fileId
+      // );
+      // setFileList(updatedFileList);
+      // setFileList_(updatedFileList);
+
+      router.push("/dashboard");
+      toast.success("File Deleted Successfully");
+    } catch (error) {
+      console.error("Error deleting project:", error);
+    }
+  };
+
+  const renameProject = async (fileId: any, fileName: string) => {
+    try {
+      await renameFilesMutation({ _id: fileId, name: fileName });
+      
+    //   const updatedFileList = fileList.map((file: any) =>
+    //     file._id === fileId ? { ...file, name: fileName } : file
+    // );
+
+    // setFileList(updatedFileList);
+      // setFileList_(updatedFileList);
+      
+      toast.success("File Renamed Successfully");
+      console.log("New File Created", fileName);
+    } catch (error) {
+      console.log("Error renaming project", error);
+    }
   };
 
   return (
     <div className="">
       <div className="">
         <div>
-          <WorkSpaceHeader 
-            onSave={() => setTriggerSave(!triggerSave)}
+          <WorkSpaceHeader
+            fileId={fileData?._id}
             fileName={fileData?.name}
-            toggleVisible={toggleVisible}
+            // fileList={fileList}
+            deleteProject={deleteProject}
+            renameProject={renameProject}
+            onSave={() => setTriggerSave(!triggerSave)}
             showOnlyDocument={showOnlyDocument}
             showOnlyCanvas={showOnlyCanvas}
           />
         </div>
         <section className="pt-[62px] md:pt-0">
-          {bothVisible && 
-          <div className="hidden lg:inline bg-white h-full">
-            <ResizablePanelGroup
-              direction={direction}
-              className="rounded-lg border min-h-[600px]"
-            >
-              <ResizablePanel defaultSize={50} minSize={30}>
-                <div className="h-full rounded-sm px-3">
-                  <Editor
-                    onSaveTrigger={triggerSave}
-                    fileId={params.fileId}
-                    fileData={fileData}
-                  />
-                </div>
-              </ResizablePanel>
-              <ResizableHandle withHandle />
-              <ResizablePanel defaultSize={canvasMinSize} minSize={canvasMinSize}>
-                <div className="h-full rounded-sm border-l">
-                  <Canvas
-                    onSaveTrigger={triggerSave}
-                    fileId={params.fileId}
-                    fileData={fileData}
-                  />
-                </div>
-              </ResizablePanel>
-            </ResizablePanelGroup>
-          </div>}
           {onlyDocumentVisible && 
             <div className="h-screen rounded-sm px-3">
               <Editor
