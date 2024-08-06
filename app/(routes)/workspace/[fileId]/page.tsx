@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 
 
 export default function Workspace({ params }: any) {
-  // const { fileList_, setFileList_ } = useContext(FileListContext);
+  // const { allFiles, setAllFiles } = useContext(FileListContext);
   // const [fileList, setFileList] = useState<any>();
   const [triggerSave, setTriggerSave] = useState(false);
   const [fileData, setFileData] = useState<File | any>();
@@ -30,7 +30,7 @@ export default function Workspace({ params }: any) {
   const convex = useConvex();
   const router = useRouter();
   const deleteFilesMutation = useMutation(api.files.deleteFilesById);
-  const renameFilesMutation = useMutation(api.files.renameFIle);
+  const renameFilesMutation = useMutation(api.files.renameFile);
 
   useEffect(() => {
     if (params.fileId) {
@@ -67,7 +67,7 @@ export default function Workspace({ params }: any) {
       //   (file: any) => file._id !== fileId
       // );
       // setFileList(updatedFileList);
-      // setFileList_(updatedFileList);
+      // setAllFiles(updatedFileList);
 
       router.push("/dashboard");
       toast.success("File Deleted Successfully");
@@ -85,7 +85,7 @@ export default function Workspace({ params }: any) {
     // );
 
     // setFileList(updatedFileList);
-      // setFileList_(updatedFileList);
+      // setAllFiles(updatedFileList);
       
       toast.success("File Renamed Successfully");
       console.log("New File Created", fileName);
