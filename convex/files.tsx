@@ -114,7 +114,7 @@ export const deleteFilesById = mutation({
   },
 });
 
-export const renameFIle = mutation({
+export const renameFile = mutation({
   args: {
     _id: v.id("files"),
     name: v.string(),
@@ -127,6 +127,22 @@ export const renameFIle = mutation({
     return result;
   },
 })
+
+export const archiveFile = mutation({
+  args: {
+    _id: v.id("files"),
+    archieve: v.boolean()
+  },
+
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db.patch(args._id, {
+      archieve: true,
+    });
+
+    return result;
+  },
+})
+
 
 export const deleteFilesByTeamId = mutation({
   args: {
@@ -157,6 +173,3 @@ export const getFileById = query({
     return result;
   },
 });
-
-
-
