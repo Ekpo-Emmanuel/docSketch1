@@ -3,8 +3,7 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { ArrowDownToLine, UserPlus } from "lucide-react";
-import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash, ArrowDownToLine, UserPlus, FolderArchive } from "lucide-react";
 
 import {
   DropdownMenu,
@@ -55,6 +54,7 @@ interface TableBodyProps {
   fileList: File[];
   deleteProject: any;
   renameProject: any;
+  archiveProject: any;
 }
 
 export default function TableBody(props: TableBodyProps) {
@@ -222,7 +222,6 @@ export default function TableBody(props: TableBodyProps) {
                             </DialogFooter>
                           </DialogContent>
                         </Dialog>
-
                       <DropdownMenuItem>
                         <UserPlus className="mr-2 h-4 w-4" />
                         Add member
@@ -230,6 +229,10 @@ export default function TableBody(props: TableBodyProps) {
                       <DropdownMenuItem>
                         <ArrowDownToLine className="mr-2 h-4 w-4" />
                         Download
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => props.archiveProject(file?._id)}>
+                        <FolderArchive className="mr-2 h-4 w-4" />
+                        Archieve
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
                       <AlertDialog>
