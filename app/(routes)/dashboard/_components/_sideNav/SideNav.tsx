@@ -32,7 +32,7 @@ export default function SideNav(props: Props) {
   const [IsLoadingFiles, setIsLoadingFiles] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const convex = useConvex();
-  const { fileList_, setFileList_ }: any = useContext(FileListContext);
+  const { allFiles, setAllFiles }: any = useContext(FileListContext);
   const router = useRouter();
 
   const toggleSideNav = () => {
@@ -98,7 +98,7 @@ export default function SideNav(props: Props) {
 
   const getFiles = async () => {
     const newFiles = await convex.query(api.files.getFilesByTeamId, { teamId: teamId });
-    setFileList_(newFiles);
+    setAllFiles(newFiles);
   };
 
 
@@ -127,7 +127,7 @@ export default function SideNav(props: Props) {
         />
         <SideNavDownSection 
           onCreateFile={onCreateFile} 
-          totalFiles={fileList_?.length}
+          totalFiles={allFiles?.length}
           isSubscribed={isSubscribed}
         />
       </div>
