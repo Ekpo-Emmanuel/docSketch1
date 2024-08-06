@@ -13,7 +13,6 @@ import { useRouter } from "@/node_modules/next/navigation";
 interface Props {}
 
 interface Team {
-  // Define the properties of the Team type
   _id: string;
   teamId: string;
   name: string;
@@ -26,7 +25,7 @@ export const Bottom = (props: Props) => {
   const [teamsData, setTeamsData] = useState<Team[]>([]); // Initialize with the correct type
   const [activeTeam, setActiveTeam] = useState<Team | null>(null);
   const tasks = useQuery(api.files.getFiles);
-  const { fileList_, setFileList_ }: any = useContext(FileListContext);
+  const { allFiles, setAllFiles }: any = useContext(FileListContext);
   const router = useRouter();
   const convex = useConvex();
 
@@ -75,7 +74,7 @@ export const Bottom = (props: Props) => {
     const newFiles = await convex.query(api.files.getFilesByTeamId, {
       teamId: activeTeam?._id,
     });
-    setFileList_(newFiles);
+    setAllFiles(newFiles);
   };
 
   return (
