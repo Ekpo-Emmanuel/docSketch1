@@ -1,5 +1,6 @@
 import { createContext } from "react";
 
+
 interface FileListContextType {
     allFiles: any[];
     nonArchivedFiles: any[];
@@ -7,4 +8,4 @@ interface FileListContextType {
     isSubscribed: boolean;
 }
 
-export const FileListContext = createContext<FileListContextType | null>(null);
+export const FileListContext = createContext<any>(null)
