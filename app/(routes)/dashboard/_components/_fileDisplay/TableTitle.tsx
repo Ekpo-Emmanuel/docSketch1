@@ -29,7 +29,7 @@ export default function TableTitle(props: TableInfoProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     props.onSearch(query);
-  };
+  }; 
   return (
     <div className="-mx-4 md:mx-0">
       <div className="sm:flex sm:items-center sm:justify-between">
