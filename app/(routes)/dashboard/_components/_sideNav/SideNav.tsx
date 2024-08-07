@@ -79,7 +79,8 @@ export default function SideNav(props: Props) {
       name: fileName,
       teamId: activeTeam._id,
       createdBy: user?.email,
-      archieve: false,
+      archive: false,
+      trash: false,
       document: '',
       whiteboard: ''
     })

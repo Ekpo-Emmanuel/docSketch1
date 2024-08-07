@@ -56,7 +56,8 @@ export const Bottom = (props: Props) => {
         name: fileName,
         teamId: teamsData[teamsData.length - 1]._id,
         createdBy: user?.email,
-        archieve: false,
+        archive: false,
+        trash: false,
         document: "",
         whiteboard: "",
       });
