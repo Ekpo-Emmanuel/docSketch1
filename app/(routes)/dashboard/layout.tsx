@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, ReactNode } from "react";
 import SideNav from "./_components/_sideNav/SideNav";
 import LoadingAnimation from "@/app/_components/LoadingAnimation";
 import { FileListContext } from "@/app/_context/FIleListContent";
@@ -9,65 +9,72 @@ import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs';
 import { useConvex } from 'convex/react';
 import { useRouter } from 'next/navigation';
 
+interface DashboardLayoutProps {
+  children: ReactNode;
+}
 
-
-
-export default function DashboardLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function DashboardLayout({ children }: DashboardLayoutProps) {
   const convex = useConvex();
   const { user, isLoading, isAuthenticated }: any = useKindeBrowserClient();
   const [allFiles, setAllFiles] = useState<any[]>([]);
   const [isSubscribed, setIsSubscribed] = useState<boolean>(false);
   const router = useRouter();
 
-  const filterNonArchivedFiles = (files: any[]) => {
-    return files.filter((file: any) => !file.archive);
-  };
-  
-  const nonArchivedFiles = useMemo(() => filterNonArchivedFiles(allFiles), [allFiles]);
+  const nonArchivedFiles = useMemo(() => allFiles.filter(file => !file.archive), [allFiles]);
+  const nonTrashedFiles = useMemo(() => allFiles.filter(file => !file.trash), [allFiles]);
 
   useEffect(() => {
     if (user) {
-      checkTeam();
-      checkSubscription();
-      fetchFiles();
+      const fetchData = async () => {
+        try {
+          await checkTeam();
+          await checkSubscription();
+          await fetchFiles();
+        } catch (error) {
+          console.error('Error in fetchData:', error);
+        }
+      };
+      fetchData();
     }
   }, [user]);
 
-
-  const checkTeam = async() => {
-    const result = await convex.query(api.teams.getTeam, { email : user?.email });
-    if(!result?.length)
-    {
-      router.push('teams/create')
+  const checkTeam = async () => {
+    try {
+      const result = await convex.query(api.teams.getTeam, { email: user?.email });
+      if (!result?.length) {
+        router.push('teams/create');
+      }
+    } catch (error) {
+      console.error('Error checking team:', error);
     }
-  }
+  };
 
   const fetchFiles = async () => {
-    if (user) {
-      try {
-        const files = await convex.query(api.files.getFiles);
-        setAllFiles(files);
-      } catch (error) {
-        console.error('Error fetching files:', error);
-      }
+    try {
+      const files = await convex.query(api.files.getFiles);
+      setAllFiles(files);
+    } catch (error) {
+      console.error('Error fetching files:', error);
     }
   };
 
   const checkSubscription = async () => {
-    // Fetch subscription status for the user
-    // Assume you have a function to check subscription status
-    // const subscriptionStatus = await convex.query(api.subscriptions.getUserSubscriptionStatus, { email: user?.email });
-    // setIsSubscribed(subscriptionStatus === 'subscribed');
-    console.log("isSubscribed", isSubscribed)
-  }
+    try {
+      // Your logic for checking subscription
+      console.log("isSubscribed", isSubscribed);
+    } catch (error) {
+      console.error('Error checking subscription:', error);
+    }
+  };
 
-  isLoading && <LoadingAnimation />
+  if (isLoading) return <LoadingAnimation />;
 
   return isAuthenticated ? (
     <FileListContext.Provider value={{ 
       allFiles, 
       setAllFiles, 
-      nonArchivedFiles, 
+      nonArchivedFiles,
+      nonTrashedFiles,
       isSubscribed 
     }}>
       <SideNav />
