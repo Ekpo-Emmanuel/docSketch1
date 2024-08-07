@@ -6,7 +6,8 @@ export const createFile = mutation({
     name: v.string(),
     teamId: v.string(),
     createdBy: v.string(),
-    archieve: v.boolean(),
+    archive: v.boolean(),
+    trash: v.boolean(),
     document: v.string(),
     whiteboard: v.string(),
   },
@@ -31,7 +32,6 @@ export const addUserToFile = mutation({
     return result;
   }
 })
-
 
 export const getFiles = query({
   args: {},
@@ -131,18 +131,62 @@ export const renameFile = mutation({
 export const archiveFile = mutation({
   args: {
     _id: v.id("files"),
-    archieve: v.boolean()
+    archive: v.boolean()
   },
 
   handler: async (ctx: any, args: any) => {
     const result = await ctx.db.patch(args._id, {
-      archieve: true,
+      archive: true,
     });
 
     return result;
   },
 })
 
+export const unarchiveFile = mutation({
+  args: {
+    _id: v.id("files"),
+    archive: v.boolean()
+  },
+
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db.patch(args._id, {
+      archive: false,
+    });
+
+    return result;
+  },
+})
+
+export const trashProject = mutation({
+  args: {
+    _id: v.id("files"),
+    trash: v.boolean()
+  },
+
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db.patch(args._id, {
+      trash: true,
+    });
+
+    return result;
+  },
+})
+
+export const untrashProject = mutation({
+  args: {
+    _id: v.id("files"),
+    trash: v.boolean()
+  },
+
+  handler: async (ctx: any, args: any) => {
+    const result = await ctx.db.patch(args._id, {
+      trash: false,
+    });
+
+    return result;
+  },
+})
 
 export const deleteFilesByTeamId = mutation({
   args: {
