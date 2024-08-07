@@ -1,5 +1,5 @@
-'use client'
-import React, {useState} from "react";
+"use client";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,15 +11,16 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 
-
 interface TableInfoProps {
   fileList: number;
   onProjectCreate: (fileName: string) => void;
   onSearch: (query: string) => void;
+  onTabChange: (tab: string) => void; 
 }
 
 export default function TableTitle(props: TableInfoProps) {
-  const [fileInput, setFileInput] = useState<any>('');
+  const [fileInput, setFileInput] = useState<any>("");
+  const [activeTab, setActiveTab] = useState("all");
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const inputValue = event.target.value;
@@ -29,7 +30,13 @@ export default function TableTitle(props: TableInfoProps) {
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value;
     props.onSearch(query);
-  }; 
+  };
+
+  const handleTabChange = (tab: string) => {
+    setActiveTab(tab);
+    props.onTabChange(tab);
+  };
+
   return (
     <div className="-mx-4 md:mx-0">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -112,7 +119,7 @@ export default function TableTitle(props: TableInfoProps) {
                     />
                     <DialogFooter className="sm:justify-start">
                       <DialogClose asChild>
-                        <button 
+                        <button
                           className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600"
                           disabled={fileInput.length < 3 || !fileInput}
                           onClick={() => props.onProjectCreate(fileInput)}
@@ -129,41 +136,62 @@ export default function TableTitle(props: TableInfoProps) {
         </div>
       </div>
       <div className="mt-6 md:flex md:items-center md:justify-between">
-        <div className="hidden sm:inline-flex overflow-hidden bg-white border divide-x rounded-lg dark:bg-gray-900 rtl:flex-row-reverse dark:border-gray-700 dark:divide-gray-700">
-          <button className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 bg-gray-100 sm:text-sm dark:bg-gray-800 dark:text-gray-300">
+        <div className="flex divide-x-2 mt-4 rounded-md w-fit overflow-hidden">
+          <button
+            className={`px-4  text-sm py-2 ${
+              activeTab === "all"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 text-gray-700"
+            }`}
+            onClick={() => handleTabChange("all")}
+          >
             All
           </button>
-          <button className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
-            Archieve
+          <button
+            className={`px-4 text-sm py-2 ${
+              activeTab === "archive"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 text-gray-700"
+            }`}
+            onClick={() => handleTabChange("archive")}
+          >
+            Archive
           </button>
-          <button className="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">
+          <button
+            className={`px-4 text-sm py-2 ${
+              activeTab === "trash"
+                ? "bg-blue-500 text-white"
+                : "bg-gray-100 text-gray-700"
+            }`}
+            onClick={() => handleTabChange("trash")}
+          >
             Trash
           </button>
         </div>
         <div className="relative flex items-center mt-4 md:mt-0">
-          <span className="absolute">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              strokeWidth="1.5"
-              stroke="currentColor"
-              className="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-              />
-            </svg>
-          </span>
-          <input
-            type="text"
-            placeholder="Search"
-            id="search"
-            onChange={handleSearchChange}
-            className="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
-          />
+            <span className="absolute">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                strokeWidth="1.5"
+                stroke="currentColor"
+                className="w-5 h-5 mx-3 text-gray-400 dark:text-gray-600"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                />
+              </svg>
+            </span>
+            <input
+              type="text"
+              placeholder="Search"
+              id="search"
+              onChange={handleSearchChange}
+              className="block w-full py-1.5 pr-5 text-gray-700 bg-white border border-gray-200 rounded-lg md:w-80 placeholder-gray-400/70 pl-11 rtl:pr-11 rtl:pl-5 dark:bg-gray-900 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 dark:focus:border-blue-300 focus:ring-blue-300 focus:outline-none focus:ring focus:ring-opacity-40"
+            />
         </div>
       </div>
     </div>
