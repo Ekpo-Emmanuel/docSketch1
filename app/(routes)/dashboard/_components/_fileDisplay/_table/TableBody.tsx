@@ -3,7 +3,14 @@
 import React, { useState } from "react";
 import moment from "moment";
 import { useRouter } from "next/navigation";
-import { MoreHorizontal, Pencil, Trash, ArrowDownToLine, UserPlus, FolderArchive } from "lucide-react";
+import {
+  MoreHorizontal,
+  Pencil,
+  Trash,
+  ArrowDownToLine,
+  UserPlus,
+  FolderArchive,
+} from "lucide-react";
 
 import {
   DropdownMenu,
@@ -41,7 +48,8 @@ import { Label } from "@/components/ui/label";
 
 interface File {
   archive: boolean;
-  createdBt: string;
+  trash: boolean;
+  createdBy: string;
   document: string;
   name: string;
   teamId: string;
@@ -52,9 +60,13 @@ interface File {
 
 interface TableBodyProps {
   fileList: File[];
-  deleteProject: any;
   renameProject: any;
   archiveProject: any;
+  handleUnarchive: any;
+  deleteProject: any;
+  trashProject: any;
+  unTrashProject: any;
+  currentTab: string;
 }
 
 export default function TableBody(props: TableBodyProps) {
@@ -73,18 +85,31 @@ export default function TableBody(props: TableBodyProps) {
     return inputString;
   };
 
-  const handleRenameDialogInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleRenameDialogInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const inputValue = event.target.value;
     setIsRenameDialogInput(inputValue);
-  }
+  };
+
+  const filteredFiles = props.fileList.filter(file => {
+    if (props.currentTab === 'all') {
+      return !file.archive && !file.trash;
+    } else if (props.currentTab === 'archived') {
+      return file.archive && !file.trash;
+    } else if (props.currentTab === 'trashed') {
+      return file.trash;
+    }
+    return true;
+  });
 
   return (
     <>
       <tbody className="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-        {props.fileList &&
-          props.fileList.map((file: File) => (
+        {filteredFiles &&
+          filteredFiles.map((file: File) => (
             <tr key={file._id}>
-              <td 
+              <td
                 className="px-4 py-4 text-sm font-medium whitespace-nowrap cursor-pointer"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
@@ -94,7 +119,7 @@ export default function TableBody(props: TableBodyProps) {
                   </h2>
                 </div>
               </td>
-              <td 
+              <td
                 className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap cursor-pointer"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
@@ -104,7 +129,7 @@ export default function TableBody(props: TableBodyProps) {
                   </h4>
                 </div>
               </td>
-              <td 
+              <td
                 className="hidden lg:inline-block px-4 py-4 text-sm whitespace-nowrap cursor-pointer"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
@@ -114,7 +139,7 @@ export default function TableBody(props: TableBodyProps) {
                   </h4>
                 </div>
               </td>
-              <td 
+              <td
                 className="px-4 py-4 text-sm whitespace-nowrap"
                 onClick={() => router.push(`/workspace/${file._id}`)}
               >
@@ -168,60 +193,58 @@ export default function TableBody(props: TableBodyProps) {
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="end" className="w-[200px]">
                     <DropdownMenuGroup>
-                        <Dialog>
-                          <DialogTrigger asChild className="hover:bg-gray-50 w-full">
-                            {/* <Button variant="outline">Edit Profile</Button> */}
-                            <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                              <Pencil className="mr-2 h-4 w-4" />
-                              Rename
+                      <Dialog>
+                        <DialogTrigger
+                          asChild
+                          className="hover:bg-gray-50 w-full"
+                        >
+                          {/* <Button variant="outline">Edit Profile</Button> */}
+                          <div className="relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            <Pencil className="mr-2 h-4 w-4" />
+                            Rename
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Rename project</DialogTitle>
+                            <DialogDescription>
+                              Make changes to your project here. Click save when
+                              you're done.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="name" className="text-right">
+                                current
+                              </Label>
+                              <Input
+                                id="name"
+                                defaultValue={file.name}
+                                className="col-span-3"
+                                disabled
+                              />
                             </div>
-                          </DialogTrigger>
-                          <DialogContent className="sm:max-w-[425px]">
-                            <DialogHeader>
-                              <DialogTitle>Rename project</DialogTitle>
-                              <DialogDescription>
-                                Make changes to your project here. Click save
-                                when you're done.
-                              </DialogDescription>
-                            </DialogHeader>
-                            <div className="grid gap-4 py-4">
-                              <div className="grid grid-cols-4 items-center gap-4">
-                                <Label htmlFor="name" className="text-right">
-                                  current
-                                </Label>
-                                <Input
-                                  id="name"
-                                  defaultValue={file.name}
-                                  className="col-span-3"
-                                  disabled
-                                />
-                              </div>
-                              <div className="grid grid-cols-4 items-center gap-4">
-                                <Label
-                                  htmlFor="username"
-                                  className="text-right"
-                                >
-                                  New
-                                </Label>
-                                <Input
-                                  id="username"
-                                  className="col-span-3"
-                                  onChange={handleRenameDialogInputChange}
-                                  value={isRenameDialogInput}
-                                />
-                              </div>
+                            <div className="grid grid-cols-4 items-center gap-4">
+                              <Label htmlFor="username" className="text-right">
+                                New
+                              </Label>
+                              <Input
+                                id="username"
+                                className="col-span-3"
+                                onChange={handleRenameDialogInputChange}
+                                value={isRenameDialogInput}
+                              />
                             </div>
-                            <DialogFooter
-                                onClick={() => props.renameProject(file._id, isRenameDialogInput)}
-                            >
-                              <Button 
-                                type="submit"
-                              >
-                                Save changes
-                              </Button>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
+                          </div>
+                          <DialogFooter
+                            onClick={() =>
+                              props.renameProject(file._id, isRenameDialogInput)
+                            }
+                          >
+                            <Button type="submit">Save changes</Button>
+                          </DialogFooter>
+                        </DialogContent>
+                      </Dialog>
                       <DropdownMenuItem>
                         <UserPlus className="mr-2 h-4 w-4" />
                         Add member
@@ -230,39 +253,84 @@ export default function TableBody(props: TableBodyProps) {
                         <ArrowDownToLine className="mr-2 h-4 w-4" />
                         Download
                       </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => props.archiveProject(file?._id)}>
-                        <FolderArchive className="mr-2 h-4 w-4" />
-                        Archieve
-                      </DropdownMenuItem>
-                      <DropdownMenuSeparator />
-                      <AlertDialog>
-                        <AlertDialogTrigger className="hover:bg-gray-50 w-full">
-                          <div className="text-red-600 relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                            <Trash className="mr-2 h-4 w-4" />
-                            Delete
+                      {!file.archive && !file.trash && (
+                        <DropdownMenuItem>
+                          <div
+                            className="flex w-full text-left"
+                            onClick={() => props.archiveProject(file._id)}
+                          >
+                            <FolderArchive className="w-4 h-4 mr-2" />
+                            Archive
                           </div>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              Are you absolutely sure?
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              This action cannot be undone. This will
-                              permanently delete your account and remove your
-                              data from our servers.
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>Cancel</AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={() => props.deleteProject(file._id)}
+                        </DropdownMenuItem>
+                      )}
+                      {file.archive && !file.trash && (
+                        <DropdownMenuItem>
+                          <div
+                            className="flex w-full"
+                            onClick={() => props.handleUnarchive(file._id)}
+                          >
+                            <FolderArchive className="w-4 h-4 mr-2" />
+                            Unarchive
+                          </div>
+                        </DropdownMenuItem>
+                      )}
+
+                      {!file.trash ? (
+                        <>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>
+                            <div
+                              className="flex w-full"
+                              onClick={() => props.trashProject(file._id)}
                             >
-                              Delete
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
+                              <Trash className="mr-2 h-4 w-4" />
+                              Move to trash
+                            </div>
+                          </DropdownMenuItem>
+                        </>
+                      ) : (
+                        <>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem>
+                            <div
+                              className="flex w-full"
+                              onClick={() => props.unTrashProject(file._id)}
+                            >
+                              <FolderArchive className="w-4 h-4 mr-2" />
+                              Recover
+                            </div>
+                          </DropdownMenuItem>
+                          <AlertDialog>
+                            <AlertDialogTrigger className="hover:bg-gray-50 w-full">
+                              <div className="text-red-600 relative flex cursor-default select-none items-center rounded-sm px-2 py-1 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                                <Trash className="mr-2 h-4 w-4" />
+                                Delete permanently
+                              </div>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Are you absolutely sure?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will
+                                  permanently delete your account and remove
+                                  your data from our servers.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => props.deleteProject(file._id)}
+                                >
+                                  Delete
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
+                        </>
+                      )}
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
