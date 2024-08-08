@@ -2,9 +2,9 @@
 
 import React, { useState, useEffect, useContext } from "react";
 import TableTitle from "./TableTitle";
-import TablePagination from "./TablePagination";
 import TableHeader from "./_table/TableHeader";
 import TableBody from "./_table/TableBody";
+import TablePagination from "./TablePagination";
 import { useMutation } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import { toast } from "sonner";
