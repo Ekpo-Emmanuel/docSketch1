@@ -39,22 +39,23 @@ export default function TableTitle(props: TableInfoProps) {
 
   return (
     <div className="-mx-4 md:mx-0">
-      <div className="sm:flex sm:items-center sm:justify-between">
+      <div className="gap-2 flex items-center justify-between">
         <div>
-          <div className="flex items-center gap-x-3">
+          <div className="flex items-center gap-x-1">
             <h2 className="text-lg font-medium text-gray-800 dark:text-white">
               Projects
             </h2>
-            <span className="px-3 py-1 text-xs text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
-              {props.fileList} files
+            <span className="px-2 sm:px-3 py-1 text-[10px] text-blue-600 bg-blue-100 rounded-full dark:bg-gray-800 dark:text-blue-400">
+              {props.fileList} 
+              <span className="hidden sm:inline"> files</span>
             </span>
           </div>
           <p className="hidden sm:block mt-1 text-sm text-gray-500 dark:text-gray-300">
             These companies have purchased in the last 12 months.
           </p>
         </div>
-        <div className="flex items-center mt-4 gap-x-3">
-          <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-x-3">
+          <button className="hidden sm:flex items-center justify-center md:w-1/2 px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-800 dark:bg-gray-900 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700">
             <svg
               width={20}
               height={20}
@@ -81,7 +82,7 @@ export default function TableTitle(props: TableInfoProps) {
           </button>
           <Dialog>
             <DialogTrigger asChild>
-              <button className="flex items-center justify-center w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
+              <button className="flex items-center justify-center md:w-1/2 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 bg-blue-500 rounded-lg shrink-0 sm:w-auto gap-x-2 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -135,8 +136,8 @@ export default function TableTitle(props: TableInfoProps) {
           </Dialog>
         </div>
       </div>
-      <div className="mt-6 md:flex md:items-center md:justify-between">
-        <div className="flex divide-x-2 mt-4 rounded-md w-fit overflow-hidden">
+      <div className="mt-4 flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+        <div className="flex divide-x-2 divide-gray-200 rounded-md w-fit overflow-hidden">
           <button
             className={`px-4  text-sm py-2 ${
               activeTab === "all"
@@ -168,7 +169,7 @@ export default function TableTitle(props: TableInfoProps) {
             Trash
           </button>
         </div>
-        <div className="relative flex items-center mt-4 md:mt-0">
+        <div className="relative flex items-center md:mt-0">
             <span className="absolute">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
